@@ -38,6 +38,15 @@ def main():
                     "impact": r.get("impact"),
                     "confidence": r.get("confidence"),
                     "first_markdown": (r.get("first_markdown_element") or "")[:300],
+                    # used by the M0 review CLI to show and adjudicate findings
+                    "description": (r.get("description") or "")[:800],
+                    "functions": sorted({
+                        e.get("name") if e.get("type") == "function"
+                        else ((e.get("type_specific_fields") or {}).get("parent") or {}).get("name")
+                        for e in r.get("elements") or []
+                        if e.get("type") == "function"
+                        or ((e.get("type_specific_fields") or {}).get("parent") or {}).get("type") == "function"
+                    } - {None}),
                 })
         res["detectors"] = found
         res["success"] = True

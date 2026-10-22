@@ -98,6 +98,7 @@ From a read-only clone of DeFiHackLabs (Apache-2.0) and the DeFiLlama hacks endp
 | Chain mix, last 12 mo | Ethereum 62, BSC 52, unresolved 1 (M0 catalog parser, which resolves RPC constants; first pass said 58/44/22) | Ethereum is the best single-chain start |
 | Ethereum mainnet incidents, all time | 357 of 899 README entries (DHL commit `23c7bd8`) | Upper bound on the v1 seed set before the funnel |
 | Funnel, Ethereum, 24 mo, Sourcify only (127 in scope) | Victim address found 80% → source recovered 61% → compiles 59% → Slither runs 58% → **not a proxy 42%** | Proxies (21 of 77 recovered) are the biggest fixable loss: resolving the implementation needs an Etherscan key + archive RPC. An Etherscan key is estimated to raise source recovery to ~76% (not measured) |
+| **Slither coverage, preliminary (LLM-proposed, not yet human-reviewed)** | In the 40-incident sample, a Slither finding explains the exploit in **3 of 40** (~8%). 39 of 40 are proposed in scope; 27 of 40 have recovered source for the victim | Far below the ~30% kill/pivot line in §5. If the review confirms it, sorting Slither's output **cannot** be the product. Beyond-Slither (the model reading code with precedent) has to carry it. **Wait for your review before acting on this** |
 | Slither noise per contract | Median 47 findings per compilation unit, 21 in the target file. Impact medians: High 2, Medium 3, Low 7, Info 23.5 | Confirms the triage problem. Even "High" alone gives ~2 per contract |
 | DHL coverage vs DeFiLlama (Ethereum, code-level, 24 mo) | DHL has 65 of 134 (49%); ~67 missed; in the slow months it caught only 6 of 20 (30%). DeFiLlama in turn lacks 54 DHL entries | News discovery is required, not optional. Neither source is complete |
 | Labels | 898/899 entries labeled, but free-text, inconsistent; recent ones are prose | Needs normalisation to our taxonomy |
@@ -221,7 +222,7 @@ Set **after M0** from measured Slither coverage. Placeholder intent:
 | ENR-1 | Resolve victim addresses from PoC header. |
 | ENR-2 | Fetch verified source + compiler settings + dependency versions; reconstruct a buildable project. |
 | ENR-3 | Resolve proxy implementation **at the exploit block** via archive RPC. |
-| ENR-4 | Record `code_deployed_at` (deployment block/time) separately from `occurred_at`. |
+| ENR-4 | Record `code_deployed_at` (deployment block/time) separately from `occurred_at`. **Reject any artifact deployed after the exploit block.** It's post-patch code. Seen in M0: Audius's Governance implementation was deployed about 2,000 blocks after the exploit, and DeFiHackLabs lists it in the PoC header. In the review sample, 1 of 86 candidates with a known deploy block was affected. |
 | ENR-5 | Extract PoC call path (evidence of execution, **not** proof of root cause). |
 | ENR-6 | Move PoC comments and write-ups **and the DHL README label text** into a separate label-evidence field. Eval inputs never contain them. Recent README labels are full root-cause write-ups, and 48 of the 59 Ethereum PoCs from 2026 have a written analysis in the header. |
 | ENR-7 | LLM proposes labels → `proposed`. |
@@ -516,14 +517,20 @@ Fine-tuning before M3 produces a model you can't evaluate — you'd have no way 
 
 ## 15. M0 checklist
 
-- [ ] Filter DeFiHackLabs to Ethereum mainnet; pick 30–50 incidents stratified by year, category, complexity
-- [ ] For each, walk the funnel and record where it drops: in scope → source recovered → builds → Slither runs → labels reviewed → family assigned
-- [ ] Time every review (median, p90, worst)
-- [ ] Measure **Slither coverage of the causal weakness** (same weakness, not just same function)
-- [ ] Run B2 (frontier model, code only) on the same set
-- [ ] Check archive-RPC free-tier limits for proxy resolution
-- [ ] Run B3-equivalent (Claude Code + Slither-MCP, no exploit DB) on the same set — the real competitor
-- [ ] Run 20 Serper queries over a DeFiHackLabs gap month (e.g. 2025-11) and count incidents DeFiHackLabs missed
+Status as of 2026-10-22. Tooling is in `m0/`; how to review is in `m0/review/README.md`.
+
+- [x] Filter DeFiHackLabs to Ethereum mainnet; pick 30–50 incidents stratified by year, category, complexity → 357 incidents, 40-incident sample (`m0/catalog/`)
+- [x] Funnel up to the Slither run (Sourcify only) → 42% usable (`m0/funnel/`). The review sample is being prepared the same way, with code-address candidates (`m0/scripts/review/prepare.py`)
+  - Missing victim addresses: the catalog parser recovers 5 of the funnel's 25. For the rest, the victim is only in PoC code, so the reviewer or LLM picks it from the candidates.
+- [x] Coverage vs DeFiLlama → DHL misses ~half (`m0/gaps/`)
+- [ ] **Owner:** review the 40 incidents with `m0/scripts/review/review.py` (timed). LLM proposals are pre-filled as defaults (ENR-7), and the summary reports how often the reviewer overrode them
+- [ ] Time every review (median, p90, worst) → automatic in `summarize.py`
+- [ ] Measure **Slither coverage of the causal weakness** → automatic in `summarize.py` once reviews exist
+- [ ] Run B2 (frontier model, code only) on the same set. Blocked on reviews (ground truth)
+- [ ] Run B3-equivalent (Claude Code + Slither-MCP, no exploit DB) on the same set. Blocked on reviews
+- [ ] Check archive-RPC free-tier limits for proxy resolution. Blocked on an RPC provider choice
+- [ ] Rerun funnel with `ETHERSCAN_API_KEY`. Blocked on the key
+- [ ] Run 20 Serper queries over a DeFiHackLabs gap month (2025-12 was the worst: 6 missed, 0 found). Blocked on `SERPER_API_KEY`
 - [ ] Write the numbers into §5 targets and §6 M1 size; go / no-go
 
 ---

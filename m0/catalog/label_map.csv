@@ -58,7 +58,7 @@ Bridge address(0).safeTransferFrom() does not revert,1,input_validation,,med,,
 "Bridge, getting around modifier through cross-chain message",1,access_control,crafted_calldata,med,input_validation,
 "Bridge, logic flaw",1,business_logic,,med,,DeFiHackLabs catch-all term; expect reclassification on review
 Bridges,1,other,,low,,"category, not a cause"
-Broken Signature Verification,1,signature_replay,,med,input_validation,taxonomy gap: v0 only has signature_replay; this is broader signature/permit verification
+Broken Signature Verification,1,signature_validation,,med,input_validation,taxonomy gap: v0 only has signature_validation; this is broader signature/permit verification
 Broken transferFrom Allowance Check,1,access_control,,med,business_logic,
 Business Logic Flaw : Incorrect acceptable merkle-root checks,1,input_validation,,med,business_logic,
 Business Logic Flaw : Missing Check For Number of NFT to Mint,1,input_validation,,med,business_logic,
@@ -96,7 +96,7 @@ FleetCommander NAV Inflation via Depegged xUSD,1,price_oracle_trust,other,med,bu
 Governance capture via thinly-wrapped Aragon voting power,1,governance_design,governance_vote,high,,
 governance takeover of an abandoned Governor,1,governance_design,governance_vote,high,,
 Governance-controlled token mint and Balancer pool drain,1,governance_design,governance_vote,med,access_control,
-Incomplete Signature Coverage,1,signature_replay,,med,input_validation,taxonomy gap: v0 only has signature_replay; this is broader signature/permit verification
+Incomplete Signature Coverage,1,signature_validation,,med,input_validation,taxonomy gap: v0 only has signature_validation; this is broader signature/permit verification
 Incorrect access control,1,access_control,,high,,
 Incorrect calculation via cached data,1,business_logic,,med,,
 Incorrect dividends calculation,1,business_logic,,med,rounding_precision,
@@ -114,7 +114,7 @@ Insufficient access control,1,access_control,,high,,
 Insufficient Token Validation,1,input_validation,,high,,
 Insufficient validation + Reentrancy,1,reentrancy,reentrant_call,med,input_validation,two causes
 Integer Overflow,1,other,,med,,taxonomy gap: no arithmetic overflow/underflow/truncation class in v0
-Invalid signature verification,1,signature_replay,,med,input_validation,taxonomy gap: v0 only has signature_replay; this is broader signature/permit verification
+Invalid signature verification,1,signature_validation,,med,input_validation,taxonomy gap: v0 only has signature_validation; this is broader signature/permit verification
 joinswapPoolAmountOut rounding drain across 5 pools,1,rounding_precision,,high,,
 "KolanHook settles its escrowed ETH buy-windows at the same Uniswap v4 pool's instantaneous spot price with no TWAP or bound and accept() is ungated once a window has expired, so the attacker flash-borrows 6.7 WETH from Balancer, swaps it to move the KLN spot, then calls accept() on two expired windows it does not own so _closeWindow() mispositions their escrowed ETH as single-sided liquidity around the manipulated price and runs an unbounded buyback, and reverses the swap back through that freshly placed ETH liquidity before repaying the loan for a 1.279453 ETH net gain",1,price_oracle_trust,flash_loan;price_manipulation,med,access_control,prose label; two causes
 lack of access control,1,access_control,,high,,
@@ -151,7 +151,7 @@ Pair Manipulation With Transfer Function,1,business_logic,price_manipulation,med
 Parameter manipulation,1,other,,low,input_validation,
 permissionless Convex stakeFor inflates Strategy NAV and lets VaultYUSDT overpay on withdrawAll,1,business_logic,donation,med,price_oracle_trust;access_control,prose label
 permissionless newOrganization lets an attacker hijack an existing Reputation contract and drain the Avatar,1,access_control,,med,business_logic,prose label
-Permit Validation Bypass,1,signature_replay,,med,input_validation,taxonomy gap: v0 only has signature_replay; this is broader signature/permit verification
+Permit Validation Bypass,1,signature_validation,,med,input_validation,taxonomy gap: v0 only has signature_validation; this is broader signature/permit verification
 Phishing attack,1,other,,high,,not a contract-code bug; out of scope for code triage
 Pool manipulation,1,other,price_manipulation,low,price_oracle_trust;business_logic,mechanism only
 precision loss,1,rounding_precision,,high,,
@@ -177,8 +177,8 @@ Sandwich attack,1,other,price_manipulation,low,business_logic,mechanism only
 Share Price Manipulation,1,other,price_manipulation,low,price_oracle_trust;rounding_precision,vault-inflation or share-price-as-oracle; can't tell from label
 Shared GebProxyActions library registered as SAFE owner,1,access_control,,med,,
 short-window Uniswap V3 TWAP oracle enables ~9x overvalued strategy deposit,1,price_oracle_trust,price_manipulation,high,,prose label
-Signature Replay,1,signature_replay,,high,,
-Signature Verification Bypass,1,signature_replay,,med,input_validation,taxonomy gap: v0 only has signature_replay; this is broader signature/permit verification
+Signature Replay,1,signature_validation,,high,,
+Signature Verification Bypass,1,signature_validation,,med,input_validation,taxonomy gap: v0 only has signature_validation; this is broader signature/permit verification
 Slippage proection absent,1,business_logic,price_manipulation,med,input_validation,missing slippage bound
 SquidRouterModule Missing Caller Check,1,access_control,,high,,
 Stale Approval,1,other,,low,arbitrary_external_call;access_control,

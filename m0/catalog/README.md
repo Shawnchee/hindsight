@@ -1,5 +1,7 @@
 # M0 incident catalog (DeFiHackLabs, Ethereum mainnet)
 
+> **Taxonomy note (2026-10-22):** `signature_replay` was renamed to `signature_validation` in these CSVs and scripts, to match PRD §8.2 v0.1. I edited the CSVs in place instead of regenerating them. Rerunning `build_m0_sample.py` may pick a slightly different sample, because class names affect the sort order. The newer classes (`arithmetic_overflow_or_cast`, `weak_randomness`, `denial_of_service`) aren't in `label_map.csv` yet; reviewers assign them.
+
 The catalog for the M0 spike (PRD §15). It is built from a read-only clone of
 [DeFiHackLabs](https://github.com/SunWeb3Sec/DeFiHackLabs) (Apache-2.0, © SunWeb3Sec and
 contributors; keep this attribution with any derived data).
@@ -96,7 +98,7 @@ A newer clone will change the counts and may add labels. Step 3 then fails until
   | reentrancy | 26 |
   | arbitrary_external_call | 23 |
   | rounding_precision | 17 |
-  | signature_replay | 6 |
+  | signature_validation | 6 |
   | governance_design | 6 |
   | uninitialized_or_unprotected_init | 5 |
   | storage_collision | 3 |
@@ -118,7 +120,7 @@ A newer clone will change the counts and may add labels. Step 3 then fails until
   | arbitrary_external_call | 3 |
   | rounding_precision | 3 |
   | other | 3 |
-  | signature_replay | 2 |
+  | signature_validation | 2 |
   | governance_design | 2 |
   | uninitialized_or_unprotected_init | 2 |
   | storage_collision | 2 |
@@ -145,7 +147,7 @@ A newer clone will change the counts and may add labels. Step 3 then fails until
   `Business Logic Flaw` / `Logic Flaw` (80 incidents, mapped med) is a catch-all and will split on review. "Price Manipulation" names a mechanism, so its root-cause mapping is med.
 - **Taxonomy gaps found while mapping** (inputs to the v0 → v1 revision in §8.2):
   - There is no class for arithmetic overflow, underflow or unsafe cast: 7 labels, mapped `other`/med.
-  - `signature_replay` is too narrow for broken signature or permit verification: 5 labels, mapped to it at med.
+  - `signature_validation` is too narrow for broken signature or permit verification: 5 labels, mapped to it at med.
   - There is no class for weak randomness or DoS.
   - Missing-slippage labels are mapped to `business_logic`, which is debatable.
 - **Not every entry is an exploit.** `20260414_SaturnProtocol` is a disclosure with no loss, and some are whitehat reproductions. The off-chain ones are excluded from the sample but left in the incidents file.

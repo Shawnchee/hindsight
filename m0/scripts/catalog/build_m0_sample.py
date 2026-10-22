@@ -27,12 +27,12 @@ YEAR_QUOTA = {"2021": 5, "2022": 7, "2023": 7, "2024": 7, "2025": 7, "2026": 7}
 # Root-cause targets: a floor of 2 per class so rare classes are present, the remainder
 # roughly proportional to the Ethereum population (business_logic 80, access_control 58,
 # price_oracle_trust 43, input_validation 34, reentrancy 26, arbitrary_external_call 23,
-# rounding_precision 17, signature_replay 6, governance_design 6, uninit 5, storage 3).
+# rounding_precision 17, signature_validation 6, governance_design 6, uninit 5, storage 3).
 # `other` is capped at 3: it is useful for testing the taxonomy, not for measuring coverage.
 # Classes are hard-capped at their target unless a year has nothing else left.
 RC_TARGET = {"business_logic": 6, "access_control": 5, "price_oracle_trust": 5,
              "input_validation": 4, "reentrancy": 3, "arbitrary_external_call": 3,
-             "rounding_precision": 3, "other": 3, "signature_replay": 2,
+             "rounding_precision": 3, "other": 3, "signature_validation": 2,
              "governance_design": 2, "uninitialized_or_unprotected_init": 2,
              "storage_collision": 2}
 SEED = 20261022

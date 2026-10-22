@@ -23,19 +23,19 @@ import sys
 from collections import Counter
 
 ROOT = {"access_control", "price_oracle_trust", "rounding_precision", "input_validation",
-        "reentrancy", "business_logic", "signature_replay", "uninitialized_or_unprotected_init",
+        "reentrancy", "business_logic", "signature_validation", "uninitialized_or_unprotected_init",
         "storage_collision", "arbitrary_external_call", "governance_design", "other"}
 MECH = {"flash_loan", "price_manipulation", "reentrant_call", "crafted_calldata",
         "governance_vote", "donation", "other"}
 
 AC, PO, RP, IV, RE, BL, SR, UI, SC, AEC, GD, OT = (
     "access_control", "price_oracle_trust", "rounding_precision", "input_validation",
-    "reentrancy", "business_logic", "signature_replay", "uninitialized_or_unprotected_init",
+    "reentrancy", "business_logic", "signature_validation", "uninitialized_or_unprotected_init",
     "storage_collision", "arbitrary_external_call", "governance_design", "other")
 
 CATCHALL = "DeFiHackLabs catch-all term; expect reclassification on review"
 ARITH = "taxonomy gap: no arithmetic overflow/underflow/truncation class in v0"
-SIG = "taxonomy gap: v0 only has signature_replay; this is broader signature/permit verification"
+SIG = "taxonomy gap: v0 only has signature_validation; this is broader signature/permit verification"
 OFFCHAIN = "not a contract-code bug; out of scope for code triage"
 MECH_ONLY = "label names the mechanism; root cause usually trusting a manipulable price"
 
