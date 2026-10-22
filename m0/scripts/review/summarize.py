@@ -58,7 +58,7 @@ def main():
     strict = [r for r in ran if any(f["explains_exploit"] for f in r.get("findings", []))]
     loose = [r for r in ran if function_overlap(r)]
     no_source = [r for r in in_scope if not r.get("slither_ran_on_victim")]
-    changed = [r for r in in_scope if r["proposed"]["root_cause"] not in r["labels"]["root_cause"]]
+    changed = [r for r in in_scope if (r.get("proposed") or {}).get("root_cause") not in r["labels"]["root_cause"]]
     statuses = collections.Counter(f["status"] for r in in_scope for f in r.get("findings", []))
     roots = collections.Counter(rc for r in in_scope for rc in r["labels"]["root_cause"])
     multi_loc = [r for r in in_scope if len(r.get("locations", [])) > 1]
@@ -66,8 +66,14 @@ def main():
     L = [f"# M0 review summary (generated {time.strftime('%Y-%m-%d %H:%M UTC', time.gmtime())})", ""]
     L.append(f"Reviewed {len(recs)} of {len(sample)} sampled incidents. "
              "The sample over-weights rare root-cause classes, so weight class-level rates before quoting them.")
+    llm = [r for r in recs if r.get("blind_llm_review")]
+    if llm:
+        L += ["", f"**{len(llm)} of these reviews are blind LLM reviews ({llm[0].get('reviewer')}), not human.** "
+              "They aren't verified ground truth (PRD REV-3), and they can't measure human review effort."]
     L += ["", "## Review effort", ""]
-    if mins:
+    if llm and len(llm) == len(recs):
+        L.append("- Not applicable: no human reviews in this file.")
+    elif mins:
         real_med = statistics.median(mins)
         med = max(real_med, 0.1)  # guard against zero-length dry runs
         L += [f"- Minutes per review: median **{real_med:.1f}**, p90 {quantile(mins, 0.9):.1f}, max {max(mins):.1f}",
@@ -79,7 +85,7 @@ def main():
           f"- Code-level (in scope): {pct(len(in_scope), len(recs))}",
           f"- Slither ran on the chosen victim: {pct(len(ran), len(in_scope))}",
           f"- In scope but no usable source / Slither run: {len(no_source)}",
-          f"- Proposed root cause changed by reviewer: {pct(len(changed), len(in_scope))}",
+          f"- DeFiHackLabs label (mapped) differs from reviewer's root cause: {pct(len(changed), len(in_scope))}",
           f"- Incidents with more than one causal location: {pct(len(multi_loc), len(in_scope))}"]
     L += ["", "## Slither coverage (the key M0 number)", "",
           f"- **Strict** (a finding explains the exploit): {pct(len(strict), len(ran))}",
@@ -112,8 +118,11 @@ def main():
               f"- Root cause exact agreement: {pct(sum(agree(r, 'root_cause') for r in scoped), len(scoped))}",
               f"- Mechanism exact agreement: {pct(sum(agree(r, 'mechanism') for r in scoped), len(scoped))}",
               f"- 'Which finding explains it' exact agreement: {pct(len(explain_ok), len(scoped))}",
-              "- Caveat: the reviewer saw the proposal, so agreement is inflated by anchoring. Use it as a lower bound",
-              "  on how often the proposal is wrong (every disagreement is a proposal error the reviewer caught)."]
+              ("- Blind review: the reviewer never saw the proposals, so this is inter-model agreement"
+               " (two LLMs judging independently). It isn't accuracy against a human."
+               if llm else
+               "- Caveat: the reviewer saw the proposal, so agreement is inflated by anchoring. Use it as a lower bound"
+               " on how often the proposal is wrong (every disagreement is a proposal error the reviewer caught).")]
     L += ["", "## Root causes (reviewed)", ""]
     L += [f"- {k}: {v}" for k, v in roots.most_common()] or ["- none yet"]
     L += ["", "## Per incident", "", "| Incident | Min | In scope | Slither ran | Explains | Root cause |",

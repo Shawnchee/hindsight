@@ -98,7 +98,10 @@ From a read-only clone of DeFiHackLabs (Apache-2.0) and the DeFiLlama hacks endp
 | Chain mix, last 12 mo | Ethereum 62, BSC 52, unresolved 1 (M0 catalog parser, which resolves RPC constants; first pass said 58/44/22) | Ethereum is the best single-chain start |
 | Ethereum mainnet incidents, all time | 357 of 899 README entries (DHL commit `23c7bd8`) | Upper bound on the v1 seed set before the funnel |
 | Funnel, Ethereum, 24 mo, Sourcify only (127 in scope) | Victim address found 80% → source recovered 61% → compiles 59% → Slither runs 58% → **not a proxy 42%** | Proxies (21 of 77 recovered) are the biggest fixable loss: resolving the implementation needs an Etherscan key + archive RPC. An Etherscan key is estimated to raise source recovery to ~76% (not measured) |
-| **Slither coverage, preliminary (LLM-proposed, not yet human-reviewed)** | In the 40-incident sample, a Slither finding explains the exploit in **3 of 40** (~8%). 39 of 40 are proposed in scope; 27 of 40 have recovered source for the victim | Far below the ~30% kill/pivot line in §5. If the review confirms it, sorting Slither's output **cannot** be the product. Beyond-Slither (the model reading code with precedent) has to carry it. **Wait for your review before acting on this** |
+| **Slither coverage: two blind LLM reviews (Opus 5.5 proposals + Fable 5.1 review), not yet human-verified** | **Strict: 3 of 27** (11%). These are in-scope incidents where Slither ran on the victim and a finding *describes* the exploited weakness: Revest and Rari (reentrancy), Anyswap (permit). **Loose: 21 of 27** (78%): a finding sits in a causal function but describes something else. Both models agreed on every "which finding explains it" call (38/38) | Strict is far below the ~30% line in §5, so sorting Slither's output can't be the product. Slither is still useful as a **location hint**: it lands in the right function 78% of the time, just for the wrong reason. Caveat: the two models are from the same family, so their errors may be correlated |
+| **B2: frontier model, code only** (Sonnet 5.5, blind case IDs, no PoC, labels or web; `m0/b2/summary.md`) | **Hit@5: 19 of 27 (70%)**, Hit@1 14 of 27 (52%). Before 2026-07: 18 of 24 (75%). From 2026-07 on (likely post-cutoff): **1 of 3**. B0 (Slither's top-5 functions): 10 of 27 (37%) | A frontier model alone already finds the buggy function in most known hacks, which is about twice Slither. Inflation is likely: the model named one case "Audius-style" from memory, and the labels come from the same model family. **6 of the 8 misses are data gaps, not reasoning failures:** only the proxy was recovered, the facet was missing, or the wrong contract was supplied (EFVault, Unizen, Beanstalk, GoodDollar, Audius, BiFi). n=3 post-cutoff can't support any conclusion |
+| Victim source and Slither on the sample | Slither ran on the victim for 27 of 39 in-scope incidents. 12 have no usable source (mostly not on Sourcify, or only the proxy recovered) | An Etherscan key and proxy resolution are the next data fixes |
+| Label quality | Opus and Fable root-cause labels overlap on 36 of 38. They disagree exactly on 13, mostly where Fable adds `input_validation` as a second label. Real conflicts: Conic, Peapods. Scope conflicts: Miso, ActivePool. The DHL label is wrong in 6 of 39 (15%). 35 of 39 have more than one causal location | The multi-label, multi-location schema is justified. `input_validation` overlaps with other classes, so tighten its definition at the taxonomy revision |
 | Slither noise per contract | Median 47 findings per compilation unit, 21 in the target file. Impact medians: High 2, Medium 3, Low 7, Info 23.5 | Confirms the triage problem. Even "High" alone gives ~2 per contract |
 | DHL coverage vs DeFiLlama (Ethereum, code-level, 24 mo) | DHL has 65 of 134 (49%); ~67 missed; in the slow months it caught only 6 of 20 (30%). DeFiLlama in turn lacks 54 DHL entries | News discovery is required, not optional. Neither source is complete |
 | Labels | 898/899 entries labeled, but free-text, inconsistent; recent ones are prose | Needs normalisation to our taxonomy |
@@ -138,7 +141,7 @@ These are from one sampling pass; M0 re-measures them for Ethereum mainnet speci
 
 | Metric | What it measures |
 |---|---|
-| **Incident Hit@5** *(north star)* | Fraction of test incidents where an exploit-relevant issue appears in Hindsight's top 5 |
+| **Incident Hit@5** *(north star)* | Fraction of test incidents where an exploit-relevant issue appears in Hindsight's top 5. After D15, an "issue" means a ranked suspicious location, whether or not Slither flagged it |
 | Finding Precision@5 | Fraction of the top 5 independently judged `confirmed_valid` |
 | Root-cause Recall@5 | Fraction of labeled causal locations recovered in the top 5 |
 | Valid-finding retention | Fraction of valid findings not buried below the fold after re-ranking |
@@ -434,7 +437,7 @@ Every table carries `vm` / `chain`. No Ethereum-only assumptions above the enric
 Python · Foundry (PoC parsing, later replay) · Slither pinned · Supabase Postgres + pgvector · open embedding model run locally (chosen by M2 benchmark) · MLX / llama.cpp for local mode · Docker for sandboxed builds/replays.
 
 ### Lightning AI credits — how to spend them
-Use them from M0, but **not for fine-tuning yet**:
+**Update 2026-10-22: the budget is $15.** That covers a few GPU-hours on a small GPU; check Lightning's current per-hour prices. Spend it only on reranker fine-tuning at M3–M4. Everything else in the table below now runs on the Mac (24 GB) or uses Claude agents. The table is the original plan, kept for reference if more credit appears.
 
 | When | Job | Why GPU |
 |---|---|---|
@@ -497,6 +500,7 @@ Fine-tuning before M3 produces a model you can't evaluate — you'd have no way 
 | D11 | Positioning | Local-first is the headline; precise definition in §1 |
 | D12 | Lightning AI | Use credits from M0 for labeling, embeddings, baselines; fine-tune only at M5 |
 | D13 | Name | Hindsight; `hindsight-sec` for org/package/domain |
+| D15 | **M0 decision (provisional, 2026-10-22; updated after B2)** | **Conditional GO: build the dataset and benchmark (M1, M3). Hold the product model work (M4, M5) behind one more gate.** <br>• Triage-only is dead: Slither's strict coverage is 11%. <br>• A bare frontier model already localizes 70% of known hacks (B2). "LLM reads code" is not a differentiator by itself, so R6/R7 is materializing. <br>• What's still unproven, and is now the gate before M4: does precedent retrieval and freshness beat B2 on **post-cutoff** hacks, and does Hindsight have a lower **false-positive rate** on clean, audited code? M0 can't answer either: post-cutoff n=3, and no clean set has been run. <br>• The dataset and benchmark are useful in every outcome (they're the fallback product in §5), so M1 goes ahead. <br>• Data quality is the cheapest win: 6 of B2's 8 misses came from missing implementation or facet source. Proxy resolution with an Etherscan key and archive RPC comes first in M1. <br>• Still needs a human spot-check of ~10 incidents (`ACTION_ITEMS.md`) before it's final |
 | D14 | Reranker | Yes. Off-the-shelf Apache-2.0 cross-encoder first, then fine-tune it on reviewed pairs. Jina excluded for its non-commercial licence |
 
 ---
@@ -509,8 +513,10 @@ Fine-tuning before M3 produces a model you can't evaluate — you'd have no way 
 - Use different LLMs for labeling vs baselines, to avoid self-agreement bias?
 - Before any commercial release: DeFiLlama terms, and whether any audit-report source grants reuse.
 - When does fork replay (replay_status) become required evidence rather than optional?
-- MacBook RAM — sets the largest model local mode can run (16 GB ≈ 7–8B 4-bit; 32 GB+ ≈ 14B+).
-- Lightning AI credit amount and expiry date — sets how much labeling/baseline work to front-load.
+- ~~MacBook RAM~~ **Answered:** MacBook Air, 24 GB unified memory, fanless. Local mode targets 7–8B models at 4-bit, with up to ~14B at 4-bit (~9 GB weights) as the ceiling. The Air throttles under sustained load, so it suits scans and inference, not training. M4 benchmarks local mode at these sizes only.
+- ~~Lightning AI credit~~ **Answered:** $15. That's small, so it's reserved for the one job a Mac can't do well: fine-tuning the precedent reranker (§7.9). The other jobs moved off Lightning:
+  - Label proposals: done by Claude agents in M0.
+  - Embeddings and reranker inference: run on the Mac.
 - Serper and X API monthly budget.
 
 ---
@@ -523,10 +529,12 @@ Status as of 2026-10-22. Tooling is in `m0/`; how to review is in `m0/review/REA
 - [x] Funnel up to the Slither run (Sourcify only) → 42% usable (`m0/funnel/`). The review sample is being prepared the same way, with code-address candidates (`m0/scripts/review/prepare.py`)
   - Missing victim addresses: the catalog parser recovers 5 of the funnel's 25. For the rest, the victim is only in PoC code, so the reviewer or LLM picks it from the candidates.
 - [x] Coverage vs DeFiLlama → DHL misses ~half (`m0/gaps/`)
-- [ ] **Owner:** review the 40 incidents with `m0/scripts/review/review.py` (timed). LLM proposals are pre-filled as defaults (ENR-7), and the summary reports how often the reviewer overrode them
+- [x] Blind LLM review of all 40 incidents by Fable 5.1 (`m0/review/reviews.llm.jsonl`, `summary.llm.md`), compared against the Opus proposals → provisional decision D15
+- [ ] **Owner:** spot-check ~10 incidents by hand (list in `ACTION_ITEMS.md`), using `review.py --redo <id>`. This is also the only way to measure human review time
 - [ ] Time every review (median, p90, worst) → automatic in `summarize.py`
 - [ ] Measure **Slither coverage of the causal weakness** → automatic in `summarize.py` once reviews exist
-- [ ] Run B2 (frontier model, code only) on the same set. Blocked on reviews (ground truth)
+- [x] Run B2 (frontier model, code only) on the same set → Hit@5 70% vs Slither 37% (`m0/b2/`)
+- [ ] **New gate before M4:** build a post-cutoff test set (all Ethereum incidents from 2026-07 on that have source, found via DHL and news discovery) and a clean comparison set (audited, never-exploited contracts). Measure B2 vs Hindsight on both
 - [ ] Run B3-equivalent (Claude Code + Slither-MCP, no exploit DB) on the same set. Blocked on reviews
 - [ ] Check archive-RPC free-tier limits for proxy resolution. Blocked on an RPC provider choice
 - [ ] Rerun funnel with `ETHERSCAN_API_KEY`. Blocked on the key
