@@ -18,6 +18,7 @@ import sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.abspath(os.path.join(HERE, "..", "..", ".."))
 sys.path.insert(0, os.path.join(HERE, "..", "review"))
+sys.path.insert(0, HERE)
 from review import IMPACT_ORDER, PREPARED, is_dependency  # noqa: E402
 
 CASE_MAP = os.path.join(REPO, "m0", "data", "b2", "case_map.json")
@@ -29,15 +30,14 @@ CONF_ORDER = {"High": 0, "Medium": 1, "Low": 2}
 LATE = "2026-07-01"  # incidents on/after this are the most likely to be after the model's training cutoff
 
 
-def fn(loc):
-    """'File.sol:func(args)' -> 'func'; anything without a function -> None."""
-    _, _, rest = (loc or "").partition(":")
-    name = rest.split("(")[0].strip().lower()
-    return name or None
+from scope import hit, loc_key  # noqa: E402  (file + function matching, fixed 2026-10-23)
+
+fn = loc_key  # kept for older imports
 
 
 def truth_from(locs):
-    return {fn(l["raw"]) for l in locs or [] if l.get("role", "defect") in ("defect", "entry_point")} - {None}
+    """Strict truth: defect locations only (entry points no longer count, per the 2026-10-23 audit)."""
+    return {loc_key(l["raw"]) for l in locs or [] if l.get("role", "defect") == "defect"} - {None}
 
 
 def slither_top5(victims, prep):
@@ -50,14 +50,16 @@ def slither_top5(victims, prep):
     found.sort(key=lambda x: x[:3])
     out = []
     for *_, f in found:
+        file_ = os.path.basename((f.get("first_markdown") or "").split("#")[0]).lower()
         for name in f["functions"]:
-            if name.lower() not in out:
-                out.append(name.lower())
+            k = (file_, name.lower())
+            if k not in out:
+                out.append(k)
     return out[:5]
 
 
-def hit(pred, truth, k):
-    return bool(truth) and any(p in truth for p in pred[:k])
+def show(keys):
+    return ", ".join(f"{a}:{b}" for a, b in keys) or "-"
 
 
 def rate(rows, key):
@@ -95,7 +97,7 @@ def main():
     late = [r for r in scored if r["late"]]
     early = [r for r in scored if not r["late"]]
     L = ["# B2 baseline: frontier model, code only (M0)", "",
-         f"Model: {next(iter(b2.values()))['model'] if b2 else '?'}. Ground truth: causal functions from the blind "
+         f"Model: {next(iter(b2.values()))['model'] if b2 else '?'}. Ground truth (strict, file + function, defect role only) from the blind "
          "Fable 5.1 review (and, leniently, the union with Opus proposals). **Both are LLM labels, not human-verified.**",
          "", f"Cases: {len(rows)} (answered {sum(r['answered'] for r in rows)}; "
          f"{len(rows) - len(scored)} without a function-level causal location, excluded).", "",
@@ -110,8 +112,8 @@ def main():
           "- B0 here is Slither's findings ranked by impact then confidence, mapped to functions. It's not a tuned config.",
           "", "| Incident | Date | Truth (Fable) | B2 top-5 | Slither top-5 | B2@5 | B0@5 |", "|---|---|---|---|---|---|---|"]
     for r in rows:
-        L.append(f"| {r['iid']} | {r['date']} | {', '.join(r['truth']) or '-'} | {', '.join(r['pred']) or '-'} | "
-                 f"{', '.join(r['slither']) or '-'} | {'y' if r['b2_h5'] else 'n'} | {'y' if r['b0_h5'] else 'n'} |")
+        L.append(f"| {r['iid']} | {r['date']} | {show(r['truth'])} | {show(r['pred'])} | "
+                 f"{show(r['slither'])} | {'y' if r['b2_h5'] else 'n'} | {'y' if r['b0_h5'] else 'n'} |")
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
     with open(OUT, "w") as f:
         f.write("\n".join(L) + "\n")

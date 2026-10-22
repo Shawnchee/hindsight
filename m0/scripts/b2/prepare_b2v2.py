@@ -20,8 +20,9 @@ import sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.abspath(os.path.join(HERE, "..", "..", ".."))
 sys.path.insert(0, os.path.join(HERE, "..", "funnel"))
-from build_and_scan import safe_rel  # noqa: E402
+sys.path.insert(0, HERE)
 from fetch_sourcify import fetch  # noqa: E402
+from scope import copy_scoped_dir, write_scoped  # noqa: E402
 
 OUT = os.path.join(REPO, "m0", "data", "b2v2")
 CACHE = os.path.join(REPO, "m0", "data", "funnel", "sourcify")
@@ -48,14 +49,6 @@ def case_id(key):
     return "case_" + hashlib.sha256(("v2:" + key).encode()).hexdigest()[:8]
 
 
-def write_sources(d, dest):
-    for k, v in (d.get("sources") or {}).items():
-        p = os.path.join(dest, safe_rel(k))
-        os.makedirs(os.path.dirname(p), exist_ok=True)
-        with open(p, "w") as f:
-            f.write((v or {}).get("content", ""))
-
-
 def main():
     args = sys.argv[1:]
     reviews = os.path.abspath(args[args.index("--reviews") + 1]) if "--reviews" in args else None
@@ -70,8 +63,11 @@ def main():
             dropped.append(f"{addr} expected {name}, got {got} (status {d.get('_status')})")
             continue
         c = case_id(addr)
-        write_sources(d, os.path.join(OUT, "inputs", c, "contract_1"))
-        case_map[c] = {"kind": "clean", "id": f"{name}@{addr}"}
+        target = (d.get("compilation") or {}).get("fullyQualifiedName", "").rpartition(":")[0]
+        srcs = {k: (v or {}).get("content", "") for k, v in d["sources"].items()}
+        kept, ok = write_scoped(srcs, target, name, os.path.join(OUT, "inputs", c, "contract_1"))
+        case_map[c] = {"kind": "clean", "id": f"{name}@{addr}", "scoped": ok,
+                       "files": [f"contract_1/{k}" for k in kept], "n_original_files": len(srcs)}
     if reviews and prepared:
         for line in open(reviews):
             r = json.loads(line)
@@ -79,14 +75,23 @@ def main():
                 continue
             prep = json.load(open(os.path.join(prepared, r["incident_id"] + ".json")))
             cands = {c["address"]: c for c in prep["candidates"]}
-            dirs = [os.path.join(REPO, cands[a]["source_dir"]) for a in r["victims"]
-                    if a in cands and cands[a].get("source_dir")]
-            if not dirs:
+            vics = [cands[a] for a in r["victims"] if a in cands and cands[a].get("source_dir")]
+            if not vics:
                 continue
             c = case_id(r["incident_id"])
-            for n, d in enumerate(dirs, 1):
-                shutil.copytree(d, os.path.join(OUT, "inputs", c, f"contract_{n}"))
-            case_map[c] = {"kind": "exploit", "id": r["incident_id"]}
+            files, ok_all = [], True
+            for n, v in enumerate(vics, 1):
+                kept, ok = copy_scoped_dir(os.path.join(REPO, v["source_dir"]), v.get("target_file") or "",
+                                           v.get("contract_name"), os.path.join(OUT, "inputs", c, f"contract_{n}"))
+                files += [f"contract_{n}/{k}" for k in kept]
+                ok_all = ok_all and ok
+            # complete = every file named in a defect location is present in the scoped input
+            have = {os.path.basename(f).lower() for f in files}
+            defect_files = {os.path.basename(l["raw"].partition(":")[0]).lower()
+                            for l in r["locations"] if l.get("role", "defect") == "defect" and ":" in l["raw"]}
+            case_map[c] = {"kind": "exploit", "id": r["incident_id"], "scoped": ok_all, "files": files,
+                           "source_complete": bool(defect_files) and defect_files <= have,
+                           "missing_defect_files": sorted(defect_files - have)}
     os.makedirs(OUT, exist_ok=True)
     with open(os.path.join(OUT, "case_map.json"), "w") as f:
         json.dump(case_map, f, indent=1)
