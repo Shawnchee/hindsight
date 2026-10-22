@@ -1,0 +1,9 @@
+# Downloaded third-party data (untrusted, large)
+m0/data/
+.venv/
+__pycache__/
+*.pyc
+.env
+
+# DeFiLlama-derived list; their terms forbid redistribution
+m0/gaps/gaps.json
