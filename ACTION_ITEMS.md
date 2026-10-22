@@ -40,4 +40,8 @@ These are the things only you can do. Everything else in M0 is automated or wait
 
 ## Repo
 
-8. Nothing is pushed. Changes made after commit `e674014` are not committed yet. Say when to commit and when to push.
+8. Nothing is pushed. `main` has 3 local commits; the latest is `429aa01`. The B2 v2 results (`m0/b2/v2/`) and the PRD gate update after it are **not committed**. Say when to commit and when to push.
+
+## Status (2026-10-22)
+
+Everything Claude can do without you in M0 is done. The latest finding: on post-cutoff hacks, a bare frontier model has the buggy function in its top 5 77% of the time, but flags the contract as exploitable only 9% of the time. The M4 gate is now detection recall at a fixed false-positive rate (PRD D15). Items 1, 2 and 8 above unblock the next step.

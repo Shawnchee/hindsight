@@ -24,6 +24,11 @@ OUT = os.path.join(REPO, "m0", "b2", "v2", "summary.md")
 
 
 def main():
+    global OUT
+    if "--out" in sys.argv:  # e.g. the precedent spike writes its own summary
+        i = sys.argv.index("--out")
+        OUT = os.path.abspath(sys.argv[i + 1])
+        del sys.argv[i:i + 2]
     case_map = json.load(open(CASE_MAP))
     reviews = {json.loads(l)["incident_id"]: json.loads(l) for l in open(REVIEWS)}
     preds = {}
