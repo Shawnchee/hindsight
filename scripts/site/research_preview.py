@@ -49,6 +49,7 @@ def render():
                               'reported_date': row['date'], 'incident_id': row['incident_id'],
                               'record_url': f'{REPO}/blob/main/m0/catalog/ethereum_incidents.csv#L{catalog.index(row) + 2}',
                               'verification': 'source_reported_unverified', 'scope': 'may_include_other_chains_or_gross_losses'})
+    loss_examples.sort(key=lambda item: (-item['reported_usd'], item['name']))
     annual = [{'year': str(year), 'entries': counts[str(year)]} for year in range(2017, 2027)]
     count_bars = []
     for i, item in enumerate(annual):
@@ -58,7 +59,7 @@ def render():
     loss_bars = []
     for i, item in enumerate(loss_examples):
         y = 16 + i * 52
-        width = item['reported_usd'] / 120_000_000 * 285
+        width = item['reported_usd'] / max(x['reported_usd'] for x in loss_examples) * 285
         loss_bars.append(f'<text x="0" y="{y}">{html.escape(item["name"])} · {item["reported_date"][:4]}</text><rect class="loss-bar" x="0" y="{y + 9}" width="{width:.2f}" height="14" rx="3"/><text x="{width + 9:.2f}" y="{y + 21}">${item["reported_usd"] / 1_000_000:g}M</text>')
     chart_table = ''.join(f'<tr><th scope="row"><a href="{x["record_url"]}">{html.escape(x["name"])}</a></th><td>{x["reported_date"]}</td><td>${x["reported_usd"]:,.0f}</td></tr>' for x in loss_examples)
     charts = f'''<div class="research-charts">
@@ -66,7 +67,7 @@ def render():
           <svg viewBox="0 0 400 290" role="img" aria-labelledby="counts-title counts-desc"><title id="counts-title">Catalog entries by reported incident year</title><desc id="counts-desc">{'; '.join(x['year'] + ': ' + str(x['entries']) for x in annual)}. This is catalog coverage, not the frequency of all hacks.</desc>{''.join(count_bars)}</svg>
           <p class="chart-note">Coverage varies by year. 2026 is partial, through 21 October. Counts are not a measure of industry-wide hack frequency.</p>
         </figure>
-        <figure class="research-chart"><figcaption><h3>Reported loss examples</h3><p>Five selected cases · USD as reported</p></figcaption>
+        <figure class="research-chart"><figcaption><h3>Reported loss examples</h3><p>Highest to lowest · five selected cases · reported USD</p></figcaption>
           <svg viewBox="0 0 400 290" role="img" aria-labelledby="losses-title losses-desc"><title id="losses-title">Selected source-reported loss amounts</title><desc id="losses-desc">{'; '.join(x['name'] + ': ' + x['reported_text'] for x in loss_examples)}. Unverified figures; not a total or a ranking of all incidents.</desc>{''.join(loss_bars)}</svg>
           <p class="chart-note">Not total losses. Figures may span chains and differ in treatment of recoveries; they are not independently reconciled.</p>
         </figure>

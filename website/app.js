@@ -10,7 +10,7 @@ document.querySelectorAll("[data-copy]").forEach((button) => {
     try {
       if (!navigator.clipboard || !window.isSecureContext) throw new Error("Clipboard unavailable");
       await navigator.clipboard.writeText(text);
-      status.textContent = button.dataset.copy === "agent-prompt" ? "Copied. Replace the project path, then paste into your agent." : "Setup commands copied.";
+      status.textContent = button.dataset.copy === "agent-prompt" ? "Copied. Paste into your agent in the project you want reviewed." : "Setup commands copied.";
     } catch {
       if (source instanceof HTMLTextAreaElement) {
         source.focus();

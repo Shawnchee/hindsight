@@ -72,6 +72,8 @@ class PublicSiteTests(unittest.TestCase):
         self.assertEqual(sum(x['entries'] for x in data['charts']['annual_entries']), data['catalog']['entry_count'])
         self.assertIsNone(data['charts']['loss_total'])
         self.assertEqual(len(data['charts']['selected_loss_examples']), 5)
+        amounts = [x['reported_usd'] for x in data['charts']['selected_loss_examples']]
+        self.assertEqual(amounts, sorted(amounts, reverse=True))
         self.assertTrue(all(x['verification'] == 'source_reported_unverified' for x in data['charts']['selected_loss_examples']))
         self.assertIn('Not total losses.', markup)
         for entry in data['catalog']['examples']:

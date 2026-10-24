@@ -23,14 +23,15 @@ You do not need to clone the repository yourself; the agent can obtain the
 required instructions and helpers in a separate tools folder.
 
 ```text
-Use https://github.com/Shawnchee/hindsight to review my Solidity project at /absolute/path/to/my-project.
-Read AGENTS.md, skills/hindsight-triage/SKILL.md and its report reference. Obtain the needed Hindsight files in a separate local tools folder if your environment supports it; handle that setup for me. If the link is inaccessible, say so and ask for an accessible local copy.
-Confirm the target chain and contracts. Hindsight currently supports Ethereum mainnet + Solidity. Prepare source and dependencies, perform a code-only review, then write and validate a report if local execution is available. Otherwise label the result as an instruction-guided review without helper validation.
-Explain supported findings with cause, impact, file/line evidence and proposed fixes. State missing sources, unavailable analysis and remaining uncertainty. Do not infer safety from no findings.
-Review first; do not edit or deploy my project. Never read secrets or run untrusted project scripts on the host. Do not install dependencies or download models.
+Review the Solidity contracts in my current codebase using https://github.com/Shawnchee/hindsight.
+Identify and preserve this project's root before obtaining any Hindsight files. Keep the toolkit in a separate tools folder; this codebase remains the review target.
+Read Hindsight's AGENTS.md, skills/hindsight-triage/SKILL.md and its report reference. If unavailable, say so and ask for an accessible copy.
+Confirm the chain and contracts. Use the Ethereum-mainnet/Solidity, code-only workflow. Prepare source and dependencies, then write and validate an evidence-backed report when local execution is available; otherwise disclose that helper validation was not run.
+Explain supported findings, impact, file/line evidence and proposed fixes. State missing sources and uncertainty; no findings does not mean safe.
+Review only: do not edit or deploy my project, read secrets, run untrusted scripts on the host, install dependencies or download models.
 ```
 
-Replace the project path. Python 3.11+ is needed to run the helpers. An agent
+Run your agent from the project you want reviewed. Python 3.11+ is needed to run the helpers. An agent
 that can only browse/read text can follow the review instructions, but cannot
 claim a helper-validated report. Link-only setup also requires public access to
 the repository; a private or unavailable repository needs an accessible local

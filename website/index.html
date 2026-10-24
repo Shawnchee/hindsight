@@ -36,17 +36,18 @@
     <section class="start" id="start" aria-labelledby="start-title">
       <div class="section-heading">
         <h2 id="start-title">One prompt. Your own agent.</h2>
-        <p>Give your agent the repository link and your project folder. It handles setup.</p>
+        <p>Open your project in your agent. Paste the prompt. It handles setup.</p>
       </div>
       <div class="setup-grid prompt-first">
-        <article class="setup-step">
-          <div class="panel-top"><h3><label for="agent-prompt">Give your agent this prompt</label></h3><button class="copy-button" data-copy="agent-prompt" type="button" aria-label="Copy agent prompt">Copy</button></div>
-          <textarea id="agent-prompt" rows="10" readonly spellcheck="false" aria-describedby="prompt-help">Use https://github.com/Shawnchee/hindsight to review my Solidity project at /absolute/path/to/my-project.
-Read AGENTS.md, skills/hindsight-triage/SKILL.md and its report reference. Obtain the needed Hindsight files in a separate local tools folder if your environment supports it; handle that setup for me. If the link is inaccessible, say so and ask for an accessible local copy.
-Confirm the target chain and contracts. Hindsight currently supports Ethereum mainnet + Solidity. Prepare source and dependencies, perform a code-only review, then write and validate a report if local execution is available. Otherwise label the result as an instruction-guided review without helper validation.
-Explain supported findings with cause, impact, file/line evidence and proposed fixes. State missing sources, unavailable analysis and remaining uncertainty. Do not infer safety from no findings.
-Review first; do not edit or deploy my project. Never read secrets or run untrusted project scripts on the host. Do not install dependencies or download models.</textarea>
-          <p id="prompt-help" class="step-note">Replace the path with your project folder. Works with agents that can read links and local files.</p>
+        <article class="setup-step terminal-panel">
+          <div class="panel-top terminal-bar"><span class="terminal-lights" aria-hidden="true"><i></i><i></i><i></i></span><h3><label for="agent-prompt">agent / current workspace</label></h3><button class="copy-button" data-copy="agent-prompt" type="button" aria-label="Copy agent prompt">Copy</button></div>
+          <div class="terminal-body"><span class="terminal-gutter" aria-hidden="true">›</span><textarea id="agent-prompt" rows="10" readonly spellcheck="false" aria-describedby="prompt-help">Review the Solidity contracts in my current codebase using https://github.com/Shawnchee/hindsight.
+Identify and preserve this project's root before obtaining any Hindsight files. Keep the toolkit in a separate tools folder; this codebase remains the review target.
+Read Hindsight's AGENTS.md, skills/hindsight-triage/SKILL.md and its report reference. If unavailable, say so and ask for an accessible copy.
+Confirm the chain and contracts. Use the Ethereum-mainnet/Solidity, code-only workflow. Prepare source and dependencies, then write and validate an evidence-backed report when local execution is available; otherwise disclose that helper validation was not run.
+Explain supported findings, impact, file/line evidence and proposed fixes. State missing sources and uncertainty; no findings does not mean safe.
+Review only: do not edit or deploy my project, read secrets, run untrusted scripts on the host, install dependencies or download models.</textarea></div>
+          <p id="prompt-help" class="step-note">Paste into your AI agent inside the project you want reviewed. This is a prompt, not a shell command.</p>
         </article>
       </div>
       <details class="manual-setup"><summary>Prefer to set it up yourself?</summary>
@@ -76,7 +77,7 @@ python3 -I tests/test_skill.py</code></pre>
           <svg viewBox="0 0 400 290" role="img" aria-labelledby="counts-title counts-desc"><title id="counts-title">Catalog entries by reported incident year</title><desc id="counts-desc">2017: 2; 2018: 3; 2019: 0; 2020: 9; 2021: 18; 2022: 49; 2023: 77; 2024: 82; 2025: 58; 2026: 59. This is catalog coverage, not the frequency of all hacks.</desc><text x="0" y="26">2017</text><rect class="count-bar" x="58" y="12" width="6.95" height="18" rx="3"/><text x="74.95" y="26">2</text><text x="0" y="53">2018</text><rect class="count-bar" x="58" y="39" width="10.43" height="18" rx="3"/><text x="78.43" y="53">3</text><text x="0" y="80">2019</text><rect class="count-bar" x="58" y="66" width="0.00" height="18" rx="3"/><text x="68.00" y="80">0</text><text x="0" y="107">2020</text><rect class="count-bar" x="58" y="93" width="31.28" height="18" rx="3"/><text x="99.28" y="107">9</text><text x="0" y="134">2021</text><rect class="count-bar" x="58" y="120" width="62.56" height="18" rx="3"/><text x="130.56" y="134">18</text><text x="0" y="161">2022</text><rect class="count-bar" x="58" y="147" width="170.30" height="18" rx="3"/><text x="238.30" y="161">49</text><text x="0" y="188">2023</text><rect class="count-bar" x="58" y="174" width="267.62" height="18" rx="3"/><text x="335.62" y="188">77</text><text x="0" y="215">2024</text><rect class="count-bar" x="58" y="201" width="285.00" height="18" rx="3"/><text x="353.00" y="215">82</text><text x="0" y="242">2025</text><rect class="count-bar" x="58" y="228" width="201.59" height="18" rx="3"/><text x="269.59" y="242">58</text><text x="0" y="269">2026</text><rect class="count-bar" x="58" y="255" width="205.06" height="18" rx="3"/><text x="273.06" y="269">59</text></svg>
           <p class="chart-note">Coverage varies by year. 2026 is partial, through 21 October. Counts are not a measure of industry-wide hack frequency.</p>
         </figure>
-        <figure class="research-chart"><figcaption><h3>Reported loss examples</h3><p>Five selected cases · USD as reported</p></figcaption>
+        <figure class="research-chart"><figcaption><h3>Reported loss examples</h3><p>Highest to lowest · five selected cases · reported USD</p></figcaption>
           <svg viewBox="0 0 400 290" role="img" aria-labelledby="losses-title losses-desc"><title id="losses-title">Selected source-reported loss amounts</title><desc id="losses-desc">BalancerV2: 120M USD; Corkprotocol: 12M USD; ResupplyFi: 9.6M USD; yETH: 9M USD; Makina: 5.1M USD. Unverified figures; not a total or a ranking of all incidents.</desc><text x="0" y="16">BalancerV2 · 2025</text><rect class="loss-bar" x="0" y="25" width="285.00" height="14" rx="3"/><text x="294.00" y="37">$120M</text><text x="0" y="68">Corkprotocol · 2025</text><rect class="loss-bar" x="0" y="77" width="28.50" height="14" rx="3"/><text x="37.50" y="89">$12M</text><text x="0" y="120">ResupplyFi · 2025</text><rect class="loss-bar" x="0" y="129" width="22.80" height="14" rx="3"/><text x="31.80" y="141">$9.6M</text><text x="0" y="172">yETH · 2025</text><rect class="loss-bar" x="0" y="181" width="21.38" height="14" rx="3"/><text x="30.38" y="193">$9M</text><text x="0" y="224">Makina · 2026</text><rect class="loss-bar" x="0" y="233" width="12.11" height="14" rx="3"/><text x="21.11" y="245">$5.1M</text></svg>
           <p class="chart-note">Not total losses. Figures may span chains and differ in treatment of recoveries; they are not independently reconciled.</p>
         </figure>

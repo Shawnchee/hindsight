@@ -177,3 +177,22 @@ footer small { flex-basis: 100%; font-size: .6875rem; color: var(--muted); }
 .manual-setup { margin-top: 1rem; font-size: .875rem; }
 .manual-setup summary { cursor: pointer; min-height: 2.75rem; padding: .75rem 0; }
 .manual-setup .setup-step { margin-top: .5rem; }
+
+.terminal-panel { padding: 0; overflow: hidden; background: #fbfbfc; border-color: #dddde2; box-shadow: 0 8px 30px #20212405; }
+.terminal-bar { margin: 0; padding: .65rem 1.1rem; border-bottom: 1px solid var(--line); background: #f3f3f5; }
+.terminal-bar h3 { flex: 1; text-align: center; font-size: .75rem; font-weight: 500; color: var(--muted); letter-spacing: 0; }
+.terminal-lights { display: flex; align-items: center; gap: .35rem; min-width: 3.4rem; }
+.terminal-lights i { display: block; width: .55rem; height: .55rem; border-radius: 50%; background: #c7c7ce; }
+.terminal-lights i:first-child { background: #c97b68; }
+.terminal-body { display: grid; grid-template-columns: 1rem minmax(0,1fr); gap: .75rem; padding: 1.5rem 1.4rem .5rem; }
+.terminal-gutter { color: var(--accent); font-size: 1.2rem; line-height: 1.3; }
+.terminal-panel textarea { line-height: 1.8; min-height: 18rem; }
+.terminal-panel .step-note { margin: .65rem 1.4rem 1.2rem 3.15rem; }
+@media(max-width:600px) {
+  .terminal-bar { padding-inline: .85rem; }
+  .terminal-lights { min-width: auto; gap: .25rem; }
+  .terminal-bar h3 { font-size: .6875rem; }
+  .terminal-body { padding: 1.1rem .85rem .35rem; gap: .4rem; }
+  .terminal-panel textarea { min-height: 24rem; }
+  .terminal-panel .step-note { margin: .65rem .85rem 1rem 2.25rem; }
+}
