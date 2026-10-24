@@ -1,0 +1,79 @@
+{
+  "adjudication": "unresolved",
+  "benchmark_promoted": false,
+  "code_issues": [
+    {
+      "correction": "verify_supplement_manifest now requires sources.json, incidents.followup.jsonl and historical_checks.json plus optional consumed review/events. Inspected fix and regression test as text.",
+      "file": "m0/scripts/discovery/export_current_research.py",
+      "issue": "Consumed supplementary metadata was not required in manifest, allowing omissions to bypass hash/path validation and input provenance.",
+      "severity": "P2",
+      "status": "corrected_during_review"
+    }
+  ],
+  "code_review_results": {
+    "limitations": [
+      "No model evaluation approval is supplied.",
+      "Caller-supplied tokenizer compatibility remains an assumption; exact tokenizer count is not a proof of the serving model chat-template count.",
+      "Metadata-only export is not a general secret sanitizer: arbitrary free text in reviews/events requires editorial review before publication. No observed disclosure or external network sink found."
+    ],
+    "run_local.py": "No additional material blocker found in reviewed pretest fixes. Original bytes of omitted and included sources plus TARGET metadata are hashed; root/case/file escape checks reject unsafe inputs before chat. Loopback-only requests disable proxies and redirects.",
+    "score_v2.py": "No additional material blocker found in reviewed fixes. Missing cases, malformed positive claims and malformed locations fail closed; basename normalization aligns with runner.",
+    "tests": "Reviewed synthetic runner/scorer/exporter tests as text; did not execute or independently attest passing results."
+  },
+  "evaluation_eligible": false,
+  "exact_transaction_state_verified": false,
+  "human_verified": false,
+  "incidents": [
+    {
+      "closed_gaps": [
+        "Cached predecessor-block market getters bind collateral and three borrowed markets to Unitroller de228, actual Comptroller 3c727 and oracle 833e.",
+        "Collateral 7e495 binds CHEESE/WETH pair 534f; historical oracle configuration identifies LP pricing.",
+        "Actual Comptroller borrowAllowed and getHypotheticalAccountLiquidityInternal consume oracle prices and multiply collateral factor, exchange rate and price; this is now a concrete source-backed credit path."
+      ],
+      "corrections": [
+        "Use actual Comptroller deployment 3c727 rather than a same-named compilation unit bundled in market sources.",
+        "Replace missing lending-linkage prose with recovered predecessor-block bindings; retain transaction-specific and economic limitations.",
+        "Predecessor and attack-block-end quote changes are observations, not proof of the exact in-transaction quote used for each borrow."
+      ],
+      "decision": "retain_with_recovered_lending_linkage",
+      "incident_id": "20201106_CheeseBank",
+      "remaining_gaps": [
+        "Transaction-specific call ordering and state at each oracle refresh and borrow; account membership, accrued balances, available liquidity and final asset-flow/loss reconciliation.",
+        "Complete dependency coverage, human adjudication, earliest disclosure/family split and distribution rights."
+      ]
+    },
+    {
+      "closed_gaps": [
+        "Cached predecessor-block selections bind protocol 7967 to 8f032, PoolToken 2afa to 90b7, Pool 4c39 to d9f4 and Access 5ffc to 352337.",
+        "Protocol single-token handleDeposit does not reject an unregistered token; it checks requested amount only when the token matches a registered token. SavingsModule.depositToProtocol uses this overload.",
+        "Historical operator and minter checks permit SavingsModule; Access operation checks permit the sampled caller.",
+        "Historical RewardDistribution proxy/implementation binding and callback source recovered; callback source checked at lines3308–3315 and3574–3612."
+      ],
+      "corrections": [
+        "Do not cite current Access implementation DED: deployment after the incident cannot establish historical behavior.",
+        "Do not generalize single-token permissiveness to the array overload: the latter invokes getTokenIndex and rejects unregistered tokens.",
+        "Preserve min(requested normalized amount, observed increase), yield distribution, active user/protocol caps and sampled non-VIP status. Reversion of a later cap or callback check reverts the entire call.",
+        "PoolToken mint and burn invoke userBalanceChanged, reaching historical RewardDistribution 70304 through proxy840566. Its callback checks registered pool-token sender and may migrate rewards before updating shares. Do not equate historical dispatch binding with proof that these state-dependent checks succeeded."
+      ],
+      "decision": "retain_with_recovered_core_dependencies",
+      "incident_id": "20201112_AkropolisDelphi",
+      "remaining_gaps": [
+        "Exact nested-call sequence, callback token behavior, intermediate balances, cap consumption and complete asset-flow reconciliation.",
+        "Curve/yToken/gauge dependencies remain outside this bounded review; recovered core sources do not establish complete execution.",
+        "Human adjudication, earliest disclosure/family split and distribution rights.",
+        "Reward pool-token registration, per-user migration/distribution state and any state-dependent callback failures remain unproved by the bounded getters."
+      ]
+    }
+  ],
+  "original_review_report_sha256": "0848518ebf686b2dc8531989ec4db8e63a730de2d2b3837a133c1dc35e541783",
+  "review_scope": "Text-only defensive source and cached evidence review; no source execution, RPC, models, downloads or repository edits",
+  "schema_version": "hindsight.independent_dependency_review.v1",
+  "training_eligible": false,
+  "verification": {
+    "cached_history_reads_checked": 70,
+    "component_runtime_equalities": 18,
+    "final_packet_wording": "Supported as bounded research; no additional defect labels or proof of complete execution.",
+    "proposed_context_spans_checked": 7,
+    "source_unit_hashes_checked": 132
+  }
+}

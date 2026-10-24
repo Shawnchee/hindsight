@@ -1,0 +1,30 @@
+{
+  "artifacts": {
+    "README.md": "dd76c1eaa96185adaceeaea26dfd4891aaea13e06093e8be1d028cad0ebd725d",
+    "contracts.jsonl": "886194319ebf183772fc2b86269fe6cc9e9a57d629e56df8aa6d9f3bb0d6e994",
+    "disclosures.jsonl": "da9a485be7e55e22c9510bd5ade9a7c2694a7b0ecbec643193408d64c88eb621",
+    "discovery_leads.jsonl": "7a4462353fc05ac275a43ea0a0443943c89e6a94d8704858815aaed46214c8d1",
+    "families.proposed.json": "85e4603bfbdad39e88e4f358cb7e887f6f470cb485350bcab9ac58712129dc02",
+    "fetch_source.py": "cf03df2e7c0eea019161dc1c4257d515940d6d04ecbd0ac4f1776a28e5942181",
+    "incidents.jsonl": "2de8c215fb41650792156c07ec01f096996315701261c8a1b79ccb9e11b15bad",
+    "input_hashes.json": "fdeba2943864f5212aa68eae1a0c6da874abe08d903a78044fce6aef6fa44f1b",
+    "label_events.jsonl": "443b5c04a2dd0f7aa02c739018221c402c632e2da30584c5bf038f367b50360f",
+    "review_summaries.jsonl": "1efc3ce9843247c525b1ec3ebf8c68686c0290e19744b77dfff51ec92485f0d0"
+  },
+  "benchmark_promotions": 0,
+  "contract_snapshots": 31,
+  "contract_source_files_redistributed": 0,
+  "evaluation_eligible": false,
+  "human_verified_labels": 0,
+  "incident_count": 10,
+  "point_in_time_ready": false,
+  "provisional_leakage_groups": 9,
+  "publication_dates_recorded": 10,
+  "recorded_at": "2026-10-23",
+  "research_only": true,
+  "source_backed_proposal_count": 8,
+  "source_gap_record_count": 2,
+  "source_unit_hashes": 56,
+  "training_eligible": false,
+  "version": "v0.1.0"
+}

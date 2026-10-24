@@ -1,0 +1,37 @@
+{
+  "schema_version": "hindsight.community-incident.v1",
+  "chain_id": 1,
+  "language": "Solidity",
+  "source_policy": "link_and_own_summary_only",
+  "identifier_verification": "source_reported_unverified",
+  "intake_status": "discovery_only",
+  "first_seen_at": null,
+  "family_id": null,
+  "label_status": "proposed",
+  "adjudication": "unresolved",
+  "human_verified": false,
+  "training_eligible": false,
+  "evaluation_eligible": false,
+  "benchmark_promoted": false,
+  "split": "unassigned",
+  "candidate_id": "community_zkswap_exodus_20250709",
+  "name": "ZKSwap Ethereum bridge Exodus Mode incident",
+  "incident_date": "2025-07-09",
+  "discovered_at": "2026-10-24",
+  "summary": "Blockaid reports approximately USD 5 million withdrawn from an Ethereum bridge after emergency-exit proof checks accepted unsupported claims. Historical verifier deployment and claim-uniqueness behavior require independent source and transaction review.",
+  "primary_sources": [
+    {
+      "url": "https://blockaid.io/blog/how-zkswaps-5m-exploit-couldve-been-prevented-with-onchain-monitoring",
+      "published_date": "2025-07-23",
+      "summary": "Security-researcher report describes emergency proof-verification and duplicate-claim weaknesses on the Ethereum Layer 1 bridge."
+    }
+  ],
+  "tx_hashes": [],
+  "victim_addresses": [],
+  "coverage_gaps": [
+    "Full affected-contract and transaction identifiers were not established from accessible text in this pass; embedded screenshots are not independently verified evidence.",
+    "Recover incident-time bridge, verifier and proxy implementations. Distinguish annotated example code in reporting from exact deployed source.",
+    "Independently verify chain, Solidity language, incident timing, gross withdrawals, net loss and any recovery.",
+    "Source rights, earliest disclosure, family assignment and human adjudication remain unresolved; no eligibility or benchmark promotion is established."
+  ]
+}

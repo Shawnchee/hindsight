@@ -1,0 +1,44 @@
+{
+  "schema_version": "hindsight.community-incident.v1",
+  "chain_id": 1,
+  "language": "Solidity",
+  "source_policy": "link_and_own_summary_only",
+  "identifier_verification": "source_reported_unverified",
+  "intake_status": "discovery_only",
+  "first_seen_at": null,
+  "family_id": null,
+  "label_status": "proposed",
+  "adjudication": "unresolved",
+  "human_verified": false,
+  "training_eligible": false,
+  "evaluation_eligible": false,
+  "benchmark_promoted": false,
+  "split": "unassigned",
+  "candidate_id": "community_argent_style_wallet_20261019",
+  "name": "Argent-style smart wallet system \u2014 product identity unresolved",
+  "incident_date": "2026-10-19",
+  "discovered_at": "2026-10-24",
+  "summary": "An Ethereum wallet incident is reported to involve unsafe recovery-period configuration and repeated acceptance of signed actions. The reported loss is approximately USD 59,800; deployment identity, causal source and economic impact remain unverified by Hindsight. The description does not establish a compromise of the official Argent product.",
+  "primary_sources": [
+    {
+      "url": "https://olympix.security/blog/argent-style-smart-wallets-60k-loss-and-how-olympix-would-have-prevented-it",
+      "published_date": "2026-10-20",
+      "summary": "Security-researcher write-up with Ethereum transaction and module references; describes recovery-delay arithmetic and signature-replay concerns, attributing the initial alert to SlowMist."
+    }
+  ],
+  "tx_hashes": [
+    "0xbfed8d33561ed5f9cbd0f4e62a5bbd20187a64f3e22180148dcb58ed6ebaa795",
+    "0xa0ee8f914205a948c79eca039b7d8265537eb220472c9be1455d3321f1bd571b"
+  ],
+  "victim_addresses": [
+    "0xe545B9a69bfF1Bf0ed2E922551DDA4AFc8EE8f66",
+    "0x5a79e5772493cf4329682d202aa2d28f85a85440"
+  ],
+  "coverage_gaps": [
+    "Two transaction hashes and two candidate victim wallets were extracted from the researcher report links on a follow-up pass. Explorer state and incident-time code remain independently unverified.",
+    "Ethereum-mainnet and Solidity scope are source-reported. Recover historical module implementations and compiler settings before confirming source-level causality.",
+    "Repeated calls alone do not prove signed-message replay, recovery-deadline overflow or an owner change; inspect decoded traces and state transitions.",
+    "Official product identity is unresolved. Do not attribute this incident to Argent's official wallet.",
+    "Reported loss requires reconciliation with net asset movements and any recovery. Earliest disclosure, family assignment, source rights and human adjudication remain unresolved."
+  ]
+}

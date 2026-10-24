@@ -1,0 +1,204 @@
+{
+  "assigned_partitions": false,
+  "cross_incident_exact_normalized_defect_matches": [],
+  "defect_evidence_hashes": [
+    {
+      "address": "0x57cda125d0c7b146a8320614ccd6c55999d15bf2",
+      "evidence_line_end": 1027,
+      "evidence_line_start": 1010,
+      "incident_id": "20201114_ValueDeFiMultiStables",
+      "location": "ShareConverter.main.flat.sol:convert_shares_rate",
+      "normalized_evidence_sha256": "bfa3e517abb9cb541f01bafcf492529b9fec28967f66aa292509a207d4f3c4ef",
+      "source_sha256": "138535042810bb7b1d9ddde74ca21268fe6e33d15af3ef1888f9b540fba644c1"
+    },
+    {
+      "address": "0x17e8ca1b4798b97602895f63206afcd1fc90ca5f",
+      "evidence_line_end": 972,
+      "evidence_line_start": 942,
+      "incident_id": "20210227_Furucombo",
+      "location": "Proxy.sol:_exec",
+      "normalized_evidence_sha256": "a7d519fef68634be82a090aa58831d993270f00c88ce88725070742c79d47264",
+      "source_sha256": "1a51304b327d41449f932c0b68f0c9b4a6148e524b6e0f87026c7818d58e65f2"
+    },
+    {
+      "address": "0x833e440332caa07597a5116fbb6163f0e15f743d",
+      "evidence_line_end": 869,
+      "evidence_line_start": 858,
+      "incident_id": "20201106_CheeseBank",
+      "location": "CheesePriceOracle.sol:fetchLPAnchorPrice",
+      "normalized_evidence_sha256": "10f7c23351457d22db27feaad227e93b4699e142f48155bdafd4ce71126f25dc",
+      "source_sha256": "fa3cb174343b85ea448465aed6761389113352b1f5c84dd5c24ea9378e1f03f1"
+    },
+    {
+      "address": "0x1cec0e358f882733c5ecc028d8a0c24baee02004",
+      "evidence_line_end": 1994,
+      "evidence_line_start": 1940,
+      "incident_id": "20201112_AkropolisDelphi",
+      "location": "SavingsModule.sol:deposit",
+      "normalized_evidence_sha256": "dffd8fac3dc063fc7a31e0b7ee81e7f0a96298c64104b193de187cd953c0f189",
+      "source_sha256": "1930a8318b134f1ee65824809e9e99600d0e51d962037e90583fa7cd3d405381"
+    },
+    {
+      "address": "0x328d15f6b5eba1c30cde1a5f1f5a9e35b07f5424",
+      "evidence_line_end": 2049,
+      "evidence_line_start": 2001,
+      "incident_id": "20201117_OriginDollar",
+      "location": "VaultCore.sol:mintMultiple",
+      "normalized_evidence_sha256": "1f2194caa7da768aa198e8b7d5b774225bebd67708994d3abbd70a217faec667",
+      "source_sha256": "d3cb3e59edd4da8d57095fa5f17313030a41a92462f8d35cc60c00e8d9e3eb65"
+    },
+    {
+      "address": "0x4a224cd0517f08b26608a2f73bf390b01a6618c8",
+      "evidence_line_end": 1408,
+      "evidence_line_start": 1370,
+      "incident_id": "20201217_WarpFinance",
+      "location": "UniswapLPOracleFactory.sol:getUnderlyingPrice",
+      "normalized_evidence_sha256": "8128b344e1f38003ef06676f76f5f3cb1d43a0a3c29f39b1cfbb741889e554e0",
+      "source_sha256": "7527ae55bc78ae6b78a88d362837f6b9ac5c02f96bd0c30e2e0536089f4025d1"
+    },
+    {
+      "address": "0xe7f445b93eb9cdabfe76541cc43ff8de930a58e6",
+      "evidence_line_end": 46,
+      "evidence_line_start": 28,
+      "incident_id": "20210404_ForceDAO",
+      "location": "ForceProfitSharing.sol:deposit",
+      "normalized_evidence_sha256": "e3ad497cd07af9100c90679b15b49ca09417fe1f76f42005d022984b2ede5c9f",
+      "source_sha256": "d5c4d7426d3a73c34e66cf116d945c4be0f2f0326fe386ed6d7c344421d10175"
+    },
+    {
+      "address": "0x104499cee754463990393989c046d84e3b1d96e9",
+      "evidence_line_end": 1398,
+      "evidence_line_start": 1379,
+      "incident_id": "20210512_xTokenMay",
+      "location": "xBNT.sol:mint",
+      "normalized_evidence_sha256": "241230560f35fc1a903f6c482626502e56d08c0bf75ce96b8e1fe725e8721f70",
+      "source_sha256": "a04071306bb4d611f48c232a9e5f6d0c6ceddb1cd4727df35308fa286c634c8c"
+    }
+  ],
+  "family_id_fields_unchanged": true,
+  "groups": [
+    {
+      "exploit_family_confirmed": false,
+      "incident_ids": [
+        "20200215_bZxFirst"
+      ],
+      "kind": "incident_boundary",
+      "leakage_group_id": "incident-20200215_bZxFirst",
+      "reason": "Keep every transaction, contract and causal location of this incident together; external family lineage not established.",
+      "status": "proposed"
+    },
+    {
+      "exploit_family_confirmed": false,
+      "incident_ids": [
+        "20201114_ValueDeFiMultiStables"
+      ],
+      "kind": "incident_boundary",
+      "leakage_group_id": "incident-20201114_ValueDeFiMultiStables",
+      "reason": "Keep every transaction, contract and causal location of this incident together; external family lineage not established.",
+      "status": "proposed"
+    },
+    {
+      "exploit_family_confirmed": false,
+      "incident_ids": [
+        "20210227_Furucombo"
+      ],
+      "kind": "incident_boundary",
+      "leakage_group_id": "incident-20210227_Furucombo",
+      "reason": "Keep every transaction, contract and causal location of this incident together; external family lineage not established.",
+      "status": "proposed"
+    },
+    {
+      "exploit_family_confirmed": false,
+      "incident_ids": [
+        "20201106_CheeseBank"
+      ],
+      "kind": "incident_boundary",
+      "leakage_group_id": "incident-20201106_CheeseBank",
+      "reason": "Keep every transaction, contract and causal location of this incident together; external family lineage not established.",
+      "status": "proposed"
+    },
+    {
+      "exploit_family_confirmed": false,
+      "incident_ids": [
+        "20201112_AkropolisDelphi"
+      ],
+      "kind": "incident_boundary",
+      "leakage_group_id": "incident-20201112_AkropolisDelphi",
+      "reason": "Keep every transaction, contract and causal location of this incident together; external family lineage not established.",
+      "status": "proposed"
+    },
+    {
+      "exploit_family_confirmed": false,
+      "incident_ids": [
+        "20201117_OriginDollar"
+      ],
+      "kind": "incident_boundary",
+      "leakage_group_id": "incident-20201117_OriginDollar",
+      "reason": "Keep every transaction, contract and causal location of this incident together; external family lineage not established.",
+      "status": "proposed"
+    },
+    {
+      "exploit_family_confirmed": false,
+      "incident_ids": [
+        "20201217_WarpFinance"
+      ],
+      "kind": "incident_boundary",
+      "leakage_group_id": "incident-20201217_WarpFinance",
+      "reason": "Keep every transaction, contract and causal location of this incident together; external family lineage not established.",
+      "status": "proposed"
+    },
+    {
+      "exploit_family_confirmed": false,
+      "incident_ids": [
+        "20210404_ForceDAO"
+      ],
+      "kind": "incident_boundary",
+      "leakage_group_id": "incident-20210404_ForceDAO",
+      "reason": "Keep every transaction, contract and causal location of this incident together; external family lineage not established.",
+      "status": "proposed"
+    },
+    {
+      "exploit_family_confirmed": false,
+      "incident_ids": [
+        "20210512_xTokenMay",
+        "20210829_xTokenAugust"
+      ],
+      "kind": "conservative_protocol_cohort",
+      "leakage_group_id": "protocol-xtoken-conservative",
+      "reason": "Shared protocol and incomplete August/xSNXa source warrant keeping both incidents together in any future split. Reported mechanisms differ; this is not a claim of one exploit family.",
+      "status": "proposed"
+    }
+  ],
+  "limitations": [
+    "Common libraries/proxy wrappers are not proof of a shared exploit family.",
+    "No cross-incident exploit family was established by Astra; category resemblance alone is insufficient.",
+    "This bounded ten-record comparison does not clear overlap with unrecovered code or the full existing catalog.",
+    "All actual family_id fields remain null and all train/validation/test splits remain unassigned.",
+    "Proposed leakage cohorts must not be treated as reviewed family labels."
+  ],
+  "normalization": "Remove comments/whitespace only, retain identifiers and literals. Compare complete source units and cited defect spans; no AST/semantic clone proof.",
+  "recorded_at": "2026-10-23",
+  "schema_version": "hindsight.proposed-leakage-groups.v1",
+  "shared_normalized_source_units": [
+    [
+      {
+        "address": "0x6046c3ab74e6ce761d218b9117d5c63200f4b406",
+        "incident_ids": [
+          "20201217_WarpFinance"
+        ],
+        "normalized_sha256": "39b0eba1fb822e203629b166061949539c31b18265bb300a3a9b60a409d41102",
+        "source_sha256": "bc4179c6d8b49fde51627ee77b2406a6d39d4613174783812583d3461de5bfcb",
+        "source_unit": "WarpVaultSC.sol"
+      },
+      {
+        "address": "0xae465fd39b519602ee28f062037f7b9c41fdc8cf",
+        "incident_ids": [
+          "20201217_WarpFinance"
+        ],
+        "normalized_sha256": "39b0eba1fb822e203629b166061949539c31b18265bb300a3a9b60a409d41102",
+        "source_sha256": "bc4179c6d8b49fde51627ee77b2406a6d39d4613174783812583d3461de5bfcb",
+        "source_unit": "WarpVaultSC.sol"
+      }
+    ]
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "schema_version": "hindsight.community-incident.v1",
+  "chain_id": 1,
+  "language": "Solidity",
+  "source_policy": "link_and_own_summary_only",
+  "identifier_verification": "source_reported_unverified",
+  "intake_status": "discovery_only",
+  "first_seen_at": null,
+  "family_id": null,
+  "label_status": "proposed",
+  "adjudication": "unresolved",
+  "human_verified": false,
+  "training_eligible": false,
+  "evaluation_eligible": false,
+  "benchmark_promoted": false,
+  "split": "unassigned",
+  "candidate_id": "community_example",
+  "name": "SYNTHETIC EXAMPLE \u2014 replace before submitting",
+  "incident_date": null,
+  "discovered_at": "2026-10-24",
+  "summary": "Synthetic example of an unverified Ethereum mainnet Solidity incident lead. This is a format demonstration, not a real incident.",
+  "primary_sources": [
+    {
+      "url": "https://example.com/hindsight-synthetic-example",
+      "published_date": null,
+      "summary": "Synthetic placeholder for a primary incident report. Replace this URL and write an original summary based on the report."
+    }
+  ],
+  "tx_hashes": [],
+  "victim_addresses": [],
+  "coverage_gaps": [
+    "Synthetic example only; no real incident, deployed source, transaction, or human review is established.",
+    "Historical first-seen evidence, exploit family, source rights, and causal location require maintainer review."
+  ]
+}

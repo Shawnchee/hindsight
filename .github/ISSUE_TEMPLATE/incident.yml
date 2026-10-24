@@ -1,0 +1,45 @@
+name: Report a historical or new incident
+description: Share public evidence for an Ethereum/Solidity incident. No exploit required.
+title: '[Incident] '
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Public, already-disclosed incidents only. Store links and your own summary, not copied post/article bodies. Unknown source or identifiers are acceptable. Do not include keys, private reports or working attack code.
+  - type: input
+    id: protocol
+    attributes:
+      label: Protocol or incident name
+    validations:
+      required: true
+  - type: input
+    id: evidence
+    attributes:
+      label: Primary report or public alert URL
+      description: A protocol post-mortem or original researcher report is preferred. An X link may be a discovery pointer.
+    validations:
+      required: true
+  - type: textarea
+    id: summary
+    attributes:
+      label: Your summary and remaining uncertainty
+      description: Separate reported claims from facts you independently checked. State whether Ethereum mainnet/Solidity is confirmed.
+    validations:
+      required: true
+  - type: textarea
+    id: identifiers
+    attributes:
+      label: Reported date, transaction hashes and victim addresses
+      description: Optional. Mark unknown values as unknown; do not invent them.
+  - type: textarea
+    id: duplicate
+    attributes:
+      label: Existing record or related incident
+      description: Link an existing issue/record if this adds evidence or corrects a report.
+  - type: checkboxes
+    id: rights
+    attributes:
+      label: Submission check
+      options:
+        - label: This contains only public evidence links and my own summary, with no credentials or working attack code.
+          required: true

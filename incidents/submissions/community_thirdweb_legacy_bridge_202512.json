@@ -1,0 +1,40 @@
+{
+  "schema_version": "hindsight.community-incident.v1",
+  "chain_id": 1,
+  "language": "Solidity",
+  "source_policy": "link_and_own_summary_only",
+  "identifier_verification": "source_reported_unverified",
+  "intake_status": "discovery_only",
+  "first_seen_at": null,
+  "family_id": null,
+  "label_status": "proposed",
+  "adjudication": "unresolved",
+  "human_verified": false,
+  "training_eligible": false,
+  "evaluation_eligible": false,
+  "benchmark_promoted": false,
+  "split": "unassigned",
+  "candidate_id": "community_thirdweb_legacy_bridge_202512",
+  "name": "Thirdweb legacy Bridge approval incident",
+  "incident_date": null,
+  "discovered_at": "2026-10-24",
+  "summary": "Thirdweb reports unauthorized token movement affecting one Ethereum wallet through a legacy Bridge that remained active after an earlier mitigation. This proposal uses the December 10 notification date only as a research anchor; the exact attack date and loss are not established.",
+  "primary_sources": [
+    {
+      "url": "https://blog.thirdweb.com/smart-contract-incident-report-legacy-bridge-vulnerability/",
+      "published_date": "2025-12-12",
+      "summary": "Protocol incident report identifies the legacy Bridge address, reports one affected Ethereum wallet, and describes decommissioning omissions."
+    }
+  ],
+  "tx_hashes": [],
+  "victim_addresses": [
+    "0x81d57DD01a15BC1C19563693902df621500D4d2A"
+  ],
+  "coverage_gaps": [
+    "December 10 is the report-received date, not a proven attack timestamp; incident_date intentionally remains null.",
+    "The address is the vulnerable legacy integration contract, not the affected user wallet; victim-wallet and exploit transaction identifiers remain unresolved.",
+    "The report contains December 10 versus December 11 upgrade-timing statements that need reconciliation using chain evidence.",
+    "Chain, language, identifiers, historical implementation and economic impact are source-reported, not independently verified by Hindsight.",
+    "Source rights, earliest disclosure, exploit-family boundaries and human adjudication remain unresolved. No training or benchmark eligibility is established."
+  ]
+}

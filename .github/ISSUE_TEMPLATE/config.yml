@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Undisclosed vulnerability in a live protocol
+    url: https://github.com/Shawnchee/hindsight/blob/main/SECURITY.md
+    about: Use the affected protocol's security channel; do not disclose working attacks in a public incident issue.

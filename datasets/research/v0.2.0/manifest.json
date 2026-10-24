@@ -1,0 +1,36 @@
+{
+  "artifacts": {
+    "README.md": "81646cfb8ad5303ca83a4f2b32aaed343d4331898da529f80f694fba0245137a",
+    "contracts.jsonl": "d40226e4579f1a274bf9141ebbce88329e426ddea52076330dec444fbeb44ebc",
+    "dependency-recovery_review.json": "37fa38b3b268c9aae5113548830ee7617b68aeae4817ad222aff6f53eac0abad",
+    "disclosures.jsonl": "da9a485be7e55e22c9510bd5ade9a7c2694a7b0ecbec643193408d64c88eb621",
+    "discovery_leads.jsonl": "7a4462353fc05ac275a43ea0a0443943c89e6a94d8704858815aaed46214c8d1",
+    "families.proposed.json": "06d0c92c811cb7fc6bbacb67f01fa2872e9399b2c4de1dedcbfbaa7e4988835b",
+    "fetch_source.py": "cf03df2e7c0eea019161dc1c4257d515940d6d04ecbd0ac4f1776a28e5942181",
+    "incidents.jsonl": "1782daf4a715c13d210844457f0d4a24914920cc5ef4f4cfd2316145edea1f98",
+    "input_hashes.json": "da531cb06823df8a2cdce44eda3ea22bf5b073c24a5ac2d3750969c1d3c12c7d",
+    "label_events.jsonl": "b4ad9e65991e585a5b781d77f4f6dc3cf9c7016ad7e520c18e9b3e02c433369c",
+    "review_summaries.jsonl": "b5cf0d95ccf8cb3de2fe64958c85e7925d1d4d74a81f87b88ad2fb25beb280cc",
+    "source-recovery_review.json": "7d2d1150ed32e32acd1df1de0213d127768244b8c1d0266ec10289bd9b7a4c2c"
+  },
+  "benchmark_promotions": 0,
+  "contract_snapshots": 55,
+  "contract_source_files_redistributed": 0,
+  "evaluation_eligible": false,
+  "human_verified_labels": 0,
+  "incident_count": 10,
+  "point_in_time_ready": false,
+  "provisional_leakage_groups": 9,
+  "publication_dates_recorded": 10,
+  "recorded_at": "2026-10-24",
+  "research_only": true,
+  "source_backed_proposal_count": 9,
+  "source_gap_record_count": 1,
+  "source_unit_hashes": 218,
+  "supplements": [
+    "m0/discovery/source-recovery",
+    "m0/discovery/dependency-recovery"
+  ],
+  "training_eligible": false,
+  "version": "v0.2.0"
+}

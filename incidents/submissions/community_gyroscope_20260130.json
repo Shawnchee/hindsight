@@ -1,0 +1,42 @@
+{
+  "schema_version": "hindsight.community-incident.v1",
+  "chain_id": 1,
+  "language": "Solidity",
+  "source_policy": "link_and_own_summary_only",
+  "identifier_verification": "source_reported_unverified",
+  "intake_status": "discovery_only",
+  "first_seen_at": null,
+  "family_id": null,
+  "label_status": "proposed",
+  "adjudication": "unresolved",
+  "human_verified": false,
+  "training_eligible": false,
+  "evaluation_eligible": false,
+  "benchmark_promoted": false,
+  "split": "unassigned",
+  "candidate_id": "community_gyroscope_20260130",
+  "name": "Gyroscope Ethereum bridge incident",
+  "incident_date": "2026-01-30",
+  "discovered_at": "2026-10-24",
+  "summary": "CertiK reports a cross-chain callback accepted caller-selected execution that created unauthorized GYD approvals on Ethereum. It reports roughly USD 807,000 extracted; token face value and realized liquidity differ.",
+  "primary_sources": [
+    {
+      "url": "https://www.certik.com/blog/gyroscope-incident-analysis",
+      "published_date": "2026-02-03",
+      "summary": "Researcher analysis with source-reported bridge and Ethereum transaction references."
+    }
+  ],
+  "tx_hashes": [
+    "0x45739a92c2d99f172a74d8028736a2fd1b507ac6fc134680cd1dccd3c572c600",
+    "0xe03ac744df1910a71fedab58bc6a32ab5afe1cb4fcad94a0e5c8d7edf0d7405c"
+  ],
+  "victim_addresses": [
+    "0xe07F9D810a48ab5c3c914BA3cA53AF14E4491e8A"
+  ],
+  "coverage_gaps": [
+    "The incident spans Arbitrum and Ethereum; only the source-reported Ethereum transaction references are recorded here.",
+    "The report labels a Gyroscope address without fully establishing its historical deployment role; treat it as a candidate affected contract until source and proxy history are checked.",
+    "Chain, language, identifiers, historical implementation and economic impact are source-reported, not independently verified by Hindsight.",
+    "Source rights, earliest disclosure, exploit-family boundaries and human adjudication remain unresolved. No training or benchmark eligibility is established."
+  ]
+}

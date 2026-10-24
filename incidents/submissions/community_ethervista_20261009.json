@@ -1,0 +1,40 @@
+{
+  "schema_version": "hindsight.community-incident.v1",
+  "chain_id": 1,
+  "language": "Solidity",
+  "source_policy": "link_and_own_summary_only",
+  "identifier_verification": "source_reported_unverified",
+  "intake_status": "discovery_only",
+  "first_seen_at": null,
+  "family_id": null,
+  "label_status": "proposed",
+  "adjudication": "unresolved",
+  "human_verified": false,
+  "training_eligible": false,
+  "evaluation_eligible": false,
+  "benchmark_promoted": false,
+  "split": "unassigned",
+  "candidate_id": "community_ethervista_20261009",
+  "name": "EtherVista pair invariant incident",
+  "incident_date": "2026-10-09",
+  "discovered_at": "2026-10-24",
+  "summary": "A researcher reports an Ethereum pool invariant check used arithmetic that could overflow, allowing withdrawals inconsistent with the intended reserve constraint. Reported loss is approximately USD 18,600; Hindsight has not validated the causal implementation.",
+  "primary_sources": [
+    {
+      "url": "https://olympix.security/blog/ethervistas-18-6k-loss-and-how-olympix-would-have-prevented-it",
+      "published_date": "2026-10-20",
+      "summary": "Researcher write-up links the candidate victim pair and transaction and reports Solidity 0.5.16 source."
+    }
+  ],
+  "tx_hashes": [
+    "0xb2c7332d9e1be6a86d9d37083aa4cc0d94b60eb95cc9b29494555a3c09764930"
+  ],
+  "victim_addresses": [
+    "0xfdd05552F1377aA488AFed744c8024358AF02041"
+  ],
+  "coverage_gaps": [
+    "Recover the exact incident-time pair and factory sources; independently check compiler settings, arithmetic widths and router authorization.",
+    "Chain, language, identifiers, historical implementation and economic impact are source-reported, not independently verified by Hindsight.",
+    "Source rights, earliest disclosure, exploit-family boundaries and human adjudication remain unresolved. No training or benchmark eligibility is established."
+  ]
+}

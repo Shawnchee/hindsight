@@ -1,0 +1,47 @@
+{
+  "august": {
+    "authentication_line": 536,
+    "correction": "Derived guarded repayDebt overrides inherited public entry; callback remains separately unguarded.",
+    "incident_status": "unresolved",
+    "primary_span": {
+      "end": 554,
+      "file": "contracts/xSNXAdmin.sol",
+      "start": 528
+    },
+    "source_mechanism_supported": true
+  },
+  "benchmark_promotion": false,
+  "historical_bindings": "supplied_by_parent_not_independently_reaudited",
+  "human_verified": false,
+  "limitations": [
+    "No exact execution trace or call arguments",
+    "Historical configuration dependencies not independently checked",
+    "Block-boundary agreement not intratransaction proof",
+    "Licensing, timing, family grouping, human adjudication remain open"
+  ],
+  "may": {
+    "actual_dependency": "0xd3a761497aa3d12cd16af744aae49b61f5f7b31d",
+    "five_compared_function_bodies_identical_to_embedded": true,
+    "incident_status": "unresolved",
+    "source_mechanism_supported": true,
+    "spans": {
+      "calculateIssueTokenPrice": [
+        1737,
+        1750
+      ],
+      "calculateNetAssetValueOnMint": [
+        1562,
+        1578
+      ],
+      "calculateTokensToMintWithEth": [
+        1669,
+        1697
+      ]
+    }
+  },
+  "model": "gpt-6-astra",
+  "original_review_report_sha256": "dcd032a24f12d5da61afdee6d4757f4e0482f16d42fb79d3b6a10e7d47ceb05f",
+  "reasoning_effort": "low",
+  "review_type": "independent_ai_source_text_review",
+  "reviewed_at": "2026-10-23"
+}
