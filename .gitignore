@@ -7,3 +7,29 @@ __pycache__/
 
 # DeFiLlama-derived list; their terms forbid redistribution
 m0/gaps/gaps.json
+
+# Local documentation dependencies and public-site build output
+docs/node_modules/
+docs/.vitepress/cache/
+docs/.vitepress/dist/
+site-dist/
+site-dist.stage-*/
+
+# Internal planning and experiment archives stay local, outside the toolkit release.
+/ACTION_ITEMS.md
+/PRD.md
+/PRD-explained.md
+/HANDOFF.md
+/m0/*
+!/m0/catalog/
+/m0/catalog/*
+!/m0/catalog/all_incidents.csv
+!/m0/catalog/ethereum_incidents.csv
+!/m0/scripts/
+/m0/scripts/*
+!/m0/scripts/discovery/
+/docs/reviews/
+/docs/practical-trials.md
+/docs/model-test-readiness.md
+/tests/test_score_v2.py
+/website/assets/evidence-lens.png

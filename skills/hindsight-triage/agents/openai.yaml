@@ -1,0 +1,4 @@
+interface:
+  display_name: "Hindsight Solidity Triage"
+  short_description: "Review Solidity and track fixes with source evidence"
+  default_prompt: "Use $hindsight-triage to review the selected Solidity project and report supported security findings and coverage gaps. If fixes are requested, preserve the baseline, make focused changes and produce a before/after comparison with explicit test evidence."
