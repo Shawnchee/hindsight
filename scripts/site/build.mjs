@@ -8,7 +8,7 @@ const root = fileURLToPath(new URL('../../', import.meta.url));
 const destination = join(root, 'site-dist');
 const marker = '.hindsight-site-build';
 const assets = ['index.html', 'styles.css', 'app.js', 'assets/favicon.svg',
-  'assets/fonts/InterVariable.woff2', 'assets/fonts/OFL.txt', 'data/research-preview.json', 'data/DeFiHackLabs-LICENSE.txt'];
+  'assets/fonts/InterVariable.woff2', 'assets/fonts/OFL.txt', 'data/research-preview.json', 'data/DeFiHackLabs-LICENSE.txt', 'data/Hindsight-LICENSE.txt'];
 
 async function regular(path) {
   const stat = await lstat(path);

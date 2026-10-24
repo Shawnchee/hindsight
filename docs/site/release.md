@@ -10,10 +10,10 @@ owner request.
 - Responsive landing page, local Inter font, keyboard navigation and copy controls.
 - Source-only practical reviews with baseline and comparison artifacts.
 - Bounded RSS/Serper discovery and proposal-only contribution validation.
+- MIT license for Hindsight's own code and documentation; upstream notices retained.
 
 ## Still open
 
-- Pick Hindsight's own distribution license before claiming an open-source reuse grant.
 - Compile and execute meaningful isolated regressions for the historical fix proposal.
 - Obtain independent review before treating a proposed patch as production-ready.
 - Publish approved files, choose hosting, and verify the real production URLs and headers.

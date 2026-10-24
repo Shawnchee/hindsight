@@ -194,13 +194,17 @@ def main():
     preview = ROOT / 'website/data/research-preview.json'
     license_text = (ROOT / 'third_party/DeFiHackLabs/LICENSE').read_text()
     license_out = ROOT / 'website/data/DeFiHackLabs-LICENSE.txt'
+    project_license = (ROOT / 'LICENSE').read_text()
+    project_license_out = ROOT / 'website/data/Hindsight-LICENSE.txt'
     if args.write:
         preview.parent.mkdir(parents=True, exist_ok=True)
         preview.write_text(data)
         license_out.write_text(license_text)
+        project_license_out.write_text(project_license)
         page.write_text(expected)
     elif (text != expected or not preview.is_file() or preview.read_text() != data
-          or not license_out.is_file() or license_out.read_text() != license_text):
+          or not license_out.is_file() or license_out.read_text() != license_text
+          or not project_license_out.is_file() or project_license_out.read_text() != project_license):
         parser.exit(1, 'Dataset preview is stale. Run python3 -I scripts/site/research_preview.py --write\n')
     print('Dataset preview matches the frozen snapshot and catalog: recent entries plus enriched projections; no source code.')
 

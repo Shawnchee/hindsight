@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: UNLICENSED
+// SPDX-License-Identifier: MIT
 pragma solidity 0.8.20;
 
 // Repository-owned benign fixture: no external project, live address or attack.

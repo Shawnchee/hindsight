@@ -34,4 +34,5 @@ provenance, source rights and chronology before a new research snapshot.
 
 Do not submit raw source, copied article bodies, secrets, executable attacks or
 changes to frozen exports. For undisclosed live issues, use the affected project's
-security channel. Hindsight's own distribution license remains unselected.
+security channel. Hindsight's own code and documentation are MIT licensed;
+third-party material retains its existing terms.

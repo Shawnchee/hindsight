@@ -15,7 +15,7 @@ python3 -I -m http.server 8765 --bind 127.0.0.1 --directory website
 
 Open <http://127.0.0.1:8765>. Serve only `website/`, not the repository root: review artifacts and credentials must never be exposed by a preview server. Stop the server with Ctrl+C. Opening `website/index.html` directly also works; if clipboard access is unavailable, the copy controls select text for manual copying.
 
-Nothing is published by these instructions. Publishing requires explicit owner authorization. Repository URLs point at `https://github.com/Shawnchee/hindsight`; the local changes must be published before those pages appear remotely. The repository's own distribution license has not yet been selected.
+Nothing is published by these instructions. Publishing requires explicit owner authorization. Repository URLs point at `https://github.com/Shawnchee/hindsight`; the local changes must be published before those pages appear remotely. Hindsight's own code and original documentation use the MIT License; upstream licenses remain unchanged.
 
 ## Files and accessibility
 

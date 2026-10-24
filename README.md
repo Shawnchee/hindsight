@@ -201,6 +201,6 @@ is a separate workflow.
 Ethereum mainnet and Solidity only. Detection and triage only; no working attack
 transactions, exploit replays, trading or MEV tools. See [security guidance](SECURITY.md).
 
-The project's distribution license has not been selected yet; do not assume an
-open-source reuse grant. Upstream contracts retain their own terms. DeFiHackLabs
+Hindsight's own code and original documentation use the [MIT License](LICENSE).
+Upstream contracts retain their own terms. DeFiHackLabs
 catalog provenance is Apache-2.0; see [third-party notices](THIRD_PARTY_NOTICES.md).

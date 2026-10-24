@@ -8,6 +8,8 @@ description: Review Ethereum Solidity projects for security defects, map source 
 Review the deployed target and its reachable dependencies. Produce a short ranked
 report of plausible defects; this is triage assistance, not an audit certificate.
 
+This skill is MIT licensed; retain the included `LICENSE` when copying it.
+
 ## Scope and preparation
 
 Identify the project root and target `.sol` paths from the request or deployed

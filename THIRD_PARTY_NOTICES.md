@@ -18,8 +18,11 @@ not copied article/post bodies. DeFiLlama-derived noncommercial discovery data i
 gitignored and is not part of these release artifacts. No blanket license is
 claimed for linked audits or protocol reports.
 
-Hindsight's own distribution license remains unselected. This notice is not a
-replacement for an eventual project license or an upstream license file.
+Hindsight's own code and original documentation use the [MIT License](LICENSE).
+This grant does not replace or relicense upstream material, linked reports or
+recovered contract source. Frozen research snapshots retain their historical
+licensing-status notes; the current project license applies to Hindsight's own
+work, while source-specific rights and eligibility gates remain separate.
 
 The landing page bundles the unmodified Inter variable font from
 [The Inter Project](https://github.com/rsms/inter). The font is licensed under the
