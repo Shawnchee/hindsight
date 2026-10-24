@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Review Solidity and propose fixes with your AI agent. Keep source evidence, test results and before-and-after reports together.">
+  <meta name="theme-color" content="#ffffff">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self'; style-src 'self'; script-src 'self'; connect-src 'none'; font-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <title>Hindsight — Solidity reviews with your AI agent</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="assets/fonts/InterVariable.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="shell header-inner">
+      <a class="wordmark" href="#main">hindsight<span class="wordmark-dot" aria-hidden="true">.</span></a>
+      <nav aria-label="Main navigation">
+        <a href="docs/">Docs</a>
+        <a href="https://github.com/Shawnchee/hindsight">GitHub <span aria-hidden="true">↗</span></a>
+      </nav>
+    </div>
+  </header>
+  <main id="main" class="shell">
+    <section class="hero" aria-labelledby="hero-title">
+      <p class="eyebrow">For Ethereum &amp; Solidity</p>
+      <h1 id="hero-title">Solidity reviews,<br>with your AI agent.</h1>
+      <p class="hero-description">Review your contracts, propose focused fixes,<br class="desktop-break"> and keep the evidence behind each change.</p>
+      <div class="hero-actions"><button class="button primary" type="button" data-copy="agent-prompt" data-copy-status="hero-copy-status">Copy agent prompt <span aria-hidden="true">↗</span></button><a class="button" href="#start">Setup guide <span aria-hidden="true">↓</span></a></div>
+      <p class="copy-status" id="hero-copy-status" role="status" aria-live="polite"></p>
+      <p class="hero-note">No custom model. No API key needed for reviews.</p>
+    </section>
+
+    <section class="start" id="start" aria-labelledby="start-title">
+      <div class="section-heading">
+        <h2 id="start-title">One prompt. Your own agent.</h2>
+        <p>Give your agent the repository link and your project folder. It handles setup.</p>
+      </div>
+      <div class="setup-grid prompt-first">
+        <article class="setup-step">
+          <div class="panel-top"><h3><label for="agent-prompt">Give your agent this prompt</label></h3><button class="copy-button" data-copy="agent-prompt" type="button" aria-label="Copy agent prompt">Copy</button></div>
+          <textarea id="agent-prompt" rows="10" readonly spellcheck="false" aria-describedby="prompt-help">Use https://github.com/Shawnchee/hindsight to review my Solidity project at /absolute/path/to/my-project.
+Read AGENTS.md, skills/hindsight-triage/SKILL.md and its report reference. Obtain the needed Hindsight files in a separate local tools folder if your environment supports it; handle that setup for me. If the link is inaccessible, say so and ask for an accessible local copy.
+Confirm the target chain and contracts. Hindsight currently supports Ethereum mainnet + Solidity. Prepare source and dependencies, perform a code-only review, then write and validate a report if local execution is available. Otherwise label the result as an instruction-guided review without helper validation.
+Explain supported findings with cause, impact, file/line evidence and proposed fixes. State missing sources, unavailable analysis and remaining uncertainty. Do not infer safety from no findings.
+Review first; do not edit or deploy my project. Never read secrets or run untrusted project scripts on the host. Do not install dependencies or download models.</textarea>
+          <p id="prompt-help" class="step-note">Replace the path with your project folder. Works with agents that can read links and local files.</p>
+        </article>
+      </div>
+      <details class="manual-setup"><summary>Prefer to set it up yourself?</summary>
+        <article class="setup-step">
+          <div class="panel-top"><h3>Manual setup</h3><button class="copy-button" data-copy="setup-code" type="button" aria-label="Copy setup commands">Copy</button></div>
+          <pre id="setup-code"><code>git clone https://github.com/Shawnchee/hindsight.git
+cd hindsight
+python3 -I tests/test_skill.py</code></pre>
+          <p class="step-note">Open the Hindsight folder in your agent.</p>
+        </article>
+      </details>
+      <p class="copy-status" id="copy-status" role="status" aria-live="polite"></p>
+      <p class="review-note">Your agent reviews the code. Hindsight checks source references and report structure.<br>A valid report is not proof that a contract is safe.</p>
+    </section>
+
+    <!-- dataset-preview:start -->
+    <section class="dataset" id="dataset" aria-labelledby="research-title">
+      <div class="dataset-heading">
+        <div><h2 id="research-title">See what’s in the dataset.</h2><p>357 Ethereum catalog entries · 2025: 58 · 2026: 59</p></div>
+        <a class="dataset-link" href="docs/research.html">Dataset guide <span aria-hidden="true">↗</span></a>
+      </div>
+      <p class="dataset-intro">The catalog includes newer incidents. The separate enriched snapshot (v0.2.0) covers 10 older incidents and 55 components, with 0 human-verified labels.</p>
+      <p class="dataset-sources">Sources: <a href="https://github.com/SunWeb3Sec/DeFiHackLabs/tree/23c7bd8">DeFiHackLabs leads</a>, protocol/researcher reports, <a href="https://sourcify.dev/">Sourcify</a>/<a href="https://etherscan.io/">Etherscan</a>, and historical Ethereum reads.</p>
+      <p class="dataset-asof">Catalog pinned to 21 October 2026. Reported incident dates are not verified first-disclosure dates; this is not a complete live list.</p>
+      <div class="research-charts">
+        <figure class="research-chart"><figcaption><h3>Incidents in the catalog</h3><p>Reported entries by year · 357 total</p></figcaption>
+          <svg viewBox="0 0 400 290" role="img" aria-labelledby="counts-title counts-desc"><title id="counts-title">Catalog entries by reported incident year</title><desc id="counts-desc">2017: 2; 2018: 3; 2019: 0; 2020: 9; 2021: 18; 2022: 49; 2023: 77; 2024: 82; 2025: 58; 2026: 59. This is catalog coverage, not the frequency of all hacks.</desc><text x="0" y="26">2017</text><rect class="count-bar" x="58" y="12" width="6.95" height="18" rx="3"/><text x="74.95" y="26">2</text><text x="0" y="53">2018</text><rect class="count-bar" x="58" y="39" width="10.43" height="18" rx="3"/><text x="78.43" y="53">3</text><text x="0" y="80">2019</text><rect class="count-bar" x="58" y="66" width="0.00" height="18" rx="3"/><text x="68.00" y="80">0</text><text x="0" y="107">2020</text><rect class="count-bar" x="58" y="93" width="31.28" height="18" rx="3"/><text x="99.28" y="107">9</text><text x="0" y="134">2021</text><rect class="count-bar" x="58" y="120" width="62.56" height="18" rx="3"/><text x="130.56" y="134">18</text><text x="0" y="161">2022</text><rect class="count-bar" x="58" y="147" width="170.30" height="18" rx="3"/><text x="238.30" y="161">49</text><text x="0" y="188">2023</text><rect class="count-bar" x="58" y="174" width="267.62" height="18" rx="3"/><text x="335.62" y="188">77</text><text x="0" y="215">2024</text><rect class="count-bar" x="58" y="201" width="285.00" height="18" rx="3"/><text x="353.00" y="215">82</text><text x="0" y="242">2025</text><rect class="count-bar" x="58" y="228" width="201.59" height="18" rx="3"/><text x="269.59" y="242">58</text><text x="0" y="269">2026</text><rect class="count-bar" x="58" y="255" width="205.06" height="18" rx="3"/><text x="273.06" y="269">59</text></svg>
+          <p class="chart-note">Coverage varies by year. 2026 is partial, through 21 October. Counts are not a measure of industry-wide hack frequency.</p>
+        </figure>
+        <figure class="research-chart"><figcaption><h3>Reported loss examples</h3><p>Five selected cases · USD as reported</p></figcaption>
+          <svg viewBox="0 0 400 290" role="img" aria-labelledby="losses-title losses-desc"><title id="losses-title">Selected source-reported loss amounts</title><desc id="losses-desc">BalancerV2: 120M USD; Corkprotocol: 12M USD; ResupplyFi: 9.6M USD; yETH: 9M USD; Makina: 5.1M USD. Unverified figures; not a total or a ranking of all incidents.</desc><text x="0" y="16">BalancerV2 · 2025</text><rect class="loss-bar" x="0" y="25" width="285.00" height="14" rx="3"/><text x="294.00" y="37">$120M</text><text x="0" y="68">Corkprotocol · 2025</text><rect class="loss-bar" x="0" y="77" width="28.50" height="14" rx="3"/><text x="37.50" y="89">$12M</text><text x="0" y="120">ResupplyFi · 2025</text><rect class="loss-bar" x="0" y="129" width="22.80" height="14" rx="3"/><text x="31.80" y="141">$9.6M</text><text x="0" y="172">yETH · 2025</text><rect class="loss-bar" x="0" y="181" width="21.38" height="14" rx="3"/><text x="30.38" y="193">$9M</text><text x="0" y="224">Makina · 2026</text><rect class="loss-bar" x="0" y="233" width="12.11" height="14" rx="3"/><text x="21.11" y="245">$5.1M</text></svg>
+          <p class="chart-note">Not total losses. Figures may span chains and differ in treatment of recoveries; they are not independently reconciled.</p>
+        </figure>
+      </div>
+      <details class="dataset-details"><summary>Chart sources &amp; amounts</summary><p>Counts come from the pinned Ethereum catalog. Losses are selected explicit USD claims from its upstream metadata; no token prices or exchange rates were inferred. Balancer’s amount includes multiple chains. Catalog membership and chain classifications remain provisional.</p><table class="dataset-table"><caption class="sr-only">Selected loss claims and source records</caption><thead><tr><th scope="col">Source record</th><th scope="col">Incident date</th><th scope="col">Reported USD</th></tr></thead><tbody><tr><th scope="row"><a href="https://github.com/Shawnchee/hindsight/blob/main/m0/catalog/ethereum_incidents.csv#L297">BalancerV2</a></th><td>2025-11-03</td><td>$120,000,000</td></tr><tr><th scope="row"><a href="https://github.com/Shawnchee/hindsight/blob/main/m0/catalog/ethereum_incidents.csv#L265">Corkprotocol</a></th><td>2025-05-28</td><td>$12,000,000</td></tr><tr><th scope="row"><a href="https://github.com/Shawnchee/hindsight/blob/main/m0/catalog/ethereum_incidents.csv#L274">ResupplyFi</a></th><td>2025-06-26</td><td>$9,600,000</td></tr><tr><th scope="row"><a href="https://github.com/Shawnchee/hindsight/blob/main/m0/catalog/ethereum_incidents.csv#L299">yETH</a></th><td>2025-12-01</td><td>$9,000,000</td></tr><tr><th scope="row"><a href="https://github.com/Shawnchee/hindsight/blob/main/m0/catalog/ethereum_incidents.csv#L301">Makina</a></th><td>2026-01-20</td><td>$5,100,000</td></tr></tbody></table></details>
+      <div class="dataset-filters" role="group" aria-label="Choose dataset examples" hidden>
+        <button type="button" data-dataset-filter="2026" aria-pressed="true">2026</button>
+        <button type="button" data-dataset-filter="2025" aria-pressed="false">2025</button>
+        <button type="button" data-dataset-filter="enriched" aria-pressed="false">Enriched snapshot</button>
+      </div>
+      <div class="dataset-view" data-dataset-view="2026">
+        <h3>2026 catalog examples</h3>
+        <p class="dataset-note">59 Ethereum entries dated 2026 in the pinned catalog. These are reported entries, not 59 independently verified hacks.</p>
+        <table class="dataset-table"><caption class="sr-only">Three recent 2026 catalog entries; not enriched or verified by this preview.</caption><thead><tr><th scope="col">Reported incident</th><th scope="col">Data status</th><th scope="col">Evidence</th></tr></thead><tbody><tr><th scope="row">BiFi<time datetime="2026-10-17">2026-10-17</time></th><td>Catalog entry<br><span class="catalog-status">Coverage not assessed here</span></td><td><a href="https://github.com/Shawnchee/hindsight/blob/main/m0/catalog/ethereum_incidents.csv#L358">Record ↗</a><a href="https://github.com/SunWeb3Sec/DeFiHackLabs/blob/23c7bd83ccb4524972a9493617fcc8764ab6269b/README.md">Upstream ↗</a></td></tr><tr><th scope="row">KolanHook<time datetime="2026-10-15">2026-10-15</time></th><td>Catalog entry<br><span class="catalog-status">Coverage not assessed here</span></td><td><a href="https://github.com/Shawnchee/hindsight/blob/main/m0/catalog/ethereum_incidents.csv#L357">Record ↗</a><a href="https://github.com/SunWeb3Sec/DeFiHackLabs/blob/23c7bd83ccb4524972a9493617fcc8764ab6269b/README.md">Upstream ↗</a></td></tr><tr><th scope="row">X7Finance<time datetime="2026-10-08">2026-10-08</time></th><td>Catalog entry<br><span class="catalog-status">Coverage not assessed here</span></td><td><a href="https://github.com/Shawnchee/hindsight/blob/main/m0/catalog/ethereum_incidents.csv#L356">Record ↗</a><a href="https://github.com/SunWeb3Sec/DeFiHackLabs/blob/23c7bd83ccb4524972a9493617fcc8764ab6269b/README.md">Upstream ↗</a></td></tr></tbody></table>
+        </div><div class="dataset-view" data-dataset-view="2025">
+        <h3>2025 catalog examples</h3>
+        <p class="dataset-note">58 Ethereum entries dated 2025 in the pinned catalog. These are reported entries, not 58 independently verified hacks.</p>
+        <table class="dataset-table"><caption class="sr-only">Three recent 2025 catalog entries; not enriched or verified by this preview.</caption><thead><tr><th scope="col">Reported incident</th><th scope="col">Data status</th><th scope="col">Evidence</th></tr></thead><tbody><tr><th scope="row">yETH<time datetime="2025-12-01">2025-12-01</time></th><td>Catalog entry<br><span class="catalog-status">Coverage not assessed here</span></td><td><a href="https://github.com/Shawnchee/hindsight/blob/main/m0/catalog/ethereum_incidents.csv#L299">Record ↗</a><a href="https://github.com/SunWeb3Sec/DeFiHackLabs/blob/23c7bd83ccb4524972a9493617fcc8764ab6269b/past/2025/README.md">Upstream ↗</a></td></tr><tr><th scope="row">DRLVaultV3<time datetime="2025-11-10">2025-11-10</time></th><td>Catalog entry<br><span class="catalog-status">Coverage not assessed here</span></td><td><a href="https://github.com/Shawnchee/hindsight/blob/main/m0/catalog/ethereum_incidents.csv#L298">Record ↗</a><a href="https://github.com/SunWeb3Sec/DeFiHackLabs/blob/23c7bd83ccb4524972a9493617fcc8764ab6269b/past/2025/README.md">Upstream ↗</a></td></tr><tr><th scope="row">BalancerV2<time datetime="2025-11-03">2025-11-03</time></th><td>Catalog entry<br><span class="catalog-status">Coverage not assessed here</span></td><td><a href="https://github.com/Shawnchee/hindsight/blob/main/m0/catalog/ethereum_incidents.csv#L297">Record ↗</a><a href="https://github.com/SunWeb3Sec/DeFiHackLabs/blob/23c7bd83ccb4524972a9493617fcc8764ab6269b/past/2025/README.md">Upstream ↗</a></td></tr></tbody></table>
+        </div>
+      <div class="dataset-view" data-dataset-view="enriched">
+      <h3>Enriched snapshot v0.2.0</h3>
+      <p class="dataset-note">Three older research examples. Components include proxies and dependencies, not separate vulnerable contracts.</p>
+      <table class="dataset-table">
+        <caption class="sr-only">Three selected examples from research snapshot v0.2.0. All labels are proposed and unresolved.</caption>
+        <thead><tr><th scope="col">Incident</th><th scope="col">Source coverage</th><th scope="col">Evidence</th></tr></thead>
+        <tbody>
+          <tr>
+            <th scope="row">Cheese Bank<time datetime="2020-11-06">2020-11-06</time></th>
+            <td>Proposed defect file present</td>
+            <td><a href="https://peckshield.medium.com/cheese-bank-incident-root-cause-analysis-d076bf87a1e7">Report <span aria-hidden="true">↗</span></a><a href="https://github.com/Shawnchee/hindsight/blob/main/datasets/research/v0.2.0/incidents.jsonl#L2">Record <span aria-hidden="true">↗</span></a></td>
+          </tr>
+          <tr>
+            <th scope="row">xToken xSNX August exploit<time datetime="2021-08-29">2021-08-29</time></th>
+            <td>Proposed defect file present</td>
+            <td><a href="https://medium.com/xtoken/xsnx-post-mortem-666d35071f38">Report <span aria-hidden="true">↗</span></a><a href="https://github.com/Shawnchee/hindsight/blob/main/datasets/research/v0.2.0/incidents.jsonl#L10">Record <span aria-hidden="true">↗</span></a></td>
+          </tr>
+          <tr>
+            <th scope="row">bZx first February 2020 exploit<time datetime="2020-02-15">2020-02-15</time></th>
+            <td>Defect source still missing</td>
+            <td><a href="https://peckshield.medium.com/bzx-hack-full-disclosure-with-detailed-profit-analysis-e6b1fa9b18fc">Report <span aria-hidden="true">↗</span></a><a href="https://github.com/Shawnchee/hindsight/blob/main/datasets/research/v0.2.0/incidents.jsonl#L1">Record <span aria-hidden="true">↗</span></a></td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="dataset-note">All labels are AI-proposed and unresolved. A recovered file does not establish complete incident coverage. None of these enriched records is approved for training or evaluation.</p>
+      </div>
+      <details class="dataset-details">
+        <summary>Where the data comes from</summary>
+        <dl>
+          <div><dt>Incident leads</dt><dd><a href="https://github.com/SunWeb3Sec/DeFiHackLabs/tree/23c7bd8">DeFiHackLabs</a> catalog (<a href="data/DeFiHackLabs-LICENSE.txt">Apache-2.0</a>), parsed from README entries and header identifiers, plus protocol post-mortems and original security research.</dd></div>
+          <div><dt>Source &amp; chain evidence</dt><dd><a href="https://sourcify.dev/">Sourcify</a>, <a href="https://etherscan.io/">Etherscan</a>, and historical Ethereum RPC reads. Records retain addresses, transaction identifiers and source hashes.</dd></div>
+          <div><dt>New reports</dt><dd>RSS and optional Serper find unverified leads. They stay in a separate review queue; they do not automatically enter this snapshot.</dd></div>
+          <div><dt>What we publish</dt><dd>Metadata, evidence links and our own summaries. No contract source, PoCs or copied article/post bodies.</dd></div>
+          <div><dt>What remains unknown</dt><dd>Earliest disclosure, exploit-family grouping, source availability at incident time and human adjudication. Publication dates and source matches do not resolve these gaps.</dd></div>
+        </dl>
+      </details>
+      <details class="dataset-details">
+        <summary>Inspect an actual record’s fields</summary>
+        <p>This is a shortened Cheese Bank record, not a full training example.</p>
+        <pre><code>{
+  &quot;incident_id&quot;: &quot;20201106_CheeseBank&quot;,
+  &quot;label_status&quot;: &quot;proposed&quot;,
+  &quot;human_verified&quot;: false,
+  &quot;first_seen_at&quot;: null,
+  &quot;family_id&quot;: null,
+  &quot;training_eligible&quot;: false,
+  &quot;evaluation_eligible&quot;: false
+}</code></pre>
+        <a class="dataset-link" href="data/research-preview.json" download>Download catalog &amp; enriched examples <span aria-hidden="true">↓</span></a>
+        <p>The preview separates six recent catalog entries from three enriched records, with evidence links, source fingerprints and coverage gaps. It is generated from the versioned snapshot; it includes no source code.</p>
+      </details>
+      <div class="dataset-actions"><a href="https://github.com/Shawnchee/hindsight/tree/main/datasets/research/v0.2.0">Browse the full snapshot <span aria-hidden="true">↗</span></a><a href="https://github.com/Shawnchee/hindsight/blob/main/CONTRIBUTING.md">Contribute evidence <span aria-hidden="true">↗</span></a></div>
+    </section>
+    <!-- dataset-preview:end -->
+    <aside class="privacy"><p><strong>Your agent sets source privacy.</strong> Hosted agents may send code to their provider. Hindsight’s helpers have no inference client or telemetry.</p></aside>
+  </main>
+  <footer class="shell">
+    <p>Hindsight</p>
+    <nav aria-label="Footer navigation">
+      <a href="https://github.com/Shawnchee/hindsight/blob/main/SECURITY.md">Security</a>
+      <a href="https://github.com/Shawnchee/hindsight/blob/main/THIRD_PARTY_NOTICES.md">Source rights</a>
+    </nav>
+    <small>Project license not yet selected. Upstream licenses apply to their material.</small>
+  </footer>
+</body>
+</html>

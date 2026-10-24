@@ -1,0 +1,442 @@
+{
+  "catalog": {
+    "as_of": "2026-10-21",
+    "entry_count": 357,
+    "examples": [
+      {
+        "catalog_record_url": "https://github.com/Shawnchee/hindsight/blob/main/m0/catalog/ethereum_incidents.csv#L358",
+        "catalog_year": "2026",
+        "chain_classification": "ethereum",
+        "data_stage": "catalog_entry",
+        "enriched_snapshot_member": false,
+        "human_adjudication": "not_established",
+        "incident_id": "20261017_BiFi",
+        "name": "BiFi",
+        "reported_date": "2026-10-17",
+        "source_coverage": "not_assessed_by_this_preview",
+        "upstream_index_url": "https://github.com/SunWeb3Sec/DeFiHackLabs/blob/23c7bd83ccb4524972a9493617fcc8764ab6269b/README.md"
+      },
+      {
+        "catalog_record_url": "https://github.com/Shawnchee/hindsight/blob/main/m0/catalog/ethereum_incidents.csv#L357",
+        "catalog_year": "2026",
+        "chain_classification": "ethereum",
+        "data_stage": "catalog_entry",
+        "enriched_snapshot_member": false,
+        "human_adjudication": "not_established",
+        "incident_id": "20261015_KolanHook",
+        "name": "KolanHook",
+        "reported_date": "2026-10-15",
+        "source_coverage": "not_assessed_by_this_preview",
+        "upstream_index_url": "https://github.com/SunWeb3Sec/DeFiHackLabs/blob/23c7bd83ccb4524972a9493617fcc8764ab6269b/README.md"
+      },
+      {
+        "catalog_record_url": "https://github.com/Shawnchee/hindsight/blob/main/m0/catalog/ethereum_incidents.csv#L356",
+        "catalog_year": "2026",
+        "chain_classification": "ethereum",
+        "data_stage": "catalog_entry",
+        "enriched_snapshot_member": false,
+        "human_adjudication": "not_established",
+        "incident_id": "20261008_X7Finance",
+        "name": "X7Finance",
+        "reported_date": "2026-10-08",
+        "source_coverage": "not_assessed_by_this_preview",
+        "upstream_index_url": "https://github.com/SunWeb3Sec/DeFiHackLabs/blob/23c7bd83ccb4524972a9493617fcc8764ab6269b/README.md"
+      },
+      {
+        "catalog_record_url": "https://github.com/Shawnchee/hindsight/blob/main/m0/catalog/ethereum_incidents.csv#L299",
+        "catalog_year": "2025",
+        "chain_classification": "ethereum",
+        "data_stage": "catalog_entry",
+        "enriched_snapshot_member": false,
+        "human_adjudication": "not_established",
+        "incident_id": "20251201_yETH",
+        "name": "yETH",
+        "reported_date": "2025-12-01",
+        "source_coverage": "not_assessed_by_this_preview",
+        "upstream_index_url": "https://github.com/SunWeb3Sec/DeFiHackLabs/blob/23c7bd83ccb4524972a9493617fcc8764ab6269b/past/2025/README.md"
+      },
+      {
+        "catalog_record_url": "https://github.com/Shawnchee/hindsight/blob/main/m0/catalog/ethereum_incidents.csv#L298",
+        "catalog_year": "2025",
+        "chain_classification": "ethereum",
+        "data_stage": "catalog_entry",
+        "enriched_snapshot_member": false,
+        "human_adjudication": "not_established",
+        "incident_id": "20251110_DRLVaultV3",
+        "name": "DRLVaultV3",
+        "reported_date": "2025-11-10",
+        "source_coverage": "not_assessed_by_this_preview",
+        "upstream_index_url": "https://github.com/SunWeb3Sec/DeFiHackLabs/blob/23c7bd83ccb4524972a9493617fcc8764ab6269b/past/2025/README.md"
+      },
+      {
+        "catalog_record_url": "https://github.com/Shawnchee/hindsight/blob/main/m0/catalog/ethereum_incidents.csv#L297",
+        "catalog_year": "2025",
+        "chain_classification": "ethereum",
+        "data_stage": "catalog_entry",
+        "enriched_snapshot_member": false,
+        "human_adjudication": "not_established",
+        "incident_id": "20251103_BalancerV2",
+        "name": "BalancerV2",
+        "reported_date": "2025-11-03",
+        "source_coverage": "not_assessed_by_this_preview",
+        "upstream_index_url": "https://github.com/SunWeb3Sec/DeFiHackLabs/blob/23c7bd83ccb4524972a9493617fcc8764ab6269b/past/2025/README.md"
+      }
+    ],
+    "selection": "Three most recent dated entries for each displayed year; no root-cause labels, PoCs or private source included.",
+    "source_csv_sha256": "68f928dc48258302d6cd44a41efd962dddefa6bb1840e1cf3034d268a4b74dd1",
+    "upstream_commit": "23c7bd83ccb4524972a9493617fcc8764ab6269b",
+    "year_counts": {
+      "2017": 2,
+      "2018": 3,
+      "2020": 9,
+      "2021": 18,
+      "2022": 49,
+      "2023": 77,
+      "2024": 82,
+      "2025": 58,
+      "2026": 59
+    }
+  },
+  "charts": {
+    "annual_entries": [
+      {
+        "entries": 2,
+        "year": "2017"
+      },
+      {
+        "entries": 3,
+        "year": "2018"
+      },
+      {
+        "entries": 0,
+        "year": "2019"
+      },
+      {
+        "entries": 9,
+        "year": "2020"
+      },
+      {
+        "entries": 18,
+        "year": "2021"
+      },
+      {
+        "entries": 49,
+        "year": "2022"
+      },
+      {
+        "entries": 77,
+        "year": "2023"
+      },
+      {
+        "entries": 82,
+        "year": "2024"
+      },
+      {
+        "entries": 58,
+        "year": "2025"
+      },
+      {
+        "entries": 59,
+        "year": "2026"
+      }
+    ],
+    "loss_total": null,
+    "methodology": "Counts reflect pinned catalog coverage. Selected source USD claims are not reconciled, may span chains, and are not a total or exhaustive ranking.",
+    "selected_loss_examples": [
+      {
+        "incident_id": "20251103_BalancerV2",
+        "name": "BalancerV2",
+        "record_url": "https://github.com/Shawnchee/hindsight/blob/main/m0/catalog/ethereum_incidents.csv#L297",
+        "reported_date": "2025-11-03",
+        "reported_text": "120M USD",
+        "reported_usd": 120000000,
+        "scope": "may_include_other_chains_or_gross_losses",
+        "verification": "source_reported_unverified"
+      },
+      {
+        "incident_id": "20250528_Corkprotocol",
+        "name": "Corkprotocol",
+        "record_url": "https://github.com/Shawnchee/hindsight/blob/main/m0/catalog/ethereum_incidents.csv#L265",
+        "reported_date": "2025-05-28",
+        "reported_text": "12M USD",
+        "reported_usd": 12000000,
+        "scope": "may_include_other_chains_or_gross_losses",
+        "verification": "source_reported_unverified"
+      },
+      {
+        "incident_id": "20250626_ResupplyFi",
+        "name": "ResupplyFi",
+        "record_url": "https://github.com/Shawnchee/hindsight/blob/main/m0/catalog/ethereum_incidents.csv#L274",
+        "reported_date": "2025-06-26",
+        "reported_text": "9.6M USD",
+        "reported_usd": 9600000,
+        "scope": "may_include_other_chains_or_gross_losses",
+        "verification": "source_reported_unverified"
+      },
+      {
+        "incident_id": "20251201_yETH",
+        "name": "yETH",
+        "record_url": "https://github.com/Shawnchee/hindsight/blob/main/m0/catalog/ethereum_incidents.csv#L299",
+        "reported_date": "2025-12-01",
+        "reported_text": "9M USD",
+        "reported_usd": 9000000,
+        "scope": "may_include_other_chains_or_gross_losses",
+        "verification": "source_reported_unverified"
+      },
+      {
+        "incident_id": "20260120_Makina",
+        "name": "Makina",
+        "record_url": "https://github.com/Shawnchee/hindsight/blob/main/m0/catalog/ethereum_incidents.csv#L301",
+        "reported_date": "2026-01-20",
+        "reported_text": "5.1M USD",
+        "reported_usd": 5100000,
+        "scope": "may_include_other_chains_or_gross_losses",
+        "verification": "source_reported_unverified"
+      }
+    ]
+  },
+  "examples": [
+    {
+      "adjudication": "unresolved",
+      "chain_id": 1,
+      "contracts": [
+        {
+          "address": "0x833e440332caa07597a5116fbb6163f0e15f743d",
+          "contract_name": "CheesePriceOracle",
+          "role": "proposed defective pricing oracle",
+          "source_verification": "match"
+        },
+        {
+          "address": "0x3c7274679ff9d090889ed8131218bdc871020391",
+          "contract_name": "Comptroller",
+          "role": "Comptroller historical dependency",
+          "source_verification": "exact_match"
+        },
+        {
+          "address": "0x4c2a8a820940003cfe4a16294b239c8c55f29695",
+          "contract_name": "CErc20",
+          "role": "CErc20 historical dependency",
+          "source_verification": "exact_match"
+        },
+        {
+          "address": "0x534f2675ff7b4161e46277b5914d33a5cb8dcf32",
+          "contract_name": "UniswapV2Pair",
+          "role": "UniswapV2Pair historical dependency",
+          "source_verification": "match"
+        },
+        {
+          "address": "0x5e181bdde2fa8af7265cb3124735e9a13779c021",
+          "contract_name": "CErc20",
+          "role": "CErc20 historical dependency",
+          "source_verification": "exact_match"
+        },
+        {
+          "address": "0x7e4956688367fb28de3c0a62193f59b1526a00e7",
+          "contract_name": "CErc20",
+          "role": "CErc20 historical dependency",
+          "source_verification": "exact_match"
+        },
+        {
+          "address": "0xa04bdb1f11413a84d1f6c1d4d4fed0208f2e68bf",
+          "contract_name": "Cheese",
+          "role": "Cheese historical dependency",
+          "source_verification": "match"
+        },
+        {
+          "address": "0xa80e737ded94e8d2483ec8d2e52892d9eb94cf1f",
+          "contract_name": "CErc20",
+          "role": "CErc20 historical dependency",
+          "source_verification": "exact_match"
+        },
+        {
+          "address": "0xde2289695220531dfcf481fe3554d1c9c3156ba3",
+          "contract_name": "Unitroller",
+          "role": "Unitroller historical dependency",
+          "source_verification": "exact_match"
+        }
+      ],
+      "coverage_gaps": [
+        "Configuration reads are prior/end-block observations, not exact transaction prestate (attack index106).",
+        "Receipt events corroborate refresh/borrowing sequence but do not reconstruct every internal call or net economic loss.",
+        "First_seen_at, source-at-incident availability, family partitioning, source rights and human adjudication remain open."
+      ],
+      "evaluation_eligible": false,
+      "exact_transaction_state_verified": false,
+      "family_id": null,
+      "first_seen_at": null,
+      "human_verified": false,
+      "incident_date": "2020-11-06",
+      "incident_id": "20201106_CheeseBank",
+      "label_status": "proposed",
+      "name": "Cheese Bank",
+      "primary_report_url": "https://peckshield.medium.com/cheese-bank-incident-root-cause-analysis-d076bf87a1e7",
+      "proposed_defect_evidence": [
+        {
+          "address": "0x833e440332caa07597a5116fbb6163f0e15f743d",
+          "evidence_line_end": 869,
+          "evidence_line_start": 858,
+          "source_sha256": "fa3cb174343b85ea448465aed6761389113352b1f5c84dd5c24ea9378e1f03f1",
+          "source_unit": "CheesePriceOracle.sol",
+          "source_url": "https://sourcify.dev/server/v2/contract/1/0x833e440332caa07597a5116fbb6163f0e15f743d?fields=sources,compilation,proxyResolution,deployment,runtimeBytecode.onchainBytecode"
+        }
+      ],
+      "source_coverage": {
+        "complete_incident_source_confirmed": false,
+        "proposed_defect_files_present": true
+      },
+      "split": "unassigned",
+      "training_eligible": false,
+      "transactions": [
+        {
+          "block_hash": "0xdf2a08f72d8b0e2c7dc0220553cb08331f51f04077173309f6b877de4efc4be4",
+          "block_number": 11205648,
+          "hash": "0x600a869aa3a259158310a233b815ff67ca41eab8961a49918c2031297a02f1cc",
+          "timestamp_utc": "2020-11-06T19:22:21Z",
+          "transaction_index": 106
+        }
+      ]
+    },
+    {
+      "adjudication": "unresolved",
+      "chain_id": 1,
+      "contracts": [
+        {
+          "address": "0x7cd5e2d0056a7a7f09cbb86e540ef4f6dccc97dd",
+          "contract_name": "xSNXAdminProxy",
+          "role": "proxy",
+          "source_verification": "match"
+        },
+        {
+          "address": "0x55dbb68f69337fcabe261f296b50b4723d333830",
+          "contract_name": "xSNXAdmin",
+          "role": "implementation",
+          "source_verification": "exact_match"
+        }
+      ],
+      "coverage_gaps": [
+        "Human defect adjudication and full incident-source coverage remain open.",
+        "Prior/end-block bindings do not prove exact-transaction prestate or exclude temporary intra-block changes.",
+        "Earliest disclosure, exploit-family partitioning, release-source rights and economic-state verification remain open."
+      ],
+      "evaluation_eligible": false,
+      "exact_transaction_state_verified": false,
+      "family_id": null,
+      "first_seen_at": null,
+      "human_verified": false,
+      "incident_date": "2021-08-29",
+      "incident_id": "20210829_xTokenAugust",
+      "label_status": "proposed",
+      "name": "xToken xSNX August exploit",
+      "primary_report_url": "https://medium.com/xtoken/xsnx-post-mortem-666d35071f38",
+      "proposed_defect_evidence": [
+        {
+          "address": "0x55dbb68f69337fcabe261f296b50b4723d333830",
+          "evidence_line_end": 554,
+          "evidence_line_start": 528,
+          "source_sha256": "6db068c5f3b9daf80e307fc23d348f5ac96bff41b0036bb44f77260b2190a4c8",
+          "source_unit": "contracts/xSNXAdmin.sol",
+          "source_url": "https://sourcify.dev/server/v2/contract/1/0x55dbb68f69337fcabe261f296b50b4723d333830?fields=sources,compilation,proxyResolution,deployment,runtimeBytecode.onchainBytecode"
+        }
+      ],
+      "source_coverage": {
+        "complete_incident_source_confirmed": false,
+        "proposed_defect_files_present": true
+      },
+      "split": "unassigned",
+      "training_eligible": false,
+      "transactions": [
+        {
+          "block_hash": "0x01fa5f46b121ba4587929593478145241046a96735182e4648e2626927d7886f",
+          "block_number": 13118320,
+          "hash": "0x924e6a6288587b497f73ddcf6ae3c184f15ab35dfcb85f3074b55266974029ef",
+          "timestamp_utc": "2021-08-29T04:43:48Z",
+          "transaction_index": 6
+        }
+      ]
+    },
+    {
+      "adjudication": "unresolved",
+      "chain_id": 1,
+      "contracts": [
+        {
+          "address": "0xb0200b0677dd825bb32b93d055ebb9dc3521db9d",
+          "contract_name": "PositionTokenV2",
+          "role": "position entry proxy",
+          "source_verification": "partial_match"
+        },
+        {
+          "address": "0x77f973fcaf871459aa58cd81881ce453759281bc",
+          "contract_name": "LoanToken",
+          "role": "victim iETH lender proxy",
+          "source_verification": "partial_match"
+        },
+        {
+          "address": "0x579ad3c8abc3658341044c1c6d6dc48f9e015026",
+          "contract_name": "PositionTokenLogicV2",
+          "role": "historical position logic",
+          "source_verification": "partial_match"
+        },
+        {
+          "address": "0xc77ee4283b6853900282d5fc498555f642aa52a7",
+          "contract_name": "LoanTokenLogicV4",
+          "role": "historical lender logic",
+          "source_verification": "partial_match"
+        },
+        {
+          "address": "0x1cf226e9413addaf22412a2e182f9c0de44af002",
+          "contract_name": "BZxProxy",
+          "role": "historical selector-dispatch protocol router",
+          "source_verification": "partial_match"
+        }
+      ],
+      "coverage_gaps": [
+        "Actual historical loan-opening module 0xf0a42ec4ebb7664af5dae5c3209345d545da838a is resolved but its verified Solidity source is unavailable on Sourcify and the inspected Etherscan page.",
+        "Resolved historical oracle 0xb017c9936f9271daff23d4c9876651442958a80f has no verified source on Sourcify or the inspected Etherscan page.",
+        "Call tracing is unavailable (-32601); pre/end-block mapping equality cannot exclude temporary intra-block routing changes.",
+        "First seen, family grouping, human adjudication and release-source review remain pending.",
+        "Sourcify similarity verification completed for the historical module and oracle with no_similar_match_found. No verified donor source was recovered; this does not rule out other deployments or future additions."
+      ],
+      "evaluation_eligible": false,
+      "exact_transaction_state_verified": false,
+      "family_id": null,
+      "first_seen_at": null,
+      "human_verified": false,
+      "incident_date": "2020-02-15",
+      "incident_id": "20200215_bZxFirst",
+      "label_status": "proposed",
+      "name": "bZx first February 2020 exploit",
+      "primary_report_url": "https://peckshield.medium.com/bzx-hack-full-disclosure-with-detailed-profit-analysis-e6b1fa9b18fc",
+      "proposed_defect_evidence": [],
+      "source_coverage": {
+        "complete_incident_source_confirmed": false,
+        "proposed_defect_files_present": false
+      },
+      "split": "unassigned",
+      "training_eligible": false,
+      "transactions": [
+        {
+          "block_hash": "0x752e3cbb9ad97e5e9ebe7874c1ac7e9a821ced1b30378ea825f8b3fd4e70dec5",
+          "block_number": 9484688,
+          "hash": "0xb5c8bd9430b6cc87a0e2fe110ece6bf527fa4f170a4bc8cd032f768fc5219838",
+          "timestamp_utc": "2020-02-15T01:38:57Z",
+          "transaction_index": 28
+        }
+      ]
+    }
+  ],
+  "recorded_at": "2026-10-24",
+  "schema_version": "hindsight.public-preview.v1",
+  "selection": "Three selected enriched examples, not a representative sample or complete records; catalog examples are a separate projection.",
+  "snapshot": "v0.2.0",
+  "snapshot_payload_sha256": {
+    "contracts.jsonl": "d40226e4579f1a274bf9141ebbce88329e426ddea52076330dec444fbeb44ebc",
+    "incidents.jsonl": "1782daf4a715c13d210844457f0d4a24914920cc5ef4f4cfd2316145edea1f98"
+  },
+  "upstream_catalog_attribution": {
+    "commit": "23c7bd8",
+    "license": "Apache-2.0",
+    "license_file": "DeFiHackLabs-LICENSE.txt",
+    "name": "DeFiHackLabs",
+    "url": "https://github.com/SunWeb3Sec/DeFiHackLabs"
+  }
+}
