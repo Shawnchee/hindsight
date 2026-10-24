@@ -1,0 +1,47 @@
+{
+  "version": 1,
+  "scope": "Ethereum mainnet and Solidity; discovery never establishes scope or eligibility",
+  "verified_on": "2026-10-24",
+  "default_sources": [
+    "google-news-ethereum",
+    "openzeppelin"
+  ],
+  "sources": [
+    {
+      "id": "google-news-ethereum",
+      "kind": "rss",
+      "url": "https://news.google.com/rss/search?q=Ethereum+hack+exploit+when%3A14d&hl=en-US&gl=US&ceid=US%3Aen",
+      "verified": "Public read-only probe returned HTTP 200 RSS on 2026-10-24. Google links may remain unresolved redirect wrappers.",
+      "policy": "Discovery only: URL, date and our own summary; never retain article text."
+    },
+    {
+      "id": "openzeppelin",
+      "kind": "rss",
+      "url": "https://www.openzeppelin.com/news/rss.xml",
+      "verified": "Public read-only probe returned HTTP 200 RSS on 2026-10-24.",
+      "policy": "Security-firm RSS discovery only: URL, date and our own summary."
+    },
+    {
+      "id": "serper-news",
+      "kind": "serper_news",
+      "url": "https://google.serper.dev/news",
+      "query": "(Ethereum OR Solidity) (hack OR exploit OR drained)",
+      "enabled_by_default": false,
+      "policy": "Explicit selected source and SERPER_API_KEY required. One POST/page; no retries, copied snippets or article fetching. Relative/unknown publication dates remain null; date-bounded queries are discovery filters only.",
+      "documentation": "https://serper.dev/playground",
+      "documentation_checked_on": "2026-10-24",
+      "verified": "Authenticated bounded POST returned a valid result page on 2026-10-24. Discovery only; publication dates remain unresolved."
+    },
+    {
+      "id": "serper-x-links",
+      "kind": "serper_search",
+      "url": "https://google.serper.dev/search",
+      "query": "(site:x.com OR site:twitter.com) (Ethereum OR Solidity) (hack OR exploit OR drained)",
+      "enabled_by_default": false,
+      "policy": "Serper link discovery only. No X API or X page requests. Explicit selected source and SERPER_API_KEY required. Relative/unknown publication dates remain null. Snippets are transient screening signals only.",
+      "documentation": "https://serper.dev/playground",
+      "documentation_checked_on": "2026-10-24",
+      "verified": "Authenticated bounded POST returned a valid result page on 2026-10-24. Discovery only; publication dates remain unresolved."
+    }
+  ]
+}

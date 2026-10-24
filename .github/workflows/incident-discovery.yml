@@ -1,0 +1,102 @@
+name: Incident discovery
+
+on:
+  schedule:
+    - cron: '17 */6 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: incident-discovery
+  cancel-in-progress: false
+
+jobs:
+  discovery:
+    # Secret-bearing collection only runs trusted code on the default branch.
+    if: github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          # Only this default-branch job needs Git authentication to preserve
+          # metadata from its existing bot PR. No code from that branch is run.
+          persist-credentials: true
+      - name: Preserve unmerged discovery leads
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p incidents/discovery
+          if git ls-remote --exit-code --heads origin refs/heads/codex/incident-discovery > /tmp/hindsight-bot-ref; then
+            git fetch --no-tags origin refs/heads/codex/incident-discovery:refs/remotes/origin/codex/incident-discovery
+            git show refs/remotes/origin/codex/incident-discovery:incidents/discovery/leads.jsonl > incidents/discovery/leads.jsonl
+          else
+            result=$?
+            if [ "$result" -ne 2 ]; then exit "$result"; fi
+          fi
+      - name: Collect free RSS discovery signals
+        id: rss
+        continue-on-error: true
+        run: >-
+          python3 -I scripts/incidents/collect.py --execute
+          --source google-news-ethereum --source openzeppelin
+          --out incidents/discovery/leads.jsonl
+          --status-out incidents/discovery/status.json
+          --max-items 30 --days 14
+      - name: Collect Serper news and indexed public links when enabled
+        id: serper
+        if: vars.ENABLE_SERPER_DISCOVERY == 'true'
+        continue-on-error: true
+        env:
+          SERPER_API_KEY: ${{ secrets.SERPER_API_KEY }}
+        run: >-
+          python3 -I scripts/incidents/collect.py --execute
+          --source serper-news --source serper-x-links
+          --out incidents/discovery/leads.jsonl
+          --status-out incidents/discovery/serper-status.json
+          --max-items 10 --days 7
+      - name: Write source health summary
+        if: always()
+        env:
+          ENABLE_SERPER_DISCOVERY: ${{ vars.ENABLE_SERPER_DISCOVERY }}
+        run: |
+          flags=()
+          if [ "$ENABLE_SERPER_DISCOVERY" = true ]; then flags+=(--include-serper); fi
+          python3 -I scripts/incidents/health.py --root incidents/discovery --github-summary "${flags[@]}"
+      - name: Validate the proposed discovery cache offline
+        id: cache
+        if: always()
+        run: python3 -I scripts/incidents/collect.py --validate-cache incidents/discovery/leads.jsonl
+      - name: Run trusted offline checks on the generated update
+        id: checks
+        if: always() && steps.cache.outcome == 'success'
+        run: python3 -I scripts/check.py
+      - name: Open or update the proposed-leads PR
+        if: always() && steps.cache.outcome == 'success' && steps.checks.outcome == 'success'
+        uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8
+        with:
+          branch: codex/incident-discovery
+          commit-message: 'data: refresh proposed incident discovery leads'
+          title: 'data: review new incident discovery signals'
+          body: |
+            Bounded feed/API discovery metadata. These are unverified source-document leads, not confirmed Solidity defects.
+
+            Review scope, primary evidence, duplicates, dates and source rights before enrichment. Check RSS status, optional Serper status and the workflow summary for failures/caps. No article/post bodies, attack code, credentials, human approvals or benchmark promotions are included.
+
+            This PR is never merged automatically. The bot branch is reserved for discovery metadata; submit researched incidents under incidents/submissions in a separate PR.
+          add-paths: |
+            incidents/discovery/leads.jsonl
+            incidents/discovery/status.json
+            incidents/discovery/serper-status.json
+          draft: true
+          delete-branch: false
+      - name: Surface incomplete collection
+        if: steps.rss.outcome == 'failure' || steps.serper.outcome == 'failure'
+        run: |
+          echo 'One or more sources failed. Successful leads and source status were preserved for review.' >&2
+          exit 1
