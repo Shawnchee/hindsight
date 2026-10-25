@@ -12,6 +12,17 @@ spec.loader.exec_module(health)
 
 
 class HealthTests(unittest.TestCase):
+    def test_daily_run_has_delay_allowance_but_cannot_stay_green_indefinitely(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            states = [{"source_id": sid, "observed_at": "2026-10-23T11:00:00Z", "status": "ok", "lead_count": 0}
+                      for sid in ("google-news-ethereum", "openzeppelin")]
+            (root / "status.json").write_text(json.dumps({"sources": states}))
+            _, healthy = health.assess(root, now=datetime(2026, 10, 24, 12, tzinfo=timezone.utc))
+            self.assertTrue(healthy)
+            _, healthy = health.assess(root, now=datetime(2026, 10, 25, 0, tzinfo=timezone.utc))
+            self.assertFalse(healthy)
+
     def test_recent_success_and_optional_serper(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

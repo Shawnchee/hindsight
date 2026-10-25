@@ -33,10 +33,16 @@ dates stay null; observation time is not earliest disclosure.
 
 ## GitHub schedule
 
-The prepared workflow checks every six hours and opens a draft review PR.
+The workflow checks daily at **09:17 Malaysia time (01:17 UTC)** and opens or
+updates one draft review PR. It preserves unmerged leads and deduplicates URLs.
 It starts only after publication on the default branch and enabling Actions.
 Optional Serper uses repository secret `SERPER_API_KEY` and variable
 `ENABLE_SERPER_DISCOVERY=true`. Schedules can be delayed or disabled by GitHub.
+
+Enable **Allow GitHub Actions to create and approve pull requests** in repository
+Actions settings; this workflow only creates draft PRs and never approves or
+merges them. Without Serper configuration, free RSS collection still runs.
+Health allows 36 hours between successful attempts to accommodate daily scheduling.
 
 See the complete [operations guide](https://github.com/Shawnchee/hindsight/blob/main/docs/incident-discovery.md)
 for request limits, queue preservation, health, token behavior and failure handling.

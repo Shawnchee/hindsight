@@ -57,7 +57,8 @@ desired filter, while `scope_status` remains unresolved until independently chec
 4. Check the job summary and the draft PR from `codex/incident-discovery`.
    Review the evidence before merging; the workflow never merges for you.
 
-The workflow checks every six hours, at minute17, and can also be run manually.
+The workflow checks daily at **09:17 Malaysia time (01:17 UTC)** and can also be
+run manually. Each run updates the same draft PR and preserves unmerged leads.
 GitHub schedules can be delayed and run on the default branch; inactive public
 repositories may have their schedule disabled. Check the Actions page rather
 than assuming a green old file proves monitoring is active. These are
@@ -92,7 +93,7 @@ For GitHub Actions:
 - Add repository secret **`SERPER_API_KEY`** from your Serper account.
 - Set repository variable **`ENABLE_SERPER_DISCOVERY`** to **`true`**.
 - Review the queries in `config/incidents/feeds.json` and your API allowance.
-  The scheduled run makes at most two Serper requests every six hours, requesting
+  The scheduled run makes at most two Serper requests per day, requesting
   ten results each: one news search and one indexed public-link search.
 
 Locally, provide the key through your environment/secret manager, then run:
@@ -137,5 +138,5 @@ precede any eligibility decision.
 
 Source failures and stale attempts appear in the health command/Actions summary.
 Default health is unhealthy when either free feed is missing, failed or older
-than24 hours. Add `--include-serper` only when Serper monitoring is enabled. No tool can
+than 36 hours, allowing for a delayed daily run. Add `--include-serper` only when Serper monitoring is enabled. No tool can
 guarantee an always-current or exhaustive list of hacks.

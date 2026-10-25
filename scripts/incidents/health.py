@@ -9,7 +9,7 @@ from pathlib import Path
 UTC = timezone.utc
 
 
-def assess(root, include_serper=False, max_age_hours=24, now=None):
+def assess(root, include_serper=False, max_age_hours=36, now=None):
     now = now or datetime.now(UTC)
     expected = [("status.json", ("google-news-ethereum", "openzeppelin"))]
     if include_serper:
@@ -53,7 +53,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--root", type=Path, default=Path("incidents/discovery"))
     parser.add_argument("--include-serper", action="store_true")
-    parser.add_argument("--max-age-hours", type=int, default=24)
+    parser.add_argument("--max-age-hours", type=int, default=36)
     parser.add_argument("--github-summary", action="store_true")
     args = parser.parse_args()
     if not 1 <= args.max_age_hours <= 168:

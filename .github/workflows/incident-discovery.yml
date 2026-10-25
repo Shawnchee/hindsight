@@ -2,7 +2,8 @@ name: Incident discovery
 
 on:
   schedule:
-    - cron: '17 */6 * * *'
+    # Daily at 09:17 Malaysia time (01:17 UTC).
+    - cron: '17 1 * * *'
   workflow_dispatch:
 
 permissions:
@@ -76,8 +77,21 @@ jobs:
         id: checks
         if: always() && steps.cache.outcome == 'success'
         run: python3 -I scripts/check.py
-      - name: Open or update the proposed-leads PR
+      - name: Select existing discovery files for publication
+        id: publication
         if: always() && steps.cache.outcome == 'success' && steps.checks.outcome == 'success'
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo 'paths<<HINDSIGHT_FILES' >> "$GITHUB_OUTPUT"
+          for file in incidents/discovery/leads.jsonl incidents/discovery/status.json incidents/discovery/serper-status.json; do
+            if [ -f "$file" ] && [ ! -L "$file" ]; then
+              echo "$file" >> "$GITHUB_OUTPUT"
+            fi
+          done
+          echo 'HINDSIGHT_FILES' >> "$GITHUB_OUTPUT"
+      - name: Open or update the proposed-leads PR
+        if: always() && steps.publication.outcome == 'success'
         uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8
         with:
           branch: codex/incident-discovery
@@ -89,10 +103,7 @@ jobs:
             Review scope, primary evidence, duplicates, dates and source rights before enrichment. Check RSS status, optional Serper status and the workflow summary for failures/caps. No article/post bodies, attack code, credentials, human approvals or benchmark promotions are included.
 
             This PR is never merged automatically. The bot branch is reserved for discovery metadata; submit researched incidents under incidents/submissions in a separate PR.
-          add-paths: |
-            incidents/discovery/leads.jsonl
-            incidents/discovery/status.json
-            incidents/discovery/serper-status.json
+          add-paths: ${{ steps.publication.outputs.paths }}
           draft: true
           delete-branch: false
       - name: Surface incomplete collection
