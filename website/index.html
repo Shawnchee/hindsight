@@ -18,7 +18,7 @@
     <div class="shell header-inner">
       <a class="wordmark" href="#main">hindsight<span class="wordmark-dot" aria-hidden="true">.</span></a>
       <nav aria-label="Main navigation">
-        <a href="docs/">Docs</a>
+        <a href="docs/">Documentation</a>
         <a href="https://github.com/Shawnchee/hindsight">GitHub <span aria-hidden="true">↗</span></a>
       </nav>
     </div>
@@ -28,9 +28,9 @@
       <p class="eyebrow">For Ethereum &amp; Solidity</p>
       <h1 id="hero-title">Solidity reviews,<br>with your AI agent.</h1>
       <p class="hero-description">Review your contracts, propose focused fixes,<br class="desktop-break"> and keep the evidence behind each change.</p>
-      <div class="hero-actions"><button class="button primary" type="button" data-copy="agent-prompt" data-copy-status="hero-copy-status">Copy agent prompt <span aria-hidden="true">↗</span></button><a class="button" href="#start">Setup guide <span aria-hidden="true">↓</span></a></div>
+      <div class="hero-actions"><button class="button primary" type="button" data-copy="agent-prompt" data-copy-status="hero-copy-status">Copy agent prompt <span aria-hidden="true">↗</span></button><a class="button" href="docs/getting-started.html">Read the docs <span aria-hidden="true">↗</span></a></div>
       <p class="copy-status" id="hero-copy-status" role="status" aria-live="polite"></p>
-      <p class="hero-note">No custom model. No API key needed for reviews.</p>
+      <p class="hero-note">Open source. Hindsight requires no additional model or API key.</p>
     </section>
 
     <section class="start" id="start" aria-labelledby="start-title">
@@ -48,6 +48,7 @@ Confirm the chain and contracts. Use the Ethereum-mainnet/Solidity, code-only wo
 Explain supported findings, impact, file/line evidence and proposed fixes. State missing sources and uncertainty; no findings does not mean safe.
 Review only: do not edit or deploy my project, read secrets, run untrusted scripts on the host, install dependencies or download models.</textarea></div>
           <p id="prompt-help" class="step-note">Paste into your AI agent inside the project you want reviewed. This is a prompt, not a shell command.</p>
+          <noscript><p class="step-note">Select the prompt above and use your device’s Copy action. Copy buttons require JavaScript.</p></noscript>
         </article>
       </div>
       <details class="manual-setup"><summary>Prefer to set it up yourself?</summary>
@@ -56,20 +57,47 @@ Review only: do not edit or deploy my project, read secrets, run untrusted scrip
           <pre id="setup-code"><code>git clone https://github.com/Shawnchee/hindsight.git
 cd hindsight
 python3 -I tests/test_skill.py</code></pre>
-          <p class="step-note">Open the Hindsight folder in your agent.</p>
+          <p class="step-note">Clone into a separate tools folder. After this check, return to your Solidity project, open that project in your agent and paste the prompt above.</p>
         </article>
       </details>
       <p class="copy-status" id="copy-status" role="status" aria-live="polite"></p>
       <p class="review-note">Your agent reviews the code. Hindsight checks source references and report structure.<br>A valid report is not proof that a contract is safe.</p>
+      <details class="dataset-details finding-example">
+        <summary>What does a finding look like?</summary>
+        <p class="dataset-note">Illustrative example only — not a scan result.</p>
+        <dl>
+          <div><dt>Evidence</dt><dd><code>Vault.sol:42</code> — <code>setFee()</code> changes the fee without checking the caller.</dd></div>
+          <div><dt>Impact</dt><dd>Any caller could change fees intended to be controlled by an administrator.</dd></div>
+          <div><dt>Proposed fix</dt><dd>Restrict the setter to the intended role and enforce the documented fee limit.</dd></div>
+          <div><dt>Still to check</dt><dd>Confirm the intended role and deployed configuration. Runtime tests have not run.</dd></div>
+        </dl>
+        <a class="dataset-link" href="docs/report-format.html">See the report format <span aria-hidden="true">↗</span></a>
+      </details>
+    </section>
+
+    <section class="use-cases" aria-labelledby="use-title">
+      <h2 id="use-title">Start with what you need.</h2>
+      <div class="use-grid">
+        <a href="#start"><h3>Review your contracts <span aria-hidden="true">↗</span></h3><p>Paste one prompt into your agent. Get source-backed findings and proposed fixes.</p></a>
+        <a href="docs/research.html"><h3>Study past incidents <span aria-hidden="true">↗</span></h3><p>Explore the catalog and research records, or use the metadata in your own tools.</p></a>
+        <a href="docs/contributing.html"><h3>Add evidence <span aria-hidden="true">↗</span></h3><p>Submit a public report or improve an incident record through a GitHub PR.</p></a>
+      </div>
+      <p class="dataset-note">Reviews inspect your code; the agent does not automatically search the incident catalog.</p>
     </section>
 
     <!-- dataset-preview:start -->
     <section class="dataset" id="dataset" aria-labelledby="research-title">
       <div class="dataset-heading">
-        <div><h2 id="research-title">See what’s in the dataset.</h2><p>357 Ethereum catalog entries · 2025: 58 · 2026: 59</p></div>
+        <div><h2 id="research-title">Hundreds of incidents. Evidence you can inspect.</h2><p>Ethereum incident metadata, source references and research records.</p></div>
         <a class="dataset-link" href="docs/research.html">Dataset guide <span aria-hidden="true">↗</span></a>
       </div>
-      <p class="dataset-intro">The catalog includes newer incidents. The separate enriched snapshot (v0.2.0) covers 10 older incidents and 55 components, with 0 human-verified labels.</p>
+      <dl class="dataset-stats" aria-label="Dataset coverage">
+        <div><dt>Reported incidents</dt><dd>357</dd></div>
+        <div><dt>From 2025–2026</dt><dd>117</dd></div>
+        <div><dt>Deeper research cases</dt><dd>10</dd></div>
+      </dl>
+      <p class="dataset-intro">Browse all 357 catalog entries, including 58 from 2025 and 59 from 2026. The separate research snapshot covers 10 cases and 55 components; its labels remain unverified (0 human-verified). Counts overlap.</p>
+      <a class="dataset-link" href="https://github.com/Shawnchee/hindsight/blob/main/m0/catalog/ethereum_incidents.csv">Browse all 357 incidents <span aria-hidden="true">↗</span></a>
       <p class="dataset-sources">Sources: <a href="https://github.com/SunWeb3Sec/DeFiHackLabs/tree/23c7bd8">DeFiHackLabs leads</a>, protocol/researcher reports, <a href="https://sourcify.dev/">Sourcify</a>/<a href="https://etherscan.io/">Etherscan</a>, and historical Ethereum reads.</p>
       <p class="dataset-asof">Catalog pinned to 21 October 2026. Reported incident dates are not verified first-disclosure dates; this is not a complete live list.</p>
       <div class="research-charts">
@@ -79,7 +107,7 @@ python3 -I tests/test_skill.py</code></pre>
         </figure>
         <figure class="research-chart"><figcaption><h3>Reported loss examples</h3><p>Highest to lowest · five selected cases · reported USD</p></figcaption>
           <svg viewBox="0 0 400 290" role="img" aria-labelledby="losses-title losses-desc"><title id="losses-title">Selected source-reported loss amounts</title><desc id="losses-desc">BalancerV2: 120M USD; Corkprotocol: 12M USD; ResupplyFi: 9.6M USD; yETH: 9M USD; Makina: 5.1M USD. Unverified figures; not a total or a ranking of all incidents.</desc><text x="0" y="16">BalancerV2 · 2025</text><rect class="loss-bar" x="0" y="25" width="285.00" height="14" rx="3"/><text x="294.00" y="37">$120M</text><text x="0" y="68">Corkprotocol · 2025</text><rect class="loss-bar" x="0" y="77" width="28.50" height="14" rx="3"/><text x="37.50" y="89">$12M</text><text x="0" y="120">ResupplyFi · 2025</text><rect class="loss-bar" x="0" y="129" width="22.80" height="14" rx="3"/><text x="31.80" y="141">$9.6M</text><text x="0" y="172">yETH · 2025</text><rect class="loss-bar" x="0" y="181" width="21.38" height="14" rx="3"/><text x="30.38" y="193">$9M</text><text x="0" y="224">Makina · 2026</text><rect class="loss-bar" x="0" y="233" width="12.11" height="14" rx="3"/><text x="21.11" y="245">$5.1M</text></svg>
-          <p class="chart-note">Not total losses. Figures may span chains and differ in treatment of recoveries; they are not independently reconciled.</p>
+          <p class="chart-note">Not total losses. Balancer’s $120M includes multiple chains. These are five selected examples; recoveries are not independently reconciled.</p>
         </figure>
       </div>
       <details class="dataset-details"><summary>Chart sources &amp; amounts</summary><p>Counts come from the pinned Ethereum catalog. Losses are selected explicit USD claims from its upstream metadata; no token prices or exchange rates were inferred. Balancer’s amount includes multiple chains. Catalog membership and chain classifications remain provisional.</p><table class="dataset-table"><caption class="sr-only">Selected loss claims and source records</caption><thead><tr><th scope="col">Source record</th><th scope="col">Incident date</th><th scope="col">Reported USD</th></tr></thead><tbody><tr><th scope="row"><a href="https://github.com/Shawnchee/hindsight/blob/main/m0/catalog/ethereum_incidents.csv#L297">BalancerV2</a></th><td>2025-11-03</td><td>$120,000,000</td></tr><tr><th scope="row"><a href="https://github.com/Shawnchee/hindsight/blob/main/m0/catalog/ethereum_incidents.csv#L265">Corkprotocol</a></th><td>2025-05-28</td><td>$12,000,000</td></tr><tr><th scope="row"><a href="https://github.com/Shawnchee/hindsight/blob/main/m0/catalog/ethereum_incidents.csv#L274">ResupplyFi</a></th><td>2025-06-26</td><td>$9,600,000</td></tr><tr><th scope="row"><a href="https://github.com/Shawnchee/hindsight/blob/main/m0/catalog/ethereum_incidents.csv#L299">yETH</a></th><td>2025-12-01</td><td>$9,000,000</td></tr><tr><th scope="row"><a href="https://github.com/Shawnchee/hindsight/blob/main/m0/catalog/ethereum_incidents.csv#L301">Makina</a></th><td>2026-01-20</td><td>$5,100,000</td></tr></tbody></table></details>
@@ -90,11 +118,11 @@ python3 -I tests/test_skill.py</code></pre>
       </div>
       <div class="dataset-view" data-dataset-view="2026">
         <h3>2026 catalog examples</h3>
-        <p class="dataset-note">59 Ethereum entries dated 2026 in the pinned catalog. These are reported entries, not 59 independently verified hacks.</p>
+        <p class="dataset-note">Showing 3 of 59 reported entries from 2026. This is a preview; use the full catalog for every record.</p>
         <table class="dataset-table"><caption class="sr-only">Three recent 2026 catalog entries; not enriched or verified by this preview.</caption><thead><tr><th scope="col">Reported incident</th><th scope="col">Data status</th><th scope="col">Evidence</th></tr></thead><tbody><tr><th scope="row">BiFi<time datetime="2026-10-17">2026-10-17</time></th><td>Catalog entry<br><span class="catalog-status">Coverage not assessed here</span></td><td><a href="https://github.com/Shawnchee/hindsight/blob/main/m0/catalog/ethereum_incidents.csv#L358">Record ↗</a><a href="https://github.com/SunWeb3Sec/DeFiHackLabs/blob/23c7bd83ccb4524972a9493617fcc8764ab6269b/README.md">Upstream ↗</a></td></tr><tr><th scope="row">KolanHook<time datetime="2026-10-15">2026-10-15</time></th><td>Catalog entry<br><span class="catalog-status">Coverage not assessed here</span></td><td><a href="https://github.com/Shawnchee/hindsight/blob/main/m0/catalog/ethereum_incidents.csv#L357">Record ↗</a><a href="https://github.com/SunWeb3Sec/DeFiHackLabs/blob/23c7bd83ccb4524972a9493617fcc8764ab6269b/README.md">Upstream ↗</a></td></tr><tr><th scope="row">X7Finance<time datetime="2026-10-08">2026-10-08</time></th><td>Catalog entry<br><span class="catalog-status">Coverage not assessed here</span></td><td><a href="https://github.com/Shawnchee/hindsight/blob/main/m0/catalog/ethereum_incidents.csv#L356">Record ↗</a><a href="https://github.com/SunWeb3Sec/DeFiHackLabs/blob/23c7bd83ccb4524972a9493617fcc8764ab6269b/README.md">Upstream ↗</a></td></tr></tbody></table>
         </div><div class="dataset-view" data-dataset-view="2025">
         <h3>2025 catalog examples</h3>
-        <p class="dataset-note">58 Ethereum entries dated 2025 in the pinned catalog. These are reported entries, not 58 independently verified hacks.</p>
+        <p class="dataset-note">Showing 3 of 58 reported entries from 2025. This is a preview; use the full catalog for every record.</p>
         <table class="dataset-table"><caption class="sr-only">Three recent 2025 catalog entries; not enriched or verified by this preview.</caption><thead><tr><th scope="col">Reported incident</th><th scope="col">Data status</th><th scope="col">Evidence</th></tr></thead><tbody><tr><th scope="row">yETH<time datetime="2025-12-01">2025-12-01</time></th><td>Catalog entry<br><span class="catalog-status">Coverage not assessed here</span></td><td><a href="https://github.com/Shawnchee/hindsight/blob/main/m0/catalog/ethereum_incidents.csv#L299">Record ↗</a><a href="https://github.com/SunWeb3Sec/DeFiHackLabs/blob/23c7bd83ccb4524972a9493617fcc8764ab6269b/past/2025/README.md">Upstream ↗</a></td></tr><tr><th scope="row">DRLVaultV3<time datetime="2025-11-10">2025-11-10</time></th><td>Catalog entry<br><span class="catalog-status">Coverage not assessed here</span></td><td><a href="https://github.com/Shawnchee/hindsight/blob/main/m0/catalog/ethereum_incidents.csv#L298">Record ↗</a><a href="https://github.com/SunWeb3Sec/DeFiHackLabs/blob/23c7bd83ccb4524972a9493617fcc8764ab6269b/past/2025/README.md">Upstream ↗</a></td></tr><tr><th scope="row">BalancerV2<time datetime="2025-11-03">2025-11-03</time></th><td>Catalog entry<br><span class="catalog-status">Coverage not assessed here</span></td><td><a href="https://github.com/Shawnchee/hindsight/blob/main/m0/catalog/ethereum_incidents.csv#L297">Record ↗</a><a href="https://github.com/SunWeb3Sec/DeFiHackLabs/blob/23c7bd83ccb4524972a9493617fcc8764ab6269b/past/2025/README.md">Upstream ↗</a></td></tr></tbody></table>
         </div>
       <div class="dataset-view" data-dataset-view="enriched">
@@ -156,6 +184,7 @@ python3 -I tests/test_skill.py</code></pre>
   <footer class="shell">
     <p>Hindsight</p>
     <nav aria-label="Footer navigation">
+      <a href="docs/">Documentation</a>
       <a href="https://github.com/Shawnchee/hindsight/blob/main/SECURITY.md">Security</a>
       <a href="https://github.com/Shawnchee/hindsight/blob/main/THIRD_PARTY_NOTICES.md">Source rights</a>
     </nav>

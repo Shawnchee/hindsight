@@ -3,14 +3,44 @@
 // Clipboard is optional. Selecting the visible text works on file:// and offline.
 const copyStatus = document.getElementById("copy-status");
 document.querySelectorAll("[data-copy]").forEach((button) => {
+  const originalLabel = button.getAttribute("aria-label");
+  const idle = document.createElement("span");
+  idle.className = "copy-label";
+  idle.append(...button.childNodes);
+  const done = document.createElement("span");
+  done.className = "copy-done";
+  done.textContent = "✓ Copied";
+  done.setAttribute("aria-hidden", "true");
+  button.append(idle, done);
+  let resetTimer;
+  let copying = false;
+  const reset = () => {
+    button.classList.remove("is-copied");
+    idle.removeAttribute("aria-hidden");
+    done.setAttribute("aria-hidden", "true");
+    if (originalLabel === null) button.removeAttribute("aria-label");
+    else button.setAttribute("aria-label", originalLabel);
+  };
   button.addEventListener("click", async () => {
+    if (copying) return;
+    copying = true;
+    clearTimeout(resetTimer);
+    reset();
     const status = document.getElementById(button.dataset.copyStatus) || copyStatus;
     const source = document.getElementById(button.dataset.copy);
     const text = source instanceof HTMLTextAreaElement ? source.value : source.textContent;
     try {
       if (!navigator.clipboard || !window.isSecureContext) throw new Error("Clipboard unavailable");
       await navigator.clipboard.writeText(text);
-      status.textContent = button.dataset.copy === "agent-prompt" ? "Copied. Paste into your agent in the project you want reviewed." : "Setup commands copied.";
+      button.classList.add("is-copied");
+      idle.setAttribute("aria-hidden", "true");
+      done.removeAttribute("aria-hidden");
+      button.setAttribute("aria-label", "Copied");
+      const announcement = document.createElement("span");
+      announcement.className = "copy-announcement";
+      announcement.textContent = "Copied to clipboard.";
+      status.replaceChildren(announcement);
+      resetTimer = setTimeout(reset, 2400);
     } catch {
       if (source instanceof HTMLTextAreaElement) {
         source.focus();
@@ -22,7 +52,9 @@ document.querySelectorAll("[data-copy]").forEach((button) => {
         selection.removeAllRanges();
         selection.addRange(range);
       }
-      status.textContent = "Text selected. Press Command+C or Ctrl+C to copy.";
+      status.textContent = "Text selected. Use your device’s Copy action, or press Command+C / Ctrl+C.";
+    } finally {
+      copying = false;
     }
   });
 });

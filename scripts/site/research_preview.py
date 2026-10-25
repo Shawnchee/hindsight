@@ -69,7 +69,7 @@ def render():
         </figure>
         <figure class="research-chart"><figcaption><h3>Reported loss examples</h3><p>Highest to lowest · five selected cases · reported USD</p></figcaption>
           <svg viewBox="0 0 400 290" role="img" aria-labelledby="losses-title losses-desc"><title id="losses-title">Selected source-reported loss amounts</title><desc id="losses-desc">{'; '.join(x['name'] + ': ' + x['reported_text'] for x in loss_examples)}. Unverified figures; not a total or a ranking of all incidents.</desc>{''.join(loss_bars)}</svg>
-          <p class="chart-note">Not total losses. Figures may span chains and differ in treatment of recoveries; they are not independently reconciled.</p>
+          <p class="chart-note">Not total losses. Balancer’s $120M includes multiple chains. These are five selected examples; recoveries are not independently reconciled.</p>
         </figure>
       </div>
       <details class="dataset-details"><summary>Chart sources &amp; amounts</summary><p>Counts come from the pinned Ethereum catalog. Losses are selected explicit USD claims from its upstream metadata; no token prices or exchange rates were inferred. Balancer’s amount includes multiple chains. Catalog membership and chain classifications remain provisional.</p><table class="dataset-table"><caption class="sr-only">Selected loss claims and source records</caption><thead><tr><th scope="col">Source record</th><th scope="col">Incident date</th><th scope="col">Reported USD</th></tr></thead><tbody>{chart_table}</tbody></table></details>'''
@@ -89,7 +89,7 @@ def render():
             recent_rows.append(f'''<tr><th scope="row">{html.escape(r['name'])}<time datetime="{html.escape(r['date'])}">{html.escape(r['date'])}</time></th><td>Catalog entry<br><span class="catalog-status">Coverage not assessed here</span></td><td><a href="{record}">Record ↗</a><a href="{html.escape(upstream, quote=True)}">Upstream ↗</a></td></tr>''')
         catalog_views.append(f'''<div class="dataset-view" data-dataset-view="{year}">
         <h3>{year} catalog examples</h3>
-        <p class="dataset-note">{counts[year]} Ethereum entries dated {year} in the pinned catalog. These are reported entries, not {counts[year]} independently verified hacks.</p>
+        <p class="dataset-note">Showing 3 of {counts[year]} reported entries from {year}. This is a preview; use the full catalog for every record.</p>
         <table class="dataset-table"><caption class="sr-only">Three recent {year} catalog entries; not enriched or verified by this preview.</caption><thead><tr><th scope="col">Reported incident</th><th scope="col">Data status</th><th scope="col">Evidence</th></tr></thead><tbody>{''.join(recent_rows)}</tbody></table>
         </div>''')
     records = {r['incident_id']: r for r in inputs['incidents.jsonl']}
@@ -134,10 +134,16 @@ def render():
     excerpt = {key: sample[key] for key in ('incident_id', 'label_status', 'human_verified', 'first_seen_at', 'family_id', 'training_eligible', 'evaluation_eligible')}
     section = f'''    <section class="dataset" id="dataset" aria-labelledby="research-title">
       <div class="dataset-heading">
-        <div><h2 id="research-title">See what’s in the dataset.</h2><p>{len(catalog)} Ethereum catalog entries · 2025: {counts['2025']} · 2026: {counts['2026']}</p></div>
+        <div><h2 id="research-title">Hundreds of incidents. Evidence you can inspect.</h2><p>Ethereum incident metadata, source references and research records.</p></div>
         <a class="dataset-link" href="docs/research.html">Dataset guide <span aria-hidden="true">↗</span></a>
       </div>
-      <p class="dataset-intro">The catalog includes newer incidents. The separate enriched snapshot ({VERSION}) covers {manifest['incident_count']} older incidents and {manifest['contract_snapshots']} components, with {manifest['human_verified_labels']} human-verified labels.</p>
+      <dl class="dataset-stats" aria-label="Dataset coverage">
+        <div><dt>Reported incidents</dt><dd>{len(catalog)}</dd></div>
+        <div><dt>From 2025–2026</dt><dd>{counts['2025'] + counts['2026']}</dd></div>
+        <div><dt>Deeper research cases</dt><dd>{manifest['incident_count']}</dd></div>
+      </dl>
+      <p class="dataset-intro">Browse all {len(catalog)} catalog entries, including {counts['2025']} from 2025 and {counts['2026']} from 2026. The separate research snapshot covers {manifest['incident_count']} cases and {manifest['contract_snapshots']} components; its labels remain unverified ({manifest['human_verified_labels']} human-verified). Counts overlap.</p>
+      <a class="dataset-link" href="{REPO}/blob/main/m0/catalog/ethereum_incidents.csv">Browse all {len(catalog)} incidents <span aria-hidden="true">↗</span></a>
       <p class="dataset-sources">Sources: <a href="https://github.com/SunWeb3Sec/DeFiHackLabs/tree/23c7bd8">DeFiHackLabs leads</a>, protocol/researcher reports, <a href="https://sourcify.dev/">Sourcify</a>/<a href="https://etherscan.io/">Etherscan</a>, and historical Ethereum reads.</p>
       <p class="dataset-asof">Catalog pinned to 21 October 2026. Reported incident dates are not verified first-disclosure dates; this is not a complete live list.</p>
       {charts}

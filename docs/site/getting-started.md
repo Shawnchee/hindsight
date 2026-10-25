@@ -28,6 +28,10 @@ cd hindsight
 python3 -I tests/test_skill.py
 ```
 
+After checking the toolkit, return to your Solidity project's folder and open
+that project in your agent. Paste the prompt above there; Hindsight stays in
+the separate tools folder and is not the review target.
+
 No extra Python packages or model downloads are needed. Read the skill directly,
 or install the entire `skills/hindsight-triage/` folder using your host's process.
 A review request leaves your project unchanged. Use the [fix workflow](./remediation.md)
