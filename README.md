@@ -1,207 +1,126 @@
 # Hindsight
 
-**Review Solidity with your AI agent. Keep incident evidence traceable.**
+**Review Solidity contracts with your AI agent. Contribute evidence from real hacks.**
 
-Hindsight gives an existing agent a source-review workflow, evidence checks and
-a growing research dataset of Ethereum incidents. Start with the skill; no model
-download, API key, database or extra Python package is needed for source preparation.
+[Live website](https://hindsight-solidity.pages.dev/) ·
+[Documentation](https://hindsight-solidity.pages.dev/docs/)
 
-This is an early research tool. It helps an agent investigate possible bugs; it
-does not certify a contract as safe or claim better detection than the base model.
+[![Hindsight landing page](docs/assets/hindsight-ui.jpg)](https://hindsight-solidity.pages.dev/)
 
-## What is Hindsight?
+Hindsight is an agent skill and review toolkit for **Ethereum mainnet + Solidity**.
+Your agent reads the code and explains possible bugs. Hindsight prepares the source
+and checks that the report points to the files actually reviewed.
 
-The product is an **agent skill and review toolkit**. The incident catalog and
-versioned research datasets are supporting research assets. The current skill
-uses code-only review; it does not automatically search past hacks or claim a
-measured detection improvement from the dataset.
+It also maintains a separate catalog of reported incidents. The current review
+workflow is code-only; it does not automatically search that catalog.
 
-## Quick start — give your agent the link
+Start with the [documentation overview](docs/site/index.md) or
+[getting-started guide](docs/site/getting-started.md). The website includes searchable
+VitePress documentation at `/docs/`, linked from the header, hero and footer.
 
-Paste this into an AI coding agent that can read URLs and local project files.
-You do not need to clone the repository yourself; the agent can obtain the
-required instructions and helpers in a separate tools folder.
+## Review your project
+
+1. Open the project you want reviewed in your AI coding agent.
+2. Paste the prompt below. Your agent handles obtaining the toolkit separately.
+3. Read the findings, suggested fixes and coverage gaps before making changes.
 
 ```text
 Review the Solidity contracts in my current codebase using https://github.com/Shawnchee/hindsight.
-Identify and preserve this project's root before obtaining any Hindsight files. Keep the toolkit in a separate tools folder; this codebase remains the review target.
-Read Hindsight's AGENTS.md, skills/hindsight-triage/SKILL.md and its report reference. If unavailable, say so and ask for an accessible copy.
-Confirm the chain and contracts. Use the Ethereum-mainnet/Solidity, code-only workflow. Prepare source and dependencies, then write and validate an evidence-backed report when local execution is available; otherwise disclose that helper validation was not run.
-Explain supported findings, impact, file/line evidence and proposed fixes. State missing sources and uncertainty; no findings does not mean safe.
+Keep this codebase as the target and obtain Hindsight in a separate tools folder.
+Read Hindsight's AGENTS.md, skills/hindsight-triage/SKILL.md and its report reference.
+Confirm the chain and contracts. Perform a code-only review and validate the report if the helpers can run; otherwise say validation was not run.
+Explain supported findings with file/line evidence, impact, proposed fixes and remaining uncertainty.
 Review only: do not edit or deploy my project, read secrets, run untrusted scripts on the host, install dependencies or download models.
 ```
 
-Run your agent from the project you want reviewed. Python 3.11+ is needed to run the helpers. An agent
-that can only browse/read text can follow the review instructions, but cannot
-claim a helper-validated report. Link-only setup also requires public access to
-the repository; a private or unavailable repository needs an accessible local
-copy or authorized repository access.
+Use an agent that can read links and local files. Running the helpers requires
+**Python 3.11+**; no extra Python packages, API key or custom model are needed.
+You do not need to clone Hindsight manually or install a skill manager.
 
-<details>
-<summary>Manual setup</summary>
+A review should give you supported findings, source references, proposed fixes
+and an honest account of what was not checked. **No findings does not mean safe.**
+Report validation checks structure and references, not whether a bug is real.
+Hosted agents may send source to their provider; use a local agent for local-only review.
 
-```sh
-git clone https://github.com/Shawnchee/hindsight.git
-cd hindsight
-python3 -I tests/test_skill.py
-```
+Want the agent to make changes afterward? Use the
+[review-and-fix workflow](skills/hindsight-triage/references/remediation.md).
+Compilation and runtime checks are separate; see [runtime testing](docs/runtime-checks.md).
 
-Give the local Hindsight folder and your project path to your agent. A separate
-skill manager is optional; preserve the whole skill directory and references.
+## Add a reported hack through a pull request
 
-</details>
+**New and historical incidents are welcome. You do not need a working exploit.**
+Current intake covers Ethereum mainnet and Solidity. Submit public evidence links
+and your own summary; mark anything you cannot verify as unknown.
 
-**Source privacy follows your agent.** A hosted agent may send the files it reads
-to its provider. The helper itself has no inference client or telemetry. Use a
-local agent when source must stay on your machine.
-
-## Prepare source yourself
-
-These commands only read source as text. They do not build or execute the contract.
-
-```sh
-python3 -I skills/hindsight-triage/scripts/triage.py prepare \
-  --root /absolute/path/to/my-project \
-  --target src/Vault.sol \
-  --out /absolute/path/to/a-new-review-folder
-```
-
-Give the resulting `bundle.json` to your agent along with the skill instructions.
-It contains the target, reachable imports, source hashes and coverage gaps. If an
-import is missing, add an explicit remapping or report the gap. Existing Slither
-JSON is optional; Slither and a Solidity compiler are not required for this path.
-
-After the agent writes `report.json`:
+1. [Fork this repository](https://github.com/Shawnchee/hindsight/fork) and create a branch.
+2. Copy [the example record](incidents/examples/example.json) into
+   `incidents/submissions/community_protocol_incident.json`.
+3. Fill in the incident name, primary report link, your summary and known dates or
+   identifiers. Set `discovered_at` to the day you found the report; use `null` for
+   an unknown incident date. Match `candidate_id` to the filename without `.json`. Keep the
+   proposed/unresolved and eligibility fields unchanged.
+4. Check the [catalog](m0/catalog/ethereum_incidents.csv),
+   [existing submissions](incidents/submissions/) and open issues for duplicates.
+   Update an existing submission when you have better evidence for the same incident.
+   If it only exists in the catalog or a frozen snapshot, open a correction issue.
+5. Run the checks, then open a pull request from your branch to `Shawnchee/hindsight:main`.
+   Explain what happened, link the evidence and list the remaining gaps.
 
 ```sh
-python3 -I skills/hindsight-triage/scripts/triage.py validate \
-  --bundle /absolute/path/to/a-new-review-folder/bundle.json \
-  --report /absolute/path/to/a-new-review-folder/report.json
+python3 -I scripts/incidents/validate.py --root incidents/submissions
+python3 -I scripts/check.py
 ```
 
-Validation checks structure and evidence references, not whether a bug is real.
-See the [full skill guide](docs/hindsight-skill.md) for remappings, optional Slither
-input and report details. Keep bundles/reports containing private source outside Git.
-
-## Review and fix a project with your agent
-
-Point your agent at this repository and paste:
+Your agent can help prepare the PR:
 
 ```text
-Read AGENTS.md, skills/hindsight-triage/SKILL.md and its remediation reference.
-Review my Solidity project at /absolute/path/to/my-project. Inventory its contracts
-and dependencies, select the interacting targets, and save a baseline review.
-For supported findings, propose focused fixes and regression tests. Make relevant
-source/test edits, then review the changed snapshot and produce a before/after
-report. Preserve unresolved findings and coverage gaps. Run project checks only
-in an available disposable container without credentials and with restricted
-networking; otherwise mark them not run. Do not install tools or deploy anything.
+Read CONTRIBUTING.md and incidents/README.md in the Hindsight repository.
+Prepare an incident submission for this public report: <REPORT_URL>.
+Check for duplicates, use links and an original summary, leave unknown facts unresolved,
+and run the offline validator. Keep all review and eligibility flags unchanged.
+Show me the proposed record and remaining gaps before submitting a pull request.
 ```
 
-The agent performs the review and edits. Hindsight supplies a bounded source
-inventory and checks that before/after reports refer to the actual snapshots.
-The comparison shows changed files, finding assessments, new issues, remaining
-coverage gaps and supplied test outcomes. No custom model or discovery API key
-is required. A valid report does not prove a fix is correct.
+See [CONTRIBUTING.md](CONTRIBUTING.md) for the full steps and field guidance.
+If you only have a useful link, [open an incident issue](https://github.com/Shawnchee/hindsight/issues/new/choose).
 
-For command examples and the fix-record format, read the
-[review and fix workflow](skills/hindsight-triage/references/remediation.md).
-It covers Ethereum/Solidity; it is not a general PHP or web-app security scanner.
-Runtime reproduction is a separate check. See the [isolated smoke-test plan](docs/runtime-checks.md).
-Source review and schema validation do not establish runtime behavior or detection accuracy.
+**Never include secrets, copied articles, private reports, raw contract source or
+working exploit code.** For an undisclosed vulnerability in a live protocol,
+use that protocol's security channel instead of a public PR here.
 
-## Add a reported hack
+A merged submission is a research lead, not a verified vulnerability. Maintainers
+review scope, evidence, source rights and missing information before adding it to
+a new research snapshot. Frozen datasets are not edited by contribution PRs.
 
-Found a primary post-mortem, security alert or useful X post? Open an
-[incident issue](https://github.com/Shawnchee/hindsight/issues/new/choose), or send
-a PR with a small metadata record. **You do not need a working exploit.**
+## What data is included?
 
-Include a link, an original short summary, the reported date, and transaction or
-victim identifiers when available. Missing source is a useful coverage gap; do not
-invent an address or causal function to complete a record.
+| Collection | What it contains |
+| --- | --- |
+| [Incident catalog](m0/catalog/ethereum_incidents.csv) | 357 entries classified as Ethereum; 58 dated 2025 and 59 dated 2026 |
+| [Research snapshot v0.2.0](datasets/research/v0.2.0/README.md) | 10 incidents with deeper source research and 55 component records |
+| [Community submissions](incidents/submissions/) | Proposed incident leads awaiting review |
 
-Ask an agent:
+The catalog is pinned to 21 October 2026; classifications and reported claims
+remain provisional. The enriched snapshot has **zero human-verified labels**.
+Components include dependencies and proxies, not separate hacks. These counts
+overlap and should not be added together.
 
-```text
-Read CONTRIBUTING.md and incidents/README.md. Prepare a proposed incident record
-for this primary report: <URL>. Check for duplicates. Store links and our own
-summary only, leave unknown facts unresolved, and run the offline validator.
-Do not generate an exploit, scrape X, or promote the record into a benchmark.
-```
+RSS and optional Serper searches can queue new reports for review. They do not
+automatically confirm incidents or update the dataset. See [discovery setup](docs/incident-discovery.md)
+to enable the scheduled workflow and inspect its latest results.
 
-The [contribution guide](CONTRIBUTING.md) covers the schema, checks and review path.
+## More guides
 
-## Stay current
+| I want to… | Read |
+| --- | --- |
+| Run the source helpers myself | [Skill guide](docs/hindsight-skill.md) |
+| Understand the report format | [Report reference](skills/hindsight-triage/references/report.md) |
+| Build the landing page and docs | [Website setup](docs/README.md) |
+| Inspect dataset limits | [Research snapshots](datasets/research/README.md) |
+| Work on the toolkit as an agent | [AGENTS.md](AGENTS.md) |
 
-The [incident discovery workflow](.github/workflows/incident-discovery.yml) is
-configured to check feeds every six hours and open or update a review PR. Serper
-can search news and indexed public X links; RSS works without an API key. There
-are no direct X API calls or automated X/browser scrapers.
-
-Discovery creates **unverified leads**, not confirmed vulnerabilities. Maintainers
-review new reports and recover historical source before creating a new research
-snapshot. There is no automatic merge, label approval or training promotion.
-
-Read [freshness setup](docs/incident-discovery.md) to enable the GitHub workflow,
-check its last successful run, add feeds or configure Serper. Scheduling starts only
-after the workflow is on the default branch and Actions is enabled. Feed/API
-coverage is incomplete; no monitor can guarantee it catches every hack.
-
-## Research dataset
-
-[Snapshot v0.2.0](datasets/research/v0.2.0/README.md) contains ten enriched
-incidents, nine with proposed defect source, and 55 component metadata snapshots.
-Components include proxies and dependencies; they are not 55 vulnerable victims.
-Labels are AI proposals, with no human verification or training/evaluation approval.
-
-Exports contain addresses, evidence links, hashes and a source-fetch helper.
-Contract source and article/post bodies are not redistributed. Original snapshots
-are immutable; new reports arrive through the contribution/discovery queue.
-
-```sh
-python3 -I m0/scripts/discovery/export_research.py \
-  --verify datasets/research/v0.2.0
-```
-
-## For agents and maintainers
-
-The landing page lives in [website/](website/README.md), with searchable
-[VitePress documentation](docs/README.md). To preview the complete public site:
-
-```sh
-npm ci --prefix docs --ignore-scripts
-node scripts/site/build.mjs
-python3 -I -m http.server 8766 --bind 127.0.0.1 --directory site-dist
-```
-
-Open <http://127.0.0.1:8766/> and `/docs/`. Node 22+ is needed only to build
-the website. For a landing-only preview without Node:
-
-```sh
-python3 -I -m http.server 8765 --bind 127.0.0.1 --directory website
-```
-
-Open <http://127.0.0.1:8765>. The Docs link requires the complete build above.
-This previews the page; it does not publish it or
-upload source/review artifacts. Hosting remains a separate explicit action.
-
-| Task | Start here |
-|---|---|
-| Review a Solidity contract | [AGENTS.md](AGENTS.md), then [the skill](skills/hindsight-triage/SKILL.md) |
-| Submit an incident | [CONTRIBUTING.md](CONTRIBUTING.md) |
-| Set up RSS/Serper discovery | [Discovery setup](docs/incident-discovery.md) |
-| Inspect research records | [Dataset index](datasets/research/README.md) |
-
-Run the offline checks with `python3 -I scripts/check.py`. They use synthetic
-fixtures and require no model or API credentials. Model benchmark runs and model
-downloads are currently paused; ordinary use of the skill with your chosen agent
-is a separate workflow.
-
-## Scope and rights
-
-Ethereum mainnet and Solidity only. Detection and triage only; no working attack
-transactions, exploit replays, trading or MEV tools. See [security guidance](SECURITY.md).
+## License
 
 Hindsight's own code and original documentation use the [MIT License](LICENSE).
-Upstream contracts retain their own terms. DeFiHackLabs
-catalog provenance is Apache-2.0; see [third-party notices](THIRD_PARTY_NOTICES.md).
+Upstream material keeps its own terms, including DeFiHackLabs' Apache-2.0 license
+and Inter's SIL OFL. See [third-party notices](THIRD_PARTY_NOTICES.md).

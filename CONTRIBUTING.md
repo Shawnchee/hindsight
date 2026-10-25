@@ -19,17 +19,20 @@ security channel rather than posting exploit details here. See [SECURITY.md](SEC
 
 1. Fork and clone the repository. Read [incidents/README.md](incidents/README.md).
 2. Copy `incidents/examples/example.json` to
-   `incidents/submissions/community_your_protocol_YYYYMMDD.json`.
+   `incidents/submissions/community_your_protocol_incident.json`.
 
    ```sh
    mkdir -p incidents/submissions
-   cp incidents/examples/example.json incidents/submissions/community_your_protocol_YYYYMMDD.json
+   cp incidents/examples/example.json incidents/submissions/community_your_protocol_incident.json
    ```
 
-3. Replace the synthetic example with verified pointers and an original summary.
+3. Replace the synthetic example with public evidence links and an original summary.
+   Include a primary protocol or security-researcher report. Use `null` for unknown
+   incident/publication dates and `[]` for unknown transaction/address lists. Set
+   `discovered_at` to the date you found the report and explain gaps in `coverage_gaps`.
    Make `candidate_id` match the filename. Preserve the proposed/unresolved flags.
 4. Check for an existing report in `incidents/submissions/`,
-   `incidents/submissions/`, the catalog and versioned research exports.
+   the catalog and versioned research exports.
    For new evidence about an existing incident, update its submission or open a
    correction issue instead of inventing another incident ID.
 5. Run:
@@ -39,7 +42,10 @@ security channel rather than posting exploit details here. See [SECURITY.md](SEC
    python3 -I scripts/check.py
    ```
 
-6. Open a PR explaining the incident, primary evidence, duplicate check and gaps.
+6. Commit the single metadata file to your fork branch, push it, then choose
+   **Contribute → Open pull request** on GitHub. Set the base to
+   `Shawnchee/hindsight:main`. Explain the incident, primary evidence, duplicate
+   check and remaining gaps. Review the checks and respond to maintainer feedback.
    AI-assisted contributions are welcome; contributors remain responsible for
    the evidence and the text they submit.
 
@@ -83,5 +89,6 @@ to workflows, collector hosts and validation rules.
 ## Rights
 
 Only contribute text and evidence you have the right to share. Upstream code
-keeps its own license. The project's distribution license is not selected yet;
-this guide is not a contributor license agreement or a blanket reuse grant.
+keeps its own license. Hindsight's own code and original documentation use the
+[MIT License](LICENSE); it does not relicense upstream source or linked reports.
+This guide is not a contributor license agreement.

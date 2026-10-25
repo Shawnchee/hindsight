@@ -18,6 +18,11 @@ Open <http://127.0.0.1:8766/> and <http://127.0.0.1:8766/docs/>.
 Only `site-dist/` is a public hosting artifact. Do not serve the repository root.
 No build or preview command uploads or deploys anything.
 
+For Cloudflare Pages, upload **`site-dist/`**, not `website/` or the docs-only
+output. It contains both the landing page and VitePress documentation. After
+deployment, check the homepage, `/docs/` and `/docs/getting-started.html` on your
+public domain. The landing page links directly to the documentation.
+
 For docs-only editing:
 
 ```sh
