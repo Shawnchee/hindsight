@@ -1,0 +1,47 @@
+{
+  "coverage": "bounded discovery only; no guarantee of complete or current incident coverage",
+  "failed_sources": 0,
+  "lead_count": 15,
+  "observed_at": "2026-10-24T02:52:15Z",
+  "sources": [
+    {
+      "capped": false,
+      "date_window_is_search_filter_only": true,
+      "examined": 10,
+      "excluded": 4,
+      "lead_count": 6,
+      "observed_at": "2026-10-24T02:52:15Z",
+      "request": {
+        "num": 10,
+        "q": "(Ethereum OR Solidity) (hack OR exploit OR drained) after:2026-10-17 before:2026-10-25"
+      },
+      "request_url": "https://google.serper.dev/news",
+      "response_sha256": "609a4be53e2f839a3c0c14061bed415c30987b8ca48d24a0dbd7b94d7f659017",
+      "scan_capped": false,
+      "single_page": true,
+      "source_id": "serper-news",
+      "status": "ok",
+      "undated": 10
+    },
+    {
+      "capped": false,
+      "date_window_is_search_filter_only": true,
+      "examined": 10,
+      "excluded": 5,
+      "lead_count": 5,
+      "observed_at": "2026-10-24T02:52:15Z",
+      "request": {
+        "num": 10,
+        "q": "(site:x.com OR site:twitter.com) (Ethereum OR Solidity) (hack OR exploit OR drained) after:2026-10-17 before:2026-10-25"
+      },
+      "request_url": "https://google.serper.dev/search",
+      "response_sha256": "86a6c58db4e7eef7cefc8b30b80df48933abb7fef831269a1cac4a817bbeacdf",
+      "scan_capped": false,
+      "single_page": true,
+      "source_id": "serper-x-links",
+      "status": "ok",
+      "undated": 10
+    }
+  ],
+  "version": 1
+}
