@@ -17,7 +17,9 @@ local time. They are discovery pointers only; no article/post text was retained.
 A Serper smoke test on the same date added eleven unverified leads (six news
 links and five indexed public X links), with null publication dates and no direct
 X requests. `serper-status.json` records both successful requests.
-Future workflow runs update metadata through a draft PR, never an automatic merge.
+The daily workflow commits validated discovery metadata automatically. No review
+PR is required; records remain proposed and unresolved. AI compilation requires
+a separately configured model and does not establish incident verification.
 
 The cache is intentionally bounded. If its byte/row/provenance limit is reached,
 collection fails visibly rather than dropping history silently. Archive reviewed

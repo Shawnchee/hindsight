@@ -1,7 +1,7 @@
 # Discovery setup
 
-RSS and optional Serper search collect unverified source-document leads. Maintainers
-review them before incident intake. No automatic merge or eligibility promotion occurs.
+RSS and optional Serper search collect unverified source-document leads. The daily job
+saves them automatically as proposed metadata; no eligibility promotion occurs.
 
 ## Use RSS locally
 
@@ -33,16 +33,19 @@ dates stay null; observation time is not earliest disclosure.
 
 ## GitHub schedule
 
-The workflow checks daily at **09:17 Malaysia time (01:17 UTC)** and opens or
-updates one draft review PR. It preserves unmerged leads and deduplicates URLs.
-It starts only after publication on the default branch and enabling Actions.
-Optional Serper uses repository secret `SERPER_API_KEY` and variable
-`ENABLE_SERPER_DISCOVERY=true`. Schedules can be delayed or disabled by GitHub.
+The workflow runs daily at **09:17 Malaysia time (01:17 UTC)** and commits
+validated discovery metadata directly to the default branch. **No PR review is
+needed.** Existing leads are preserved and URLs are deduplicated.
 
-Enable **Allow GitHub Actions to create and approve pull requests** in repository
-Actions settings; this workflow only creates draft PRs and never approves or
-merges them. Without Serper configuration, free RSS collection still runs.
-Health allows 36 hours between successful attempts to accommodate daily scheduling.
+Free RSS collection needs no API key. Optional Serper uses repository secret
+`SERPER_API_KEY` and variable `ENABLE_SERPER_DISCOVERY=true`. The workflow needs
+contents-write permission, but no pull-request permission. Branch protection
+still applies. Schedules can be delayed or disabled by GitHub; health allows
+36 hours between successful attempts.
+
+Automatic collection adds unverified reports, not confirmed vulnerabilities.
+Frozen research exports remain unchanged. AI compilation needs a separately
+configured model; the collector currently performs no AI calls.
 
 See the complete [operations guide](https://github.com/Shawnchee/hindsight/blob/main/docs/incident-discovery.md)
 for request limits, queue preservation, health, token behavior and failure handling.

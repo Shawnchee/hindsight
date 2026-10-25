@@ -46,41 +46,39 @@ not prove incident identity. `observed_at` is first observation by this collecto
 not earliest public disclosure; `first_seen_at` stays null. `target_scope` is the
 desired filter, while `scope_status` remains unresolved until independently checked.
 
-## Turn on GitHub updates
+## Automatic daily ingestion
 
-1. Publish these files on your repository's default branch. This local preparation
-   does not start a hosted schedule by itself.
-2. In **Settings → Actions → General**, enable Actions and allow it to create pull
-   requests. The discovery job explicitly requests contents/PR write permission.
-3. Open **Actions → Incident discovery → Run workflow** on the default branch for
-   the first run. No API key is needed for the RSS path.
-4. Check the job summary and the draft PR from `codex/incident-discovery`.
-   Review the evidence before merging; the workflow never merges for you.
+The workflow runs daily at **09:17 Malaysia time (01:17 UTC)**. It collects free
+RSS feeds plus optional Serper news/indexed X links, validates the metadata, and
+commits only the allowlisted discovery files directly to the default branch.
+**No review PR is required.** Existing leads are preserved and matching URLs are
+deduplicated. New records stay proposed, unresolved and ineligible for benchmarks.
 
-The workflow checks daily at **09:17 Malaysia time (01:17 UTC)** and can also be
-run manually. Each run updates the same draft PR and preserves unmerged leads.
-GitHub schedules can be delayed and run on the default branch; inactive public
-repositories may have their schedule disabled. Check the Actions page rather
-than assuming a green old file proves monitoring is active. These are
-[GitHub scheduling limits](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#schedule).
+1. Enable Actions and publish the workflow on the default branch.
+2. Run **Actions → Incident discovery → Run workflow** to test it immediately.
+3. Inspect the run summary and `incidents/discovery/` for results and source health.
+4. For Serper, add `SERPER_API_KEY` as a repository Actions secret and set
+   `ENABLE_SERPER_DISCOVERY=true` as a repository variable.
 
-The reserved bot branch is a queue. Each run reads its existing lead file as
-untrusted metadata, using collector code from the default branch, so unmerged
-leads survive the next collection window. It never executes bot-branch scripts.
-Use a separate branch for researched community submissions; do not hand-edit
-the reserved bot branch. Invalid metadata blocks publication and fails the job.
+The workflow needs `contents: write`; it does not request pull-request permission.
+Branch protection can block automatic commits. It never bypasses protection or
+force-pushes. A concurrent maintainer push makes publication fail visibly; the
+next run recollects the rolling time window.
 
-The bot stages only its three discovery metadata files, validates them and runs
-trusted offline checks before opening/updating its draft PR. Partial source
-failures remain visible in status and make the workflow fail even when useful
-leads were preserved. No source/body corpus or automatic enrichment is included.
+For migration, a previous `codex/incident-discovery` branch is read as untrusted
+metadata and merged with the current queue. No code from that branch is executed.
+Invalid or oversized metadata blocks publication. Three fixed paths are staged:
+`leads.jsonl`, `status.json` and optional `serper-status.json` under
+`incidents/discovery/`. Source failures remain visible, even when successful
+sources produce records that can be saved.
 
-PRs created with the standard `GITHUB_TOKEN` do not normally trigger another
-`pull_request` workflow. Checks already run in the discovery job, but a branch
-protection rule requiring a separate PR check may still need a maintainer-triggered
-check or a configured GitHub App token. This workflow does not create a personal
-access token or bypass protection. See the
-[action's token documentation](https://github.com/peter-evans/create-pull-request/blob/main/docs/concepts-guidelines.md#token).
+This adds **discovery reports**, not verified incidents or changes to frozen
+research exports. AI compilation requires a separately configured hosted model;
+the RSS/Serper collector itself does not call an AI service. Automated model
+summaries must remain labeled proposals and retain their evidence links.
+
+GitHub schedules can be delayed or disabled after public-repository inactivity.
+See [GitHub scheduling limits](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#schedule).
 
 ## Optional Serper search
 

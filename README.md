@@ -105,8 +105,9 @@ remain provisional. The enriched snapshot has **zero human-verified labels**.
 Components include dependencies and proxies, not separate hacks. These counts
 overlap and should not be added together.
 
-RSS and optional Serper searches can queue new reports for review. They do not
-automatically confirm incidents or update the dataset. See [discovery setup](docs/incident-discovery.md)
+Daily RSS and optional Serper searches automatically save new, unverified reports
+under `incidents/discovery/`, without a review PR. They do not confirm incidents
+or modify frozen research snapshots. See [discovery setup](docs/incident-discovery.md)
 to enable the scheduled workflow and inspect its latest results.
 
 ## More guides
