@@ -14,7 +14,9 @@ collect = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(collect)
 ROOT = Path(__file__).resolve().parents[2]
 OUTPUT = ROOT / 'incidents/discovery/ai-summaries.json'
-MODEL = 'gemini-3.1-flash-lite'
+MODEL = os.environ.get('GEMINI_MODEL') or 'gemini-3.5-flash-lite'
+if MODEL not in {'gemini-3.1-flash-lite', 'gemini-3.5-flash-lite'}:
+    raise ValueError('unsupported_summary_model')
 
 
 def fingerprint(row):
@@ -122,4 +124,6 @@ def compile_summaries(inputs, output=OUTPUT, generator=generate):
     collect.atomic_write(output, json.dumps({'schema_version': prior['schema_version'],
         'records': sorted(old.values(), key=lambda r: r['id']), 'last_attempt': attempt}, indent=2, sort_keys=True) + '\n')
     print(json.dumps({'gemini': attempt}))
+    if attempt['status'] != 'ok':
+        print('::warning::Gemini compilation did not succeed; see ai-summaries.json last_attempt. Incident counts do not depend on AI output.')
     return attempt

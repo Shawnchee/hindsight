@@ -157,7 +157,7 @@ def render():
       <p class="dataset-intro">Browse all {len(catalog)} catalog entries, including {counts['2025']} from 2025 and {counts['2026']} from 2026. The separate research snapshot covers {manifest['incident_count']} cases and {manifest['contract_snapshots']} components; its labels remain unverified ({manifest['human_verified_labels']} human-verified). Counts overlap.</p>
       <a class="dataset-link" href="data/catalog.json">Browse all {len(catalog)} incidents <span aria-hidden="true">↗</span></a>
       <p class="dataset-sources">Sources: <a href="https://github.com/SunWeb3Sec/DeFiHackLabs/tree/23c7bd8">DeFiHackLabs leads</a>, protocol/researcher reports, <a href="https://sourcify.dev/">Sourcify</a>/<a href="https://etherscan.io/">Etherscan</a>, and historical Ethereum reads.</p>
-      <p class="dataset-asof">Metadata checked: {catalog_as_of}. Historical baseline: 21 October 2026. New records remain unverified; duplicate or ambiguous news reports do not increase these counts.</p>
+      <p class="dataset-asof">Metadata checked: {catalog_as_of}. Historical baseline: 21 October 2026. {live['pending_count']} upstream candidates await scope or identity checks; they are not counted. All catalog records remain unverified.</p>
       {charts}
       <div class="dataset-filters" role="group" aria-label="Choose dataset examples" hidden>
         <button type="button" data-dataset-filter="2026" aria-pressed="true">2026</button>

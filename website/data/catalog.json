@@ -1,4 +1,12 @@
 {
+  "ai_status": {
+    "error": "http_503",
+    "model": "gemini-3.1-flash-lite",
+    "observed_at": "2026-10-26T14:37:26Z",
+    "records": 0,
+    "requests": 1,
+    "status": "failed"
+  },
   "ai_summaries": {},
   "attribution": {
     "license": "Apache-2.0",
@@ -8,6 +16,7 @@
   "baseline_as_of": "2026-10-21",
   "entry_count": 358,
   "limitations": "Reported metadata, not verified vulnerabilities. AI summaries are proposals. Possible news matches do not increase counts.",
+  "pending_count": 21,
   "records": [
     {
       "chain_id": 1,

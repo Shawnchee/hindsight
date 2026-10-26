@@ -5,6 +5,7 @@ from pathlib import Path
 import subprocess
 import sys
 import unittest
+from unittest.mock import Mock, patch
 
 ROOT = Path(__file__).resolve().parents[1]
 SCRIPT = ROOT / 'scripts/mcp/server.py'
@@ -14,6 +15,23 @@ SPEC.loader.exec_module(server)
 
 
 class McpTests(unittest.TestCase):
+    def test_live_fetch_on_first_request_and_local_data_refresh(self):
+        feed = server.catalog.public_catalog()
+        response = Mock(status=200)
+        response.read.return_value = json.dumps(feed).encode()
+        response.__enter__ = Mock(return_value=response)
+        response.__exit__ = Mock(return_value=False)
+        opener = Mock()
+        opener.open.return_value = response
+        with patch.object(server.time, 'monotonic', return_value=1), patch.object(server.urllib.request, 'build_opener', return_value=opener):
+            self.assertEqual(server.Store(True).read()['entry_count'], feed['entry_count'])
+            self.assertEqual(opener.open.call_args.args[0].full_url, server.LIVE_URL)
+        with patch.object(server.catalog, 'public_catalog', return_value=feed) as local:
+            store = server.Store(False)
+            store.read()
+            store.read()
+            self.assertEqual(local.call_count, 2)
+
     def test_stdio_initialize_search_status_and_unknown_methods(self):
         requests = [
             {'jsonrpc': '2.0', 'id': 1, 'method': 'initialize', 'params': {'protocolVersion': '2025-11-25'}},

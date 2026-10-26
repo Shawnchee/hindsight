@@ -60,6 +60,8 @@ class Store:
         data = self.read()
         return {'entry_count': data['entry_count'], 'year_counts': data['year_counts'],
                 'updated_at': data['updated_at'], 'baseline_as_of': data['baseline_as_of'],
+                'pending_count': data.get('pending_count', 0), 'ai_summary_count': len(data.get('ai_summaries', {})),
+                'ai_status': data.get('ai_status'),
                 'mode': 'live' if self.live else 'local', 'refresh_error': self.fetch_error,
                 'checked_at': datetime.now(timezone.utc).isoformat(),
                 'limitations': 'Unverified public metadata. Local mode requires git pull. Live mode checks at most every five minutes. No project source or keys are sent.'}

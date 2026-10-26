@@ -49,7 +49,7 @@ def record_valid(row):
         raise ValueError('invalid_catalog_record')
     if (not isinstance(row['id'], str) or not re.fullmatch(r'[A-Za-z0-9_-]{1,150}', row['id'])
             or not isinstance(row['name'], str) or not 1 <= len(row['name']) <= 160
-            or any(ord(c) < 32 for c in row['name']) or row['chain_id'] != 1
+            or any(ord(c) < 32 for c in row['name']) or type(row['chain_id']) is not int or row['chain_id'] != 1
             or row['status'] != 'reported_unverified' or row['human_verified'] is not False
             or row['training_eligible'] is not False or row['evaluation_eligible'] is not False
             or row['stage'] not in {'baseline_catalog', 'upstream_metadata'}):
@@ -137,7 +137,7 @@ def matching(candidate, records):
     paths = set(candidate['upstream_paths'])
     direct = [r for r in records if paths.intersection(r['upstream_paths'])]
     if len(direct) == 1:
-        return 'existing', direct[0]['id']
+        return ('existing', direct[0]['id']) if direct[0]['date'] == candidate['date'] else ('ambiguous', None)
     if len(direct) > 1:
         return 'ambiguous', None
     tx = set(candidate['transactions'])
@@ -191,7 +191,7 @@ def candidate(entry, source, commit):
     if any(collect.urllib.parse.urlsplit(url).hostname != 'etherscan.io'
            for url in re.findall(r'https?://[^\s)]+', '\n'.join(tx_lines))):
         return None, 'chain_missing_or_conflicting'
-    transactions = sorted(set(re.findall(r'(?<![a-zA-Z0-9])(0x[a-fA-F0-9]{64})(?![a-zA-Z0-9])', '\n'.join(tx_lines))))
+    transactions = sorted({x.lower() for x in re.findall(r'(?<![a-zA-Z0-9])(0x[a-fA-F0-9]{64})(?![a-zA-Z0-9])', '\n'.join(tx_lines))})
     victims = [line for line in header.splitlines() if re.match(r'//\s*(?:Vulnerable|Victim)(?:\s+(?:Contract|proxy))?\s*:', line, re.I)]
     contracts = sorted(set(x.lower() for x in re.findall(r'0x[a-fA-F0-9]{40}', '\n'.join(victims))))
     if not transactions or not contracts:
@@ -243,6 +243,9 @@ def refresh(state, now=None, fetcher=fetch_public):
     for item in candidates:
         existing = [r for r in records if set(item['paths']).intersection(r['upstream_paths'])]
         if len(existing) == 1:
+            if existing[0]['date'] != item['date']:
+                pending.append({'name': item['name'], 'date': item['date'], 'reason': 'ambiguous_incident_identity'})
+                continue
             summary_inputs.append({'id': existing[0]['id'], 'name': existing[0]['name'],
                                    'claim': item['claim'], 'loss_reported': item['loss'],
                                    'source_url': UPSTREAM + '/blob/' + commit + '/README.md'})
@@ -290,10 +293,11 @@ def public_catalog(state=None):
     records = baseline() + state['additional']
     if len({r['id'] for r in records}) != len(records):
         raise ValueError('catalog_id_collision')
-    summaries = {}
+    summaries, ai_status = {}, None
     summary_path = ROOT / 'incidents/discovery/ai-summaries.json'
     if summary_path.exists():
         payload = read_json(summary_path)
+        ai_status = payload.get('last_attempt')
         ids = {r['id'] for r in records}
         for row in payload['records']:
             if (row.get('id') not in ids or row.get('status') != 'ai_proposed' or row.get('human_verified') is not False
@@ -308,7 +312,8 @@ def public_catalog(state=None):
             'baseline_as_of': '2026-10-21', 'upstream_commit': state['upstream_commit'],
             'attribution': {'name': 'DeFiHackLabs', 'url': UPSTREAM, 'license': 'Apache-2.0'},
             'entry_count': len(records), 'year_counts': dict(Counter(r['date'][:4] for r in records)),
-            'records': sorted(records, key=lambda r: (r['date'], r['id']), reverse=True), 'ai_summaries': summaries,
+            'records': sorted(records, key=lambda r: (r['date'], r['id']), reverse=True),
+            'pending_count': len(state['pending']), 'ai_summaries': summaries, 'ai_status': ai_status,
             'limitations': 'Reported metadata, not verified vulnerabilities. AI summaries are proposals. Possible news matches do not increase counts.'}
 
 

@@ -95,9 +95,10 @@ news transaction matches are possible evidence links, not independent verificati
 These rules reduce false positives; they cannot guarantee none. Baseline
 classifications also remain provisional.
 
-`GEMINI_API_KEY` enables at most **one Gemini 3.1 Flash-Lite request per run**, over
+`GEMINI_API_KEY` enables at most **one Gemini 3.5 Flash-Lite request per run**, over
 up to ten changed licensed upstream claims. No new input means zero requests.
-There are no retries or model fallbacks; output is capped at 4096 tokens.
+The default model is `gemini-3.5-flash-lite`; optional repository variable
+`GEMINI_MODEL` can pin `gemini-3.1-flash-lite`. There are no retries or model fallbacks; output is capped at 4096 tokens.
 Only public metadata is sent, never project source, article bodies or direct X
 content. Output IDs must match inputs; support quotes must occur in the supplied
 claim. AI cannot add members, change chains, merge incidents, set losses or approve
