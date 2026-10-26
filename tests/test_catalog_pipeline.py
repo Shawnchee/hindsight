@@ -42,6 +42,8 @@ class CatalogTests(unittest.TestCase):
                      SOURCE + 'createSelectFork("bsc", 123);'):
             with self.subTest(text=text):
                 self.assertIsNone(catalog.candidate(ENTRY, text, SHA)[0])
+        alternate = SOURCE.replace('// Chain : Ethereum mainnet', '// Ethereum mainnet, 2026-10-25').replace('https://etherscan.io/tx/', '')
+        self.assertIsNotNone(catalog.candidate(ENTRY, alternate, SHA)[0])
 
     def test_same_incident_different_source_matches_without_new_row(self):
         row = self.candidate()

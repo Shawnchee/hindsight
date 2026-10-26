@@ -93,10 +93,13 @@ def baseline():
 def load_state(path=STATE):
     if not path.exists():
         return {'schema_version': SCHEMA, 'updated_at': None, 'upstream_commit': None,
-                'additional': [], 'related_reports': {}, 'pending': [], 'last_refresh': None}
+                'additional': [], 'related_reports': {}, 'pending': [], 'last_refresh': None, 'scan_offset': 0}
     state = read_json(path)
-    if set(state) != {'schema_version', 'updated_at', 'upstream_commit', 'additional', 'related_reports', 'pending', 'last_refresh'} or state['schema_version'] != SCHEMA:
+    state.setdefault('scan_offset', 0)
+    if set(state) != {'schema_version', 'updated_at', 'upstream_commit', 'additional', 'related_reports', 'pending', 'last_refresh', 'scan_offset'} or state['schema_version'] != SCHEMA:
         raise ValueError('invalid_catalog_state')
+    if type(state['scan_offset']) is not int or not 0 <= state['scan_offset'] <= 30:
+        raise ValueError('invalid_scan_offset')
     if not isinstance(state['additional'], list) or len(state['additional']) > 2000:
         raise ValueError('invalid_catalog_state')
     if state['updated_at'] is not None:
@@ -176,7 +179,8 @@ def candidate(entry, source, commit):
     # extracted; code and comment analysis bodies are never persisted or run.
     header = '\n'.join(line for line in source.splitlines()[:100] if line.lstrip().startswith('//'))
     chains = re.findall(r'(?im)^//\s*Chain\s*:\s*(.+)', header)
-    explicit_mainnet = any(re.search(r'\bEthereum(?: mainnet)?\b', c, re.I) for c in chains)
+    explicit_mainnet = (any(re.search(r'\bEthereum(?: mainnet)?\b', c, re.I) for c in chains)
+                        or any(re.search(r'\bEthereum mainnet\b', line, re.I) for line in header.splitlines()[:12]))
     other = any(re.search(r'\b(?:BNB|BSC|Base|Arbitrum|Polygon|Optimism|Avalanche|testnet)\b', c, re.I) for c in chains)
     forks = re.findall(r'createSelectFork\(\s*"([A-Za-z0-9_-]+)"', source)
     if forks and any(f.lower() not in {'mainnet', 'ethereum', 'eth'} for f in forks):
@@ -184,7 +188,10 @@ def candidate(entry, source, commit):
     if not (explicit_mainnet or forks) or other:
         return None, 'chain_missing_or_conflicting'
     tx_lines = [line for line in header.splitlines() if re.match(r'//\s*(?:Attack|Profit|Exploit)(?:\s+Tx|\s+Transaction)\s*:', line, re.I)]
-    transactions = sorted(set(re.findall(r'https://etherscan\.io/tx/(0x[a-fA-F0-9]{64})', '\n'.join(tx_lines))))
+    if any(collect.urllib.parse.urlsplit(url).hostname != 'etherscan.io'
+           for url in re.findall(r'https?://[^\s)]+', '\n'.join(tx_lines))):
+        return None, 'chain_missing_or_conflicting'
+    transactions = sorted(set(re.findall(r'(?<![a-zA-Z0-9])(0x[a-fA-F0-9]{64})(?![a-zA-Z0-9])', '\n'.join(tx_lines))))
     victims = [line for line in header.splitlines() if re.match(r'//\s*(?:Vulnerable|Victim)(?:\s+(?:Contract|proxy))?\s*:', line, re.I)]
     contracts = sorted(set(x.lower() for x in re.findall(r'0x[a-fA-F0-9]{40}', '\n'.join(victims))))
     if not transactions or not contracts:
@@ -225,14 +232,22 @@ def refresh(state, now=None, fetcher=fetch_public):
     markdown = fetcher(RAW + commit + '/README.md').decode('utf-8')
     records = baseline() + result['additional']
     pending, summary_inputs, checked = [], [], 0
-    for item in entries(markdown, now):
+    candidates = entries(markdown, now)
+    # Always retry the newest four unresolved entries. Rotate the remaining
+    # budget so old malformed/out-of-scope entries cannot starve the queue.
+    unmatched = [item for item in candidates if not any(set(item['paths']).intersection(r['upstream_paths']) for r in records)]
+    tail = unmatched[4:]
+    offset = result.get('scan_offset', 0) % len(tail) if tail else 0
+    chosen = unmatched[:4] + (tail[offset:] + tail[:offset])[:4]
+    chosen_paths = {tuple(item['paths']) for item in chosen}
+    for item in candidates:
         existing = [r for r in records if set(item['paths']).intersection(r['upstream_paths'])]
         if len(existing) == 1:
             summary_inputs.append({'id': existing[0]['id'], 'name': existing[0]['name'],
                                    'claim': item['claim'], 'loss_reported': item['loss'],
                                    'source_url': UPSTREAM + '/blob/' + commit + '/README.md'})
             continue
-        if checked >= 8:
+        if tuple(item['paths']) not in chosen_paths or checked >= 8:
             pending.append({'name': item['name'], 'date': item['date'], 'reason': 'daily_fetch_cap'})
             continue
         checked += 1
@@ -264,6 +279,7 @@ def refresh(state, now=None, fetcher=fetch_public):
                 ident = next(iter(ids))
                 result['related_reports'][ident] = sorted(set(result['related_reports'].get(ident, []) + [lead['canonical_url']]))[:30]
     result.update(updated_at=collect.stamp(now), upstream_commit=commit, pending=pending,
+                  scan_offset=(offset + 4) % len(tail) if tail else 0,
                   last_refresh={'source': 'DeFiHackLabs', 'metadata_files_checked': checked,
                                 'added': len(result['additional']) - before, 'pending': len(pending)})
     return result, summary_inputs

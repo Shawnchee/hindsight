@@ -39,7 +39,7 @@ class Store:
         self.live, self.cached, self.checked, self.fetch_error = live, None, 0, None
 
     def read(self):
-        if self.live and time.monotonic() - self.checked > 300:
+        if self.live and (self.cached is None or time.monotonic() - self.checked > 300):
             self.checked = time.monotonic()
             try:
                 opener = urllib.request.build_opener(urllib.request.ProxyHandler({}), catalog.collect.NoRedirect())
@@ -52,7 +52,7 @@ class Store:
                 self.fetch_error = None
             except Exception:
                 self.fetch_error = 'live_feed_unavailable_using_cached_or_local_data'
-        if self.cached is None:
+        if self.cached is None or not self.live:
             self.cached = validate_feed(catalog.public_catalog())
         return self.cached
 

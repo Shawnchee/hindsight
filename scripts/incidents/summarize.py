@@ -7,6 +7,7 @@ import os
 from pathlib import Path
 import re
 import urllib.request
+import urllib.error
 
 SPEC = importlib.util.spec_from_file_location('summary_collect', Path(__file__).with_name('collect.py'))
 collect = importlib.util.module_from_spec(SPEC)
@@ -108,9 +109,16 @@ def compile_summaries(inputs, output=OUTPUT, generator=generate):
             old.update({r['id']: {**r, 'generated_at': stamp} for r in records})
             attempt.update(status='ok', records=len(records), input_tokens=usage.get('promptTokenCount'),
                            output_tokens=usage.get('candidatesTokenCount'))
+        except urllib.error.HTTPError as error:
+            attempt['error'] = 'http_' + str(error.code)
+        except ValueError as error:
+            allowed = {'invalid_summary_shape', 'invalid_summary_fields', 'unknown_or_duplicate_summary_id',
+                       'invalid_summary_text', 'unsafe_summary_text', 'summary_has_no_source_support',
+                       'missing_summary_records', 'incomplete_summary_response', 'summary_response_limit'}
+            attempt['error'] = str(error) if str(error) in allowed else 'invalid_json_or_response'
         except Exception:
             # Do not log provider responses, requests, keys or copied input.
-            pass
+            attempt['error'] = 'provider_connection_or_response_error'
     collect.atomic_write(output, json.dumps({'schema_version': prior['schema_version'],
         'records': sorted(old.values(), key=lambda r: r['id']), 'last_attempt': attempt}, indent=2, sort_keys=True) + '\n')
     print(json.dumps({'gemini': attempt}))
