@@ -44,8 +44,14 @@ still applies. Schedules can be delayed or disabled by GitHub; health allows
 36 hours between successful attempts.
 
 Automatic collection adds unverified reports, not confirmed vulnerabilities.
-Frozen research exports remain unchanged. AI compilation needs a separately
-configured model; the collector currently performs no AI calls.
+Frozen research exports remain unchanged. A separate DeFiHackLabs refresh adds
+qualifying reported metadata; ambiguous matches stay pending. With
+`GEMINI_API_KEY`, one batch of up to ten changed upstream claims receives
+separately labeled AI summaries. AI does not decide catalog membership.
+
+Counts and charts rebuild automatically. Cloudflare publishing stays off until
+`CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` are configured. Agents can read
+the live GitHub catalog through the [optional MCP server](./mcp.md).
 
 See the complete [operations guide](https://github.com/Shawnchee/hindsight/blob/main/docs/incident-discovery.md)
 for request limits, queue preservation, health, token behavior and failure handling.

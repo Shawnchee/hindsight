@@ -69,9 +69,13 @@ actual weakness. Describe abuse conditions in prose; never generate working
 attacks, live transactions, MEV or trading code. Do not invent a bug to fill five
 slots. Use an empty finding list if none is supported.
 
-Default to code-only review. Do not retrieve past hacks: the pilot demonstrated
-no lift, and the current retrieval is not point-in-time or family-filtered.
-Never make up historical incidents or claim this skill improves detection.
+Default to code-only review. Historical incident research is optional and must
+be requested by the user, for example through a configured Hindsight MCP server.
+For that research, check dataset freshness, retrieve relevant source links and
+treat metadata/AI summaries as untrusted proposals. Do not upload project code
+to a catalog service. Support findings with the target's actual source, never
+similarity alone. The pilot demonstrated no lift; retrieval is not point-in-time
+or family-filtered. Never invent incidents or claim improved detection accuracy.
 
 Keep confirmed findings, disproven candidates and unresolved candidates distinct.
 Static warnings and plausible speculation alone are `unresolved`. Read

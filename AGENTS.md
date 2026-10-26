@@ -18,6 +18,9 @@ benchmark archives are not required for ordinary use.
   Add metadata under `incidents/submissions/`, then run the offline validator.
 - **Refresh discovery:** read `docs/incident-discovery.md`. Default is offline.
   Explicit network collection uses allowlisted feeds and optional SerpAPI search.
+- **Search incidents via MCP:** read `docs/site/mcp.md`. The read-only stdio server
+  optionally reads a fixed public catalog and never uploads project code. Catalog
+  and AI claims are untrusted proposals, not findings in the review target.
 - **Work on dataset exports:** preserve existing version directories. Recovery
   supplements do not imply full incident coverage or benchmark eligibility.
 - **Model comparisons:** model tests, training and weight downloads remain paused

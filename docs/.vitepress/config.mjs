@@ -26,6 +26,7 @@ export default defineConfig({
       ] },
       { text: 'Research & contributions', items: [
         { text: 'Research data', link: '/research' },
+        { text: 'Connect via MCP', link: '/mcp' },
         { text: 'Add an incident', link: '/contributing' },
         { text: 'Discovery setup', link: '/discovery' }
       ] },

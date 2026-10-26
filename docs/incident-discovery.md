@@ -73,10 +73,63 @@ Invalid or oversized metadata blocks publication. Only fixed discovery paths are
 Source failures remain visible, even when successful
 sources produce records that can be saved.
 
-This adds **discovery reports**, not verified incidents or changes to frozen
-research exports. AI compilation requires a separately configured hosted model;
-the RSS/SerpAPI collector itself does not call an AI service. Automated model
-summaries must remain labeled proposals and retain their evidence links.
+## Catalog and Gemini compilation
+
+DeFiHackLabs is checked at a commit-specific revision: one GitHub revision
+request, one README request, and at most eight Solidity metadata files (128 KiB
+each). Only the 30 most recent dated README entries are considered per run.
+Fetched files are untrusted text, never executed or redistributed.
+
+The immutable 357-row CSV remains the historical baseline. Additions go into
+`datasets/catalog/current.json`, a Git-tracked operational overlay. The combined
+public feed is `website/data/catalog.json`. Counts mean **reported incidents**,
+not human-verified hacks. Frozen research versions never change.
+
+A new counted entry requires explicit Ethereum mainnet scope, an Etherscan
+attack/profit transaction, a named victim contract and an upstream reference.
+Conflicting chain metadata, missing evidence, reused protocol/date with uncertain
+identity, roundups and multiple matches stay pending. Exact upstream paths match
+baseline records; compatible shared transactions/victims can match another source
+to an existing incident. News alone never increments catalog counts. Related
+news transaction matches are possible evidence links, not independent verification.
+These rules reduce false positives; they cannot guarantee none. Baseline
+classifications also remain provisional.
+
+`GEMINI_API_KEY` enables at most **one Gemini 3.1 Flash-Lite request per run**, over
+up to ten changed licensed upstream claims. No new input means zero requests.
+There are no retries or model fallbacks; output is capped at 4096 tokens.
+Only public metadata is sent, never project source, article bodies or direct X
+content. Output IDs must match inputs; support quotes must occur in the supplied
+claim. AI cannot add members, change chains, merge incidents, set losses or approve
+labels. Failures and token usage are recorded in
+`incidents/discovery/ai-summaries.json`; previous summaries remain available.
+Check `last_attempt`, not just workflow success. Valid schema and a supporting
+quote do not establish factual correctness.
+
+```sh
+# Offline, no provider request or writes.
+python3 -I scripts/incidents/catalog.py --check
+# Explicit upstream refresh and optional single Gemini batch.
+python3 -I scripts/incidents/catalog.py --execute --gemini --write-public
+python3 -I scripts/site/research_preview.py --write
+```
+
+## Website and agent updates
+
+Daily ingestion regenerates total/year counts, examples and the coverage chart
+from the combined catalog, builds VitePress and validates the public site before
+committing fixed generated paths. The five loss examples remain selected source
+claims; no misleading aggregate loss total is calculated.
+
+Cloudflare deployment stays off until repository variable `CLOUDFLARE_ACCOUNT_ID`
+and secret `CLOUDFLARE_API_TOKEN` (Pages Edit on the project account) exist. Then
+the workflow uploads **only `site-dist/`** to `hindsight-solidity` using pinned
+Wrangler. GitHub data updates work without hosting credentials. No token is
+published. See [Cloudflare's CI guide](https://developers.cloudflare.com/pages/how-to/use-direct-upload-with-continuous-integration/).
+
+The [read-only MCP server](site/mcp.md) can read the live public GitHub catalog,
+independently of Cloudflare. Local copies require `git pull`. Connecting MCP does
+not force an agent to use it or demonstrate detection accuracy.
 
 GitHub schedules can be delayed or disabled after public-repository inactivity.
 See [GitHub scheduling limits](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#schedule).
@@ -115,8 +168,7 @@ Indexed results can be delayed, incomplete, unrelated or wrong.
 On 26 October 2026, a bounded live smoke test returned a successful Google News
 response. A separate tiny Gemini 3.1 Flash-Lite request returned the expected
 response after one temporary unavailable response. These confirm connectivity,
-not incident accuracy. Gemini compilation is not integrated into the workflow.
-The optional future Gemini integration needs a separate `GEMINI_API_KEY` secret.
+not incident accuracy. Gemini compilation uses the separate `GEMINI_API_KEY` repository secret.
 
 See [SerpAPI Google News documentation](https://serpapi.com/google-news-api).
 

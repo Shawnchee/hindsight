@@ -7,6 +7,7 @@ import sys
 def main():
     root = Path(__file__).resolve().parents[1]
     commands = [
+        ["scripts/incidents/catalog.py", "--check"],
         ["scripts/site/research_preview.py"],
         ["-m", "unittest", "discover", "-s", "tests", "-p", "test_*.py"],
         ["scripts/incidents/validate.py", "--root", "incidents/submissions"],

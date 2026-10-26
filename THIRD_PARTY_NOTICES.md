@@ -8,6 +8,12 @@ A copy of that license is included at [third_party/DeFiHackLabs/LICENSE](third_p
 Retain upstream attribution and any applicable LICENSE/NOTICE obligations when
 redistributing derived material. Links to upstream material do not change its terms.
 
+Daily additions retain commit-specific DeFiHackLabs links and Apache-2.0
+attribution. Fetched Solidity is read only for chain/transaction/address metadata,
+never executed or redistributed. Gemini's original summaries remain separately
+labeled AI proposals with supporting upstream text and source references; they
+do not establish verified causality.
+
 Recovered contract source is kept out of published research exports. Source hashes,
 addresses and fetch instructions do not grant rights to redistribute the fetched
 code. In flattened Solidity, a dependency's SPDX marker is not a blanket license

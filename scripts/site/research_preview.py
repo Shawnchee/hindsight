@@ -2,6 +2,7 @@
 import argparse
 import csv
 import io
+import importlib.util
 from collections import Counter
 import hashlib
 import html
@@ -35,6 +36,17 @@ def render():
     catalog_path = ROOT / 'm0/catalog/ethereum_incidents.csv'
     catalog_raw = catalog_path.read_bytes()
     catalog = list(csv.DictReader(io.StringIO(catalog_raw.decode())))
+    spec = importlib.util.spec_from_file_location('public_catalog', ROOT / 'scripts/incidents/catalog.py')
+    current = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(current)
+    live = current.public_catalog()
+    for row in live['records']:
+        if row['stage'] == 'upstream_metadata':
+            catalog.append({'incident_id': row['id'], 'name': row['name'], 'date': row['date'],
+                            'year': row['date'][:4], 'chain': 'ethereum', 'loss_readme': row['loss_reported'],
+                            'readme_source': 'README.md', '_upstream_url': row['sources'][0],
+                            '_record_url': 'data/catalog.json'})
+    catalog_as_of = live['updated_at'][:10] if live['updated_at'] else '2026-10-21'
     counts = Counter(r['year'] for r in catalog)
     # Explicit selections, not a total: source amounts may span chains/recoveries.
     loss_selections = [('BalancerV2', 120_000_000, '120M USD'), ('Corkprotocol', 12_000_000, '12M USD'),
@@ -50,7 +62,7 @@ def render():
                               'record_url': f'{REPO}/blob/main/m0/catalog/ethereum_incidents.csv#L{catalog.index(row) + 2}',
                               'verification': 'source_reported_unverified', 'scope': 'may_include_other_chains_or_gross_losses'})
     loss_examples.sort(key=lambda item: (-item['reported_usd'], item['name']))
-    annual = [{'year': str(year), 'entries': counts[str(year)]} for year in range(2017, 2027)]
+    annual = [{'year': str(year), 'entries': counts[str(year)]} for year in range(2017, max(2026, max(map(int, counts))) + 1)]
     count_bars = []
     for i, item in enumerate(annual):
         y = 12 + i * 27
@@ -65,7 +77,7 @@ def render():
     charts = f'''<div class="research-charts">
         <figure class="research-chart"><figcaption><h3>Incidents in the catalog</h3><p>Reported entries by year · {len(catalog)} total</p></figcaption>
           <svg viewBox="0 0 400 290" role="img" aria-labelledby="counts-title counts-desc"><title id="counts-title">Catalog entries by reported incident year</title><desc id="counts-desc">{'; '.join(x['year'] + ': ' + str(x['entries']) for x in annual)}. This is catalog coverage, not the frequency of all hacks.</desc>{''.join(count_bars)}</svg>
-          <p class="chart-note">Coverage varies by year. 2026 is partial, through 21 October. Counts are not a measure of industry-wide hack frequency.</p>
+          <p class="chart-note">Coverage varies by year. Latest metadata refresh: {catalog_as_of}. Counts measure reported catalog coverage, not industry-wide hack frequency.</p>
         </figure>
         <figure class="research-chart"><figcaption><h3>Reported loss examples</h3><p>Highest to lowest · five selected cases · reported USD</p></figcaption>
           <svg viewBox="0 0 400 290" role="img" aria-labelledby="losses-title losses-desc"><title id="losses-title">Selected source-reported loss amounts</title><desc id="losses-desc">{'; '.join(x['name'] + ': ' + x['reported_text'] for x in loss_examples)}. Unverified figures; not a total or a ranking of all incidents.</desc>{''.join(loss_bars)}</svg>
@@ -79,8 +91,8 @@ def render():
         recent_rows = []
         for r in recent:
             line = catalog.index(r) + 2
-            upstream = 'https://github.com/SunWeb3Sec/DeFiHackLabs/blob/23c7bd83ccb4524972a9493617fcc8764ab6269b/' + r['readme_source']
-            record = f'{REPO}/blob/main/m0/catalog/ethereum_incidents.csv#L{line}'
+            upstream = r.get('_upstream_url') or 'https://github.com/SunWeb3Sec/DeFiHackLabs/blob/23c7bd83ccb4524972a9493617fcc8764ab6269b/' + r['readme_source']
+            record = r.get('_record_url') or f'{REPO}/blob/main/m0/catalog/ethereum_incidents.csv#L{line}'
             catalog_examples.append({'incident_id': r['incident_id'], 'name': r['name'], 'reported_date': r['date'],
                                      'catalog_year': year, 'chain_classification': r['chain'], 'data_stage': 'catalog_entry',
                                      'enriched_snapshot_member': r['incident_id'] in {item['incident_id'] for item in inputs['incidents.jsonl']},
@@ -125,7 +137,7 @@ def render():
                'recorded_at': manifest['recorded_at'],
                'upstream_catalog_attribution': {'name': 'DeFiHackLabs', 'commit': '23c7bd8', 'license': 'Apache-2.0', 'license_file': 'DeFiHackLabs-LICENSE.txt', 'url': 'https://github.com/SunWeb3Sec/DeFiHackLabs'},
                'selection': 'Three selected enriched examples, not a representative sample or complete records; catalog examples are a separate projection.',
-               'catalog': {'entry_count': len(catalog), 'year_counts': dict(counts), 'as_of': '2026-10-21', 'upstream_commit': '23c7bd83ccb4524972a9493617fcc8764ab6269b', 'source_csv_sha256': hashlib.sha256(catalog_raw).hexdigest(), 'selection': 'Three most recent dated entries for each displayed year; no root-cause labels, PoCs or private source included.', 'examples': catalog_examples},
+               'catalog': {'entry_count': len(catalog), 'year_counts': dict(counts), 'as_of': catalog_as_of, 'upstream_commit': live['upstream_commit'], 'baseline_commit': '23c7bd83ccb4524972a9493617fcc8764ab6269b', 'source_csv_sha256': hashlib.sha256(catalog_raw).hexdigest(), 'selection': 'Three most recent dated entries for each displayed year; no root-cause labels, PoCs or private source included.', 'examples': catalog_examples},
                'snapshot_payload_sha256': {name: manifest['artifacts'][name] for name in inputs},
                'charts': {'annual_entries': annual, 'selected_loss_examples': loss_examples, 'loss_total': None,
                           'methodology': 'Counts reflect pinned catalog coverage. Selected source USD claims are not reconciled, may span chains, and are not a total or exhaustive ranking.'},
@@ -143,9 +155,9 @@ def render():
         <div><dt>Deeper research cases</dt><dd>{manifest['incident_count']}</dd></div>
       </dl>
       <p class="dataset-intro">Browse all {len(catalog)} catalog entries, including {counts['2025']} from 2025 and {counts['2026']} from 2026. The separate research snapshot covers {manifest['incident_count']} cases and {manifest['contract_snapshots']} components; its labels remain unverified ({manifest['human_verified_labels']} human-verified). Counts overlap.</p>
-      <a class="dataset-link" href="{REPO}/blob/main/m0/catalog/ethereum_incidents.csv">Browse all {len(catalog)} incidents <span aria-hidden="true">↗</span></a>
+      <a class="dataset-link" href="data/catalog.json">Browse all {len(catalog)} incidents <span aria-hidden="true">↗</span></a>
       <p class="dataset-sources">Sources: <a href="https://github.com/SunWeb3Sec/DeFiHackLabs/tree/23c7bd8">DeFiHackLabs leads</a>, protocol/researcher reports, <a href="https://sourcify.dev/">Sourcify</a>/<a href="https://etherscan.io/">Etherscan</a>, and historical Ethereum reads.</p>
-      <p class="dataset-asof">Catalog pinned to 21 October 2026. Reported incident dates are not verified first-disclosure dates; this is not a complete live list.</p>
+      <p class="dataset-asof">Metadata checked: {catalog_as_of}. Historical baseline: 21 October 2026. New records remain unverified; duplicate or ambiguous news reports do not increase these counts.</p>
       {charts}
       <div class="dataset-filters" role="group" aria-label="Choose dataset examples" hidden>
         <button type="button" data-dataset-filter="2026" aria-pressed="true">2026</button>

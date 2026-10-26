@@ -6,6 +6,11 @@ Hindsight's source helpers have no inference client or telemetry. The agent that
 reads the source determines whether reasoning is local or hosted. Installing the
 skill does not make a hosted agent offline. No source upload form is provided.
 
+The separate daily discovery workflow sends only public DeFiHackLabs metadata
+to Gemini for optional summaries. It never sends reviewed project source. AI
+summaries remain proposals. The optional MCP server's `--live` mode makes bounded
+requests to a fixed public GitHub URL and uploads no project code.
+
 Bundles, reports and patches can contain private source. Keep them outside Git.
 Git-ignore does not encrypt files or control backups and cloud sync.
 

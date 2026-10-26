@@ -12,7 +12,8 @@ Your agent reads the code and explains possible bugs. Hindsight prepares the sou
 and checks that the report points to the files actually reviewed.
 
 It also maintains a separate catalog of reported incidents. The current review
-workflow is code-only; it does not automatically search that catalog.
+workflow is code-only by default. The optional [MCP server](docs/site/mcp.md)
+lets compatible agents search current incident metadata and evidence links.
 
 Start with the [documentation overview](docs/site/index.md) or
 [getting-started guide](docs/site/getting-started.md). The website includes searchable
@@ -96,18 +97,23 @@ a new research snapshot. Frozen datasets are not edited by contribution PRs.
 
 | Collection | What it contains |
 | --- | --- |
-| [Incident catalog](m0/catalog/ethereum_incidents.csv) | 357 entries classified as Ethereum; 58 dated 2025 and 59 dated 2026 |
+| [Live catalog](https://github.com/Shawnchee/hindsight/blob/main/website/data/catalog.json) | Historical baseline plus qualifying, explicitly provisional DeFiHackLabs metadata additions |
+| [Historical baseline](m0/catalog/ethereum_incidents.csv) | 357 entries classified as Ethereum, pinned to 21 October 2026 |
 | [Research snapshot v0.2.0](datasets/research/v0.2.0/README.md) | 10 incidents with deeper source research and 55 component records |
 | [Community submissions](incidents/submissions/) | Proposed incident leads awaiting review |
 
-The catalog is pinned to 21 October 2026; classifications and reported claims
+The historical baseline and frozen research snapshots remain unchanged. Daily
+catalog additions require explicit mainnet metadata, an attack transaction and
+a victim contract; ambiguous identity matches stay pending. All reported claims
 remain provisional. The enriched snapshot has **zero human-verified labels**.
 Components include dependencies and proxies, not separate hacks. These counts
 overlap and should not be added together.
 
-Daily RSS and optional SerpAPI searches automatically save new, unverified reports
-under `incidents/discovery/`, without a review PR. They do not confirm incidents
-or modify frozen research snapshots. See [discovery setup](docs/incident-discovery.md)
+Daily RSS and optional SerpAPI searches automatically save unverified reports.
+DeFiHackLabs updates feed a separate catalog overlay; one Gemini batch can
+summarize up to ten new/changed claims. AI never determines incident counts or
+human verification. Counts/charts rebuild automatically; Cloudflare publishing
+requires deployment credentials. See [discovery setup](docs/incident-discovery.md)
 to enable the scheduled workflow and inspect its latest results.
 
 ## More guides
@@ -116,6 +122,7 @@ to enable the scheduled workflow and inspect its latest results.
 | --- | --- |
 | Run the source helpers myself | [Skill guide](docs/hindsight-skill.md) |
 | Understand the report format | [Report reference](skills/hindsight-triage/references/report.md) |
+| Search incidents from my agent | [MCP connection](docs/site/mcp.md) |
 | Build the landing page and docs | [Website setup](docs/README.md) |
 | Inspect dataset limits | [Research snapshots](datasets/research/README.md) |
 | Work on the toolkit as an agent | [AGENTS.md](AGENTS.md) |

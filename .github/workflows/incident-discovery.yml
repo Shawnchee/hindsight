@@ -73,18 +73,39 @@ jobs:
         id: cache
         if: always()
         run: python3 -I scripts/incidents/collect.py --validate-cache incidents/discovery/leads.jsonl
+      - name: Refresh DeFiHackLabs catalog and compile Gemini proposals
+        id: catalog
+        if: always() && steps.cache.outcome == 'success'
+        continue-on-error: true
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          python3 -I scripts/incidents/catalog.py --execute --gemini --write-public
+          python3 -I scripts/site/research_preview.py --write
       - name: Run trusted offline checks on the generated update
         id: checks
         if: always() && steps.cache.outcome == 'success'
         run: python3 -I scripts/check.py
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        if: always() && steps.checks.outcome == 'success'
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: docs/package-lock.json
+      - name: Build and verify updated charts and documentation
+        id: site
+        if: always() && steps.checks.outcome == 'success'
+        run: |
+          npm ci --prefix docs --ignore-scripts --no-fund
+          node scripts/site/build.mjs
       - name: Select existing discovery files for publication
         id: publication
-        if: always() && steps.cache.outcome == 'success' && steps.checks.outcome == 'success'
+        if: always() && steps.cache.outcome == 'success' && steps.checks.outcome == 'success' && steps.site.outcome == 'success'
         shell: bash
         run: |
           set -euo pipefail
           echo 'paths<<HINDSIGHT_FILES' >> "$GITHUB_OUTPUT"
-          for file in incidents/discovery/leads.jsonl incidents/discovery/status.json incidents/discovery/serper-status.json incidents/discovery/serpapi-status.json; do
+          for file in incidents/discovery/leads.jsonl incidents/discovery/status.json incidents/discovery/serper-status.json incidents/discovery/serpapi-status.json incidents/discovery/ai-summaries.json datasets/catalog/current.json website/data/catalog.json website/data/research-preview.json website/index.html; do
             if [ -f "$file" ] && [ ! -L "$file" ]; then
               echo "$file" >> "$GITHUB_OUTPUT"
             fi
@@ -100,7 +121,7 @@ jobs:
           set -euo pipefail
           while IFS= read -r file; do
             case "$file" in
-              incidents/discovery/leads.jsonl|incidents/discovery/status.json|incidents/discovery/serper-status.json|incidents/discovery/serpapi-status.json)
+              incidents/discovery/leads.jsonl|incidents/discovery/status.json|incidents/discovery/serper-status.json|incidents/discovery/serpapi-status.json|incidents/discovery/ai-summaries.json|datasets/catalog/current.json|website/data/catalog.json|website/data/research-preview.json|website/index.html)
                 git add -- "$file" ;;
               *) echo 'Unexpected discovery publication path' >&2; exit 1 ;;
             esac
@@ -111,8 +132,16 @@ jobs:
           # Never force-push over a concurrent maintainer change. The next run
           # recollects the rolling window if a non-fast-forward push fails.
           git push origin "HEAD:$DEFAULT_BRANCH"
-      - name: Surface incomplete collection
-        if: steps.rss.outcome == 'failure' || steps.serpapi.outcome == 'failure'
+      - name: Deploy public site when Cloudflare is configured
+        if: steps.site.outcome == 'success' && steps.catalog.outcome == 'success' && steps.rss.outcome == 'success' && steps.serpapi.outcome != 'failure' && vars.CLOUDFLARE_ACCOUNT_ID != ''
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
         run: |
-          echo 'One or more sources failed. Successful leads and source status were preserved for review.' >&2
+          test -n "$CLOUDFLARE_API_TOKEN"
+          npx --yes wrangler@4.153.0 pages deploy site-dist --project-name hindsight-solidity --branch main
+      - name: Surface incomplete collection
+        if: steps.rss.outcome == 'failure' || steps.serpapi.outcome == 'failure' || steps.catalog.outcome == 'failure'
+        run: |
+          echo 'A source or catalog refresh failed. Successful metadata was preserved; inspect the source status and AI attempt metadata.' >&2
           exit 1

@@ -10,7 +10,7 @@ not contract code.
 
 [Inspect the snapshot](https://github.com/Shawnchee/hindsight/tree/main/datasets/research/v0.2.0)
 
-## Newer catalog entries
+## Historical baseline and daily catalog
 
 The separate pinned DeFiHackLabs catalog contains **357 Ethereum entries**,
 including **58 dated 2025** and **59 dated 2026**, as recorded at upstream commit
@@ -20,7 +20,13 @@ enriched snapshot. The landing page has separate 2026, 2025 and enriched views.
 Catalog dates are reported incident dates; completeness, source coverage and
 human adjudication are not established by catalog inclusion.
 
-[Inspect the catalog](https://github.com/Shawnchee/hindsight/blob/main/m0/catalog/ethereum_incidents.csv)
+[Inspect the historical baseline](https://github.com/Shawnchee/hindsight/blob/main/m0/catalog/ethereum_incidents.csv)
+
+The [current public catalog](https://github.com/Shawnchee/hindsight/blob/main/website/data/catalog.json)
+combines that baseline with qualifying daily DeFiHackLabs metadata additions.
+All entries remain unverified. Counts and charts regenerate from the combined
+catalog; ambiguous matches and news leads are not counted.
+[Connect your agent via MCP](./mcp.md) for search and freshness information.
 
 ## What is published
 
