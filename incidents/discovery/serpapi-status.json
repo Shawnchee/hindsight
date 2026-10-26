@@ -2,7 +2,7 @@
   "coverage": "bounded discovery only; no guarantee of complete or current incident coverage",
   "failed_sources": 0,
   "lead_count": 28,
-  "observed_at": "2026-10-26T14:37:24Z",
+  "observed_at": "2026-10-26T14:42:35Z",
   "sources": [
     {
       "capped": true,
@@ -10,7 +10,7 @@
       "examined": 55,
       "excluded": 34,
       "lead_count": 10,
-      "observed_at": "2026-10-26T14:37:24Z",
+      "observed_at": "2026-10-26T14:42:35Z",
       "request": {
         "num": 10,
         "q": "(Ethereum OR Solidity) (hack OR exploit OR drained) after:2026-10-19 before:2026-10-27"
@@ -29,7 +29,7 @@
       "examined": 0,
       "excluded": 0,
       "lead_count": 0,
-      "observed_at": "2026-10-26T14:37:24Z",
+      "observed_at": "2026-10-26T14:42:35Z",
       "request": {
         "num": 10,
         "q": "(site:x.com OR site:twitter.com) (Ethereum OR Solidity) (hack OR exploit OR drained) after:2026-10-19 before:2026-10-27"
