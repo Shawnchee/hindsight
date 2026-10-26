@@ -1,0 +1,11 @@
+{
+  "last_attempt": {
+    "model": "gemini-3.1-flash-lite",
+    "observed_at": "2026-10-26T14:33:06Z",
+    "records": 0,
+    "requests": 1,
+    "status": "failed"
+  },
+  "records": [],
+  "schema_version": "hindsight.ai-summaries.v1"
+}

@@ -1,0 +1,125 @@
+{
+  "additional": [],
+  "last_refresh": {
+    "added": 0,
+    "metadata_files_checked": 8,
+    "pending": 22,
+    "source": "DeFiHackLabs"
+  },
+  "pending": [
+    {
+      "date": "2026-10-24",
+      "name": "X100Senate",
+      "reason": "missing_attack_transaction_or_victim"
+    },
+    {
+      "date": "2026-10-20",
+      "name": "SliceFundsModule",
+      "reason": "chain_missing_or_conflicting"
+    },
+    {
+      "date": "2026-10-18",
+      "name": "AlpsCon",
+      "reason": "chain_missing_or_conflicting"
+    },
+    {
+      "date": "2026-10-17",
+      "name": "TIPMine",
+      "reason": "chain_missing_or_conflicting"
+    },
+    {
+      "date": "2026-10-14",
+      "name": "UNCXSmartTokenVesting",
+      "reason": "chain_missing_or_conflicting"
+    },
+    {
+      "date": "2026-10-09",
+      "name": "BitBay",
+      "reason": "chain_missing_or_conflicting"
+    },
+    {
+      "date": "2026-10-06",
+      "name": "SetProtocol",
+      "reason": "chain_missing_or_conflicting"
+    },
+    {
+      "date": "2026-10-06",
+      "name": "SetProtocol",
+      "reason": "chain_missing_or_conflicting"
+    },
+    {
+      "date": "2026-10-06",
+      "name": "MakerDAOFlipKeeper",
+      "reason": "daily_fetch_cap"
+    },
+    {
+      "date": "2026-10-03",
+      "name": "MALT",
+      "reason": "daily_fetch_cap"
+    },
+    {
+      "date": "2026-10-02",
+      "name": "GoldPesa",
+      "reason": "daily_fetch_cap"
+    },
+    {
+      "date": "2026-09-30",
+      "name": "SKYDAO",
+      "reason": "daily_fetch_cap"
+    },
+    {
+      "date": "2026-09-30",
+      "name": "PositionManager",
+      "reason": "daily_fetch_cap"
+    },
+    {
+      "date": "2026-09-29",
+      "name": "LPBonus",
+      "reason": "daily_fetch_cap"
+    },
+    {
+      "date": "2026-09-23",
+      "name": "PancakeV3SwapHelper",
+      "reason": "daily_fetch_cap"
+    },
+    {
+      "date": "2026-09-21",
+      "name": "TheRedVillage",
+      "reason": "daily_fetch_cap"
+    },
+    {
+      "date": "2026-09-21",
+      "name": "InternetToken",
+      "reason": "daily_fetch_cap"
+    },
+    {
+      "date": "2026-09-21",
+      "name": "GaslessReservoirEnabler",
+      "reason": "daily_fetch_cap"
+    },
+    {
+      "date": "2026-09-21",
+      "name": "DoinGud",
+      "reason": "daily_fetch_cap"
+    },
+    {
+      "date": "2026-09-18",
+      "name": "Likwid",
+      "reason": "daily_fetch_cap"
+    },
+    {
+      "date": "2026-09-16",
+      "name": "PrimeFinance",
+      "reason": "daily_fetch_cap"
+    },
+    {
+      "date": "2026-09-16",
+      "name": "Nimiq",
+      "reason": "daily_fetch_cap"
+    }
+  ],
+  "related_reports": {},
+  "schema_version": "hindsight.catalog.v1",
+  "updated_at": "2026-10-26T14:33:05Z",
+  "upstream_commit": "56adc62f45a4774c4d584014b3e5284b0f4d5742"
+}
