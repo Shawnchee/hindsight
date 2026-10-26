@@ -6,7 +6,7 @@
     "url": "https://github.com/SunWeb3Sec/DeFiHackLabs"
   },
   "baseline_as_of": "2026-10-21",
-  "entry_count": 357,
+  "entry_count": 358,
   "limitations": "Reported metadata, not verified vulnerabilities. AI summaries are proposals. Possible news matches do not increase counts.",
   "records": [
     {
@@ -59,6 +59,33 @@
       ],
       "upstream_paths": [
         "src/test/2026-10/KolanHook_exp.sol"
+      ]
+    },
+    {
+      "chain_id": 1,
+      "contracts": [
+        "0xa98f06312b7614523d0f5e725e15fd20fb1b99f5"
+      ],
+      "date": "2026-10-14",
+      "evaluation_eligible": false,
+      "human_verified": false,
+      "id": "dhl_924f5d54541d03c3e24bf649",
+      "loss_reported": "~88-89K USD across five ERC-20s on Ethereum, retained after the per-token flash loans are repaid and each reproduced to the wei against the tx transfer logs (EDGEN 55,601,598.708417972560603048, ZC 9,055,847.637887682268154756, pepecoin 40,155.284285661160205717, LO0P 65,372.217059159993437512, PAAL 113,657.766933968), the working capital flash-borrowed per token from Uniswap V3 (EDGEN), Uniswap V2 (pepecoin, PAAL) and Uniswap V4 (ZC, LO0P) and repaid in the same leg",
+      "name": "UNCXSmartTokenVesting",
+      "reported_cause": null,
+      "sources": [
+        "https://github.com/SunWeb3Sec/DeFiHackLabs/blob/56adc62f45a4774c4d584014b3e5284b0f4d5742/README.md",
+        "https://github.com/SunWeb3Sec/DeFiHackLabs/blob/56adc62f45a4774c4d584014b3e5284b0f4d5742/src/test/2026-10/UNCXSmartTokenVesting_exp.sol",
+        "https://etherscan.io/tx/0x352065378c4a41b77e5b6a1e5b5616cd2886c3e1a2c87ed3db8e5ddddc23823d"
+      ],
+      "stage": "upstream_metadata",
+      "status": "reported_unverified",
+      "training_eligible": false,
+      "transactions": [
+        "0x352065378c4a41b77e5b6a1e5b5616cd2886c3e1a2c87ed3db8e5ddddc23823d"
+      ],
+      "upstream_paths": [
+        "src/test/2026-10/UNCXSmartTokenVesting_exp.sol"
       ]
     },
     {
@@ -8561,7 +8588,7 @@
     }
   ],
   "schema_version": "hindsight.catalog.v1",
-  "updated_at": "2026-10-26T14:33:05Z",
+  "updated_at": "2026-10-26T14:37:24Z",
   "upstream_commit": "56adc62f45a4774c4d584014b3e5284b0f4d5742",
   "year_counts": {
     "2017": 2,
@@ -8572,6 +8599,6 @@
     "2023": 77,
     "2024": 82,
     "2025": 58,
-    "2026": 59
+    "2026": 60
   }
 }

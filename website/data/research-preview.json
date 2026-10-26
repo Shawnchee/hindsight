@@ -2,7 +2,7 @@
   "catalog": {
     "as_of": "2026-10-26",
     "baseline_commit": "23c7bd83ccb4524972a9493617fcc8764ab6269b",
-    "entry_count": 357,
+    "entry_count": 358,
     "examples": [
       {
         "catalog_record_url": "https://github.com/Shawnchee/hindsight/blob/main/m0/catalog/ethereum_incidents.csv#L358",
@@ -31,17 +31,17 @@
         "upstream_index_url": "https://github.com/SunWeb3Sec/DeFiHackLabs/blob/23c7bd83ccb4524972a9493617fcc8764ab6269b/README.md"
       },
       {
-        "catalog_record_url": "https://github.com/Shawnchee/hindsight/blob/main/m0/catalog/ethereum_incidents.csv#L356",
+        "catalog_record_url": "data/catalog.json",
         "catalog_year": "2026",
         "chain_classification": "ethereum",
         "data_stage": "catalog_entry",
         "enriched_snapshot_member": false,
         "human_adjudication": "not_established",
-        "incident_id": "20261008_X7Finance",
-        "name": "X7Finance",
-        "reported_date": "2026-10-08",
+        "incident_id": "dhl_924f5d54541d03c3e24bf649",
+        "name": "UNCXSmartTokenVesting",
+        "reported_date": "2026-10-14",
         "source_coverage": "not_assessed_by_this_preview",
-        "upstream_index_url": "https://github.com/SunWeb3Sec/DeFiHackLabs/blob/23c7bd83ccb4524972a9493617fcc8764ab6269b/README.md"
+        "upstream_index_url": "https://github.com/SunWeb3Sec/DeFiHackLabs/blob/56adc62f45a4774c4d584014b3e5284b0f4d5742/README.md"
       },
       {
         "catalog_record_url": "https://github.com/Shawnchee/hindsight/blob/main/m0/catalog/ethereum_incidents.csv#L299",
@@ -95,7 +95,7 @@
       "2023": 77,
       "2024": 82,
       "2025": 58,
-      "2026": 59
+      "2026": 60
     }
   },
   "charts": {
@@ -137,7 +137,7 @@
         "year": "2025"
       },
       {
-        "entries": 59,
+        "entries": 60,
         "year": "2026"
       }
     ],
