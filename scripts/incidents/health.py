@@ -9,11 +9,13 @@ from pathlib import Path
 UTC = timezone.utc
 
 
-def assess(root, include_serper=False, max_age_hours=36, now=None):
+def assess(root, include_serper=False, max_age_hours=36, now=None, include_serpapi=False):
     now = now or datetime.now(UTC)
     expected = [("status.json", ("google-news-ethereum", "openzeppelin"))]
     if include_serper:
         expected.append(("serper-status.json", ("serper-news", "serper-x-links")))
+    if include_serpapi:
+        expected.append(("serpapi-status.json", ("serpapi-news", "serpapi-x-links")))
     rows, healthy = [], True
     for filename, ids in expected:
         path = root / filename
@@ -45,7 +47,7 @@ def assess(root, include_serper=False, max_age_hours=36, now=None):
              "|---|---|---|---|---|"]
     lines.extend("| " + " | ".join(row) + " |" for row in rows)
     lines += ["", "These timestamps describe bounded collection attempts, not incident verification or complete coverage.",
-              "Publication dates and first observations do not establish earliest disclosure. Serper is optional; no direct X requests are made."]
+              "Publication dates and first observations do not establish earliest disclosure. Search APIs are optional; no direct X requests are made."]
     return "\n".join(lines) + "\n", healthy
 
 
@@ -53,12 +55,13 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--root", type=Path, default=Path("incidents/discovery"))
     parser.add_argument("--include-serper", action="store_true")
+    parser.add_argument("--include-serpapi", action="store_true")
     parser.add_argument("--max-age-hours", type=int, default=36)
     parser.add_argument("--github-summary", action="store_true")
     args = parser.parse_args()
     if not 1 <= args.max_age_hours <= 168:
         parser.error("max age must be 1..168 hours")
-    text, healthy = assess(args.root, args.include_serper, args.max_age_hours)
+    text, healthy = assess(args.root, args.include_serper, args.max_age_hours, include_serpapi=args.include_serpapi)
     print(text)
     if args.github_summary and os.environ.get("GITHUB_STEP_SUMMARY"):
         with Path(os.environ["GITHUB_STEP_SUMMARY"]).open("a") as stream:

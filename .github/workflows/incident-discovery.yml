@@ -49,25 +49,25 @@ jobs:
           --out incidents/discovery/leads.jsonl
           --status-out incidents/discovery/status.json
           --max-items 30 --days 14
-      - name: Collect Serper news and indexed public links when enabled
-        id: serper
-        if: vars.ENABLE_SERPER_DISCOVERY == 'true'
+      - name: Collect SerpAPI news and indexed public links when enabled
+        id: serpapi
+        if: vars.ENABLE_SERPAPI_DISCOVERY == 'true'
         continue-on-error: true
         env:
-          SERPER_API_KEY: ${{ secrets.SERPER_API_KEY }}
+          SERPAPI_API_KEY: ${{ secrets.SERPAPI_API_KEY }}
         run: >-
           python3 -I scripts/incidents/collect.py --execute
-          --source serper-news --source serper-x-links
+          --source serpapi-news --source serpapi-x-links
           --out incidents/discovery/leads.jsonl
-          --status-out incidents/discovery/serper-status.json
+          --status-out incidents/discovery/serpapi-status.json
           --max-items 10 --days 7
       - name: Write source health summary
         if: always()
         env:
-          ENABLE_SERPER_DISCOVERY: ${{ vars.ENABLE_SERPER_DISCOVERY }}
+          ENABLE_SERPAPI_DISCOVERY: ${{ vars.ENABLE_SERPAPI_DISCOVERY }}
         run: |
           flags=()
-          if [ "$ENABLE_SERPER_DISCOVERY" = true ]; then flags+=(--include-serper); fi
+          if [ "$ENABLE_SERPAPI_DISCOVERY" = true ]; then flags+=(--include-serpapi); fi
           python3 -I scripts/incidents/health.py --root incidents/discovery --github-summary "${flags[@]}"
       - name: Validate the proposed discovery cache offline
         id: cache
@@ -84,7 +84,7 @@ jobs:
         run: |
           set -euo pipefail
           echo 'paths<<HINDSIGHT_FILES' >> "$GITHUB_OUTPUT"
-          for file in incidents/discovery/leads.jsonl incidents/discovery/status.json incidents/discovery/serper-status.json; do
+          for file in incidents/discovery/leads.jsonl incidents/discovery/status.json incidents/discovery/serper-status.json incidents/discovery/serpapi-status.json; do
             if [ -f "$file" ] && [ ! -L "$file" ]; then
               echo "$file" >> "$GITHUB_OUTPUT"
             fi
@@ -100,7 +100,7 @@ jobs:
           set -euo pipefail
           while IFS= read -r file; do
             case "$file" in
-              incidents/discovery/leads.jsonl|incidents/discovery/status.json|incidents/discovery/serper-status.json)
+              incidents/discovery/leads.jsonl|incidents/discovery/status.json|incidents/discovery/serper-status.json|incidents/discovery/serpapi-status.json)
                 git add -- "$file" ;;
               *) echo 'Unexpected discovery publication path' >&2; exit 1 ;;
             esac
@@ -112,7 +112,7 @@ jobs:
           # recollects the rolling window if a non-fast-forward push fails.
           git push origin "HEAD:$DEFAULT_BRANCH"
       - name: Surface incomplete collection
-        if: steps.rss.outcome == 'failure' || steps.serper.outcome == 'failure'
+        if: steps.rss.outcome == 'failure' || steps.serpapi.outcome == 'failure'
         run: |
           echo 'One or more sources failed. Successful leads and source status were preserved for review.' >&2
           exit 1

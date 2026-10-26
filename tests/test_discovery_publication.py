@@ -54,14 +54,14 @@ class PublicationTests(unittest.TestCase):
         # nonexistent optional status file and prevented the entire PR.
         block = WORKFLOW.read_text().split('      - name: Select existing discovery files for publication\n', 1)[1]
         script = textwrap.dedent(block.split('        run: |\n', 1)[1].split('      - name:', 1)[0])
-        for serper in (False, True):
-            with self.subTest(serper=serper), tempfile.TemporaryDirectory() as tmp:
+        for provider in (None, "serper", "serpapi"):
+            with self.subTest(provider=provider), tempfile.TemporaryDirectory() as tmp:
                 root = Path(tmp)
                 queue = root / 'incidents/discovery'
                 queue.mkdir(parents=True)
                 expected = ['incidents/discovery/leads.jsonl', 'incidents/discovery/status.json']
-                if serper:
-                    expected.append('incidents/discovery/serper-status.json')
+                if provider:
+                    expected.append(f'incidents/discovery/{provider}-status.json')
                 for name in expected:
                     (root / name).write_text('{}\n')
                 (queue / 'unrelated.json').write_text('{}\n')

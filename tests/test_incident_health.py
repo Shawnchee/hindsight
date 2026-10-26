@@ -12,6 +12,21 @@ spec.loader.exec_module(health)
 
 
 class HealthTests(unittest.TestCase):
+    def test_serpapi_health_is_independent_of_legacy_serper_status(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            now = datetime(2026, 10, 26, 12, tzinfo=timezone.utc)
+            for filename, sources in (
+                ('status.json', ('google-news-ethereum', 'openzeppelin')),
+                ('serpapi-status.json', ('serpapi-news', 'serpapi-x-links'))):
+                (root / filename).write_text(json.dumps({'sources': [
+                    {'source_id': sid, 'observed_at': '2026-10-26T11:00:00Z', 'status': 'ok'} for sid in sources]}))
+            _, healthy = health.assess(root, now=now, include_serpapi=True)
+            self.assertTrue(healthy)
+            (root / 'serpapi-status.json').unlink()
+            _, healthy = health.assess(root, now=now, include_serpapi=True)
+            self.assertFalse(healthy)
+
     def test_daily_run_has_delay_allowance_but_cannot_stay_green_indefinitely(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

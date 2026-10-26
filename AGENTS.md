@@ -17,7 +17,7 @@ benchmark archives are not required for ordinary use.
 - **Add a reported incident:** read `CONTRIBUTING.md` and `incidents/README.md`.
   Add metadata under `incidents/submissions/`, then run the offline validator.
 - **Refresh discovery:** read `docs/incident-discovery.md`. Default is offline.
-  Explicit network collection uses allowlisted feeds and optional Serper search.
+  Explicit network collection uses allowlisted feeds and optional SerpAPI search.
 - **Work on dataset exports:** preserve existing version directories. Recovery
   supplements do not imply full incident coverage or benchmark eligibility.
 - **Model comparisons:** model tests, training and weight downloads remain paused
@@ -37,9 +37,9 @@ benchmark archives are not required for ordinary use.
   on where that agent runs; installing a skill does not make it offline.
 - Allowed source paths: DeFiHackLabs metadata with Apache-2.0 attribution;
   Etherscan/Sourcify verified source and explicitly authorized historical RPC
-  reads; security/protocol reports and RSS/Serper as link-and-own-summary
+  reads; security/protocol reports and RSS/SerpAPI as link-and-own-summary
   discovery only. DeFiLlama is a discovery pointer, not a redistributable corpus.
-- No direct X requests or X/browser scrapers. Use Serper to discover indexed
+- No direct X requests or X/browser scrapers. Use SerpAPI to discover indexed
   public post links, then prefer primary reports. RSS/news: links, dates and
   original summaries only; no copied article/post corpora.
 - Proposed incident records stay `proposed` / `unresolved`, unassigned, and

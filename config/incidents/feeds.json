@@ -42,6 +42,24 @@
       "documentation": "https://serper.dev/playground",
       "documentation_checked_on": "2026-10-24",
       "verified": "Authenticated bounded POST returned a valid result page on 2026-10-24. Discovery only; publication dates remain unresolved."
+    },
+    {
+      "id": "serpapi-news",
+      "kind": "serpapi_news",
+      "url": "https://serpapi.com/search.json",
+      "query": "(Ethereum OR Solidity) (hack OR exploit OR drained)",
+      "enabled_by_default": false,
+      "documentation": "https://serpapi.com/google-news-api",
+      "policy": "One bounded search page. Indexed public links only; no direct X requests, copied snippets or article storage. Requires SERPAPI_API_KEY."
+    },
+    {
+      "id": "serpapi-x-links",
+      "kind": "serpapi_search",
+      "url": "https://serpapi.com/search.json",
+      "query": "(site:x.com OR site:twitter.com) (Ethereum OR Solidity) (hack OR exploit OR drained)",
+      "enabled_by_default": false,
+      "documentation": "https://serpapi.com/search-api",
+      "policy": "One bounded search page. Indexed public links only; no direct X requests, copied snippets or article storage. Requires SERPAPI_API_KEY."
     }
   ]
 }

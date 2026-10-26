@@ -49,7 +49,7 @@ desired filter, while `scope_status` remains unresolved until independently chec
 ## Automatic daily ingestion
 
 The workflow runs daily at **09:17 Malaysia time (01:17 UTC)**. It collects free
-RSS feeds plus optional Serper news/indexed X links, validates the metadata, and
+RSS feeds plus optional SerpAPI news/indexed X links, validates the metadata, and
 commits only the allowlisted discovery files directly to the default branch.
 **No review PR is required.** Existing leads are preserved and matching URLs are
 deduplicated. New records stay proposed, unresolved and ineligible for benchmarks.
@@ -57,8 +57,8 @@ deduplicated. New records stay proposed, unresolved and ineligible for benchmark
 1. Enable Actions and publish the workflow on the default branch.
 2. Run **Actions → Incident discovery → Run workflow** to test it immediately.
 3. Inspect the run summary and `incidents/discovery/` for results and source health.
-4. For Serper, add `SERPER_API_KEY` as a repository Actions secret and set
-   `ENABLE_SERPER_DISCOVERY=true` as a repository variable.
+4. For SerpAPI, add `SERPAPI_API_KEY` as a repository Actions secret and set
+   `ENABLE_SERPAPI_DISCOVERY=true` as a repository variable.
 
 The workflow needs `contents: write`; it does not request pull-request permission.
 Branch protection can block automatic commits. It never bypasses protection or
@@ -67,57 +67,58 @@ next run recollects the rolling time window.
 
 For migration, a previous `codex/incident-discovery` branch is read as untrusted
 metadata and merged with the current queue. No code from that branch is executed.
-Invalid or oversized metadata blocks publication. Three fixed paths are staged:
-`leads.jsonl`, `status.json` and optional `serper-status.json` under
-`incidents/discovery/`. Source failures remain visible, even when successful
+Invalid or oversized metadata blocks publication. Only fixed discovery paths are staged:
+`leads.jsonl`, `status.json` and optional `serpapi-status.json` under
+`incidents/discovery/`, plus an existing legacy `serper-status.json` if present.
+Source failures remain visible, even when successful
 sources produce records that can be saved.
 
 This adds **discovery reports**, not verified incidents or changes to frozen
 research exports. AI compilation requires a separately configured hosted model;
-the RSS/Serper collector itself does not call an AI service. Automated model
+the RSS/SerpAPI collector itself does not call an AI service. Automated model
 summaries must remain labeled proposals and retain their evidence links.
 
 GitHub schedules can be delayed or disabled after public-repository inactivity.
 See [GitHub scheduling limits](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#schedule).
 
-## Optional Serper search
+## Optional SerpAPI search
 
-Serper searches news and indexed public X/Twitter links. The collector never
-requests X directly and does not run a browser scraper. Search results are
-pointers to investigate; prefer original protocol notices and technical reports.
+SerpAPI is the active search provider. It searches Google News and indexed public
+X/Twitter links; no direct X requests or browser scraping occurs. Each scheduled
+run makes at most two searches (one page per source), retaining at most ten leads
+per source. News result groups are flattened with a 100-item scan cap.
 
-For GitHub Actions:
-
-- Add repository secret **`SERPER_API_KEY`** from your Serper account.
-- Set repository variable **`ENABLE_SERPER_DISCOVERY`** to **`true`**.
-- Review the queries in `config/incidents/feeds.json` and your API allowance.
-  The scheduled run makes at most two Serper requests per day, requesting
-  ten results each: one news search and one indexed public-link search.
-
-Locally, provide the key through your environment/secret manager, then run:
+Add repository Actions secret **`SERPAPI_API_KEY`** and repository variable
+**`ENABLE_SERPAPI_DISCOVERY=true`**. Do not use the old Serper variable/key names.
+The existing Serper adapter remains only for legacy configuration and provenance;
+the scheduled workflow no longer invokes it.
 
 ```sh
 python3 -I scripts/incidents/collect.py --execute \
-  --source serper-news --source serper-x-links --max-items 10 --days 7 \
-  --status-out incidents/discovery/serper-status.json
-python3 -I scripts/incidents/health.py --root incidents/discovery --include-serper
+  --source serpapi-news --source serpapi-x-links --max-items 10 --days 7 \
+  --status-out incidents/discovery/serpapi-status.json
+python3 -I scripts/incidents/health.py --root incidents/discovery --include-serpapi
 ```
 
-Do not put the key in a CLI argument, feed config, issue, PR or committed `.env`.
-The collector does not read `.env`. Credential-bearing requests use fixed
-`google.serper.dev` endpoints with proxies and redirects disabled. Result text
-is parsed transiently and discarded; stored summaries are original generic
-observations. Missing keys or refused requests fail visibly.
+Provide the key through your environment or secret manager. The collector does
+not read `.env` or accept keys in command-line arguments. SerpAPI requires a
+query-string credential on its fixed HTTPS endpoint; the authenticated URL is
+never printed or stored. Proxies and redirects are disabled. Published metadata
+keeps only the credential-free endpoint, query, response hash and evidence links.
+API errors use fixed codes, never provider response text.
 
-Search date filters do not prove when a report was published. Relative or unknown
-publication dates remain null; observation timestamps are recorded separately.
-Indexing delays, result limits and missing/deleted/private posts leave coverage
-gaps. See [Serper](https://serper.dev/) for access and account allowances.
-Authenticated smoke test on 2026-10-24 succeeded for both endpoints: one request
-each, ten results examined per source, yielding six news leads and five indexed
-public X links. These remain unverified; all returned dates lacked a precise
-publication timestamp and were stored as null. Credentials were used only in
-process memory, never written to metadata or configuration.
+Titles and snippets are screened transiently and discarded. Relative or unknown
+publication dates remain null; query date filters do not prove publication time.
+No article bodies, post corpora or AI-generated verification are published.
+Indexed results can be delayed, incomplete, unrelated or wrong.
+
+On 26 October 2026, a bounded live smoke test returned a successful Google News
+response. A separate tiny Gemini 3.1 Flash-Lite request returned the expected
+response after one temporary unavailable response. These confirm connectivity,
+not incident accuracy. Gemini compilation is not integrated into the workflow.
+The optional future Gemini integration needs a separate `GEMINI_API_KEY` secret.
+
+See [SerpAPI Google News documentation](https://serpapi.com/google-news-api).
 
 ## Add a feed or contribute a lead
 
@@ -136,5 +137,5 @@ precede any eligibility decision.
 
 Source failures and stale attempts appear in the health command/Actions summary.
 Default health is unhealthy when either free feed is missing, failed or older
-than 36 hours, allowing for a delayed daily run. Add `--include-serper` only when Serper monitoring is enabled. No tool can
+than 36 hours, allowing for a delayed daily run. Add `--include-serpapi` only when SerpAPI monitoring is enabled. No tool can
 guarantee an always-current or exhaustive list of hacks.

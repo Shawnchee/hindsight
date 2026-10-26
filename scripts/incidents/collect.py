@@ -28,6 +28,11 @@ SERPER_SOURCES = {
     "serper-news": {"kind": "serper_news", "endpoint": "https://google.serper.dev/news", "query": "(Ethereum OR Solidity) (hack OR exploit OR drained)"},
     "serper-x-links": {"kind": "serper_search", "endpoint": "https://google.serper.dev/search", "query": "(site:x.com OR site:twitter.com) (Ethereum OR Solidity) (hack OR exploit OR drained)"},
 }
+SERPAPI_SOURCES = {
+    "serpapi-news": {"kind": "serpapi_news", "endpoint": "https://serpapi.com/search.json", "engine": "google_news", "query": "(Ethereum OR Solidity) (hack OR exploit OR drained)"},
+    "serpapi-x-links": {"kind": "serpapi_search", "endpoint": "https://serpapi.com/search.json", "engine": "google", "query": "(site:x.com OR site:twitter.com) (Ethereum OR Solidity) (hack OR exploit OR drained)"},
+}
+SEARCH_SOURCES = {**SERPER_SOURCES, **SERPAPI_SOURCES}
 FEED_ENDPOINTS = {
     "google-news-ethereum": ("news.google.com", "/rss/search"),
     "openzeppelin": ("www.openzeppelin.com", "/news/rss.xml"),
@@ -118,8 +123,8 @@ def canonical_url(value):
 
 
 def source_url(source, days, now, max_items):
-    if source["id"] in SERPER_SOURCES:
-        return SERPER_SOURCES[source["id"]]["endpoint"]
+    if source["id"] in SEARCH_SOURCES:
+        return SEARCH_SOURCES[source["id"]]["endpoint"]
     value = source["url"]
     p = urllib.parse.urlsplit(value)
     if source["id"] == "google-news-ethereum":
@@ -130,7 +135,7 @@ def source_url(source, days, now, max_items):
 
 
 def source_payload(source, days, now, max_items):
-    specification = SERPER_SOURCES[source["id"]]
+    specification = SEARCH_SOURCES[source["id"]]
     start = (now - timedelta(days=days)).date().isoformat()
     end = (now + timedelta(days=1)).date().isoformat()
     return {"q": f"{specification['query']} after:{start} before:{end}", "num": max_items}
@@ -155,6 +160,10 @@ def load_config(path):
             if source.get("url") != SERPER_SOURCES[sid]["endpoint"] or source.get("query") != SERPER_SOURCES[sid]["query"]:
                 raise ValueError("serper_contract_is_fixed")
             continue
+        if sid in SERPAPI_SOURCES and kind == SERPAPI_SOURCES[sid]["kind"]:
+            if source.get("url") != SERPAPI_SOURCES[sid]["endpoint"] or source.get("query") != SERPAPI_SOURCES[sid]["query"]:
+                raise ValueError("serpapi_contract_is_fixed")
+            continue
         if kind != "rss" or sid not in FEED_ENDPOINTS:
             raise ValueError("source_not_allowlisted")
         p = urllib.parse.urlsplit(source.get("url", ""))
@@ -172,10 +181,13 @@ class NoRedirect(urllib.request.HTTPRedirectHandler):
 
 
 def fetch(url, *, api_key=None, payload=None, timeout=15, max_bytes=1048576):
+    serpapi = url == "https://serpapi.com/search.json" and api_key is not None
     if api_key is not None or payload is not None:
-        if not api_key or payload is None or url not in {value["endpoint"] for value in SERPER_SOURCES.values()}:
+        if not api_key or not isinstance(payload, dict) or url not in {value["endpoint"] for value in SEARCH_SOURCES.values()}:
             raise CollectionError("credential_endpoint_refused")
-        sid = next(sid for sid, spec in SERPER_SOURCES.items() if spec["endpoint"] == url)
+        candidates = SERPAPI_SOURCES if serpapi else SERPER_SOURCES
+        sid = next((sid for sid, spec in candidates.items() if spec["endpoint"] == url
+                    and isinstance(payload.get("q"), str) and payload["q"].startswith(spec["query"] + " after:")), None)
         try:
             validate_serper_request(sid, payload)
         except ValueError:
@@ -185,13 +197,20 @@ def fetch(url, *, api_key=None, payload=None, timeout=15, max_bytes=1048576):
         if p.scheme != "https" or p.username or p.password or p.port is not None or p.fragment or (p.hostname, p.path) not in FEED_ENDPOINTS.values():
             raise CollectionError("network_endpoint_refused")
     headers = {"User-Agent": "Hindsight-Discovery/1.0", "Accept": "application/json" if api_key else "application/rss+xml, application/atom+xml, application/xml"}
-    if api_key:
+    if api_key and not serpapi:
         headers["X-API-KEY"] = api_key
         headers["Content-Type"] = "application/json"
     # No ambient proxy can receive the credential; no redirect may forward it.
     opener = urllib.request.build_opener(urllib.request.ProxyHandler({}), NoRedirect())
-    data = json.dumps(payload, sort_keys=True).encode("utf-8") if payload is not None else None
-    request = urllib.request.Request(url, data=data, headers=headers, method="POST" if api_key else "GET")
+    data = json.dumps(payload, sort_keys=True).encode("utf-8") if payload is not None and not serpapi else None
+    if serpapi:
+        params = {"engine": SERPAPI_SOURCES[sid]["engine"], "q": payload["q"], "hl": "en", "gl": "us", "api_key": api_key}
+        if params["engine"] == "google":
+            params["num"] = payload["num"]
+        # SerpAPI requires the key in its query. This URL is never persisted or
+        # printed; metadata retains only the credential-free endpoint/payload.
+        url += "?" + urllib.parse.urlencode(params)
+    request = urllib.request.Request(url, data=data, headers=headers, method="POST" if api_key and not serpapi else "GET")
     try:
         with opener.open(request, timeout=timeout) as response:
             if response.status != 200:
@@ -268,6 +287,43 @@ def serper_items(body, source):
         raise CollectionError("invalid_serper_response") from None
 
 
+def serpapi_items(body, source):
+    """Flatten bounded news groups; never retain titles/snippets or API URLs."""
+    try:
+        payload = json.loads(body)
+        if not isinstance(payload, dict) or payload.get("search_metadata", {}).get("status") != "Success":
+            raise CollectionError("serpapi_api_errors")
+        if payload.get("error") and not str(payload["error"]).startswith("Google hasn't returned any results"):
+            raise CollectionError("serpapi_api_errors")
+        results = payload.get("news_results" if source["kind"] == "serpapi_news" else "organic_results", [])
+        if not isinstance(results, list):
+            raise CollectionError("invalid_serpapi_response")
+        items, scanned = [], 0
+        for group in results[:100]:
+            if not isinstance(group, dict):
+                raise CollectionError("invalid_serpapi_response")
+            stories = group.get("stories", [group])
+            if not isinstance(stories, list):
+                raise CollectionError("invalid_serpapi_response")
+            for result in stories[:100]:
+                scanned += 1
+                if scanned > 100:
+                    break
+                if not isinstance(result, dict) or not isinstance(result.get("link"), str):
+                    raise CollectionError("invalid_serpapi_response")
+                url = result["link"]
+                if source["id"] == "serpapi-x-links" and urllib.parse.urlsplit(url).hostname not in {"x.com", "www.x.com", "twitter.com", "www.twitter.com"}:
+                    continue
+                items.append({"url": url, "published_at": result.get("date"),
+                              "signal": str(result.get("title", "")) + " " + str(result.get("snippet", ""))})
+            if scanned > 100:
+                break
+        return items, {"scan_capped": len(results) > 100 or scanned > 100, "single_page": True,
+                       "date_window_is_search_filter_only": True}
+    except (ValueError, TypeError, AttributeError, KeyError):
+        raise CollectionError("invalid_serpapi_response") from None
+
+
 def make_leads(items, source, url, body_hash, now, days, max_items, request_payload=None):
     leads = []
     counts = {"examined": len(items), "excluded": 0, "undated": 0, "capped": False}
@@ -275,7 +331,7 @@ def make_leads(items, source, url, body_hash, now, days, max_items, request_payl
         published = parse_date(item["published_at"])
         if published is None:
             counts["undated"] += 1
-            if source["id"] not in SERPER_SOURCES:
+            if source["id"] not in SEARCH_SOURCES:
                 continue
         signal = item["signal"]
         if (published is not None and not now - timedelta(days=days) <= published <= now) or not SCOPE.search(signal) or not SIGNAL.search(signal):
@@ -318,11 +374,11 @@ def cache_timestamp(value):
 
 
 def validate_serper_request(sid, request):
-    if sid not in SERPER_SOURCES or not isinstance(request, dict) or set(request) != {"q", "num"}:
+    if sid not in SEARCH_SOURCES or not isinstance(request, dict) or set(request) != {"q", "num"}:
         raise ValueError("invalid_serper_request")
     if type(request["num"]) is not int or not 1 <= request["num"] <= 100 or not isinstance(request["q"], str):
         raise ValueError("invalid_serper_request")
-    pattern = re.escape(SERPER_SOURCES[sid]["query"]) + r" after:(\d{4}-\d{2}-\d{2}) before:(\d{4}-\d{2}-\d{2})"
+    pattern = re.escape(SEARCH_SOURCES[sid]["query"]) + r" after:(\d{4}-\d{2}-\d{2}) before:(\d{4}-\d{2}-\d{2})"
     match = re.fullmatch(pattern, request["q"])
     if not match:
         raise ValueError("invalid_serper_request")
@@ -335,12 +391,12 @@ def validate_serper_request(sid, request):
 def validate_provenance(record):
     if not isinstance(record, dict):
         raise ValueError("invalid_cached_provenance_fields")
-    is_serper = record.get("source_id") in SERPER_SOURCES if isinstance(record.get("source_id"), str) else False
+    is_serper = record.get("source_id") in SEARCH_SOURCES if isinstance(record.get("source_id"), str) else False
     if set(record) != (PROVENANCE_FIELDS | {"request"} if is_serper else PROVENANCE_FIELDS):
         raise ValueError("invalid_cached_provenance_fields")
     sid = record["source_id"]
     url = record["source_url"]
-    if not isinstance(sid, str) or sid not in {*FEED_ENDPOINTS, *SERPER_SOURCES}:
+    if not isinstance(sid, str) or sid not in {*FEED_ENDPOINTS, *SEARCH_SOURCES}:
         raise ValueError("invalid_cached_source")
     canonical_url(url)  # Reject credentials and nonpublic links, even in provenance.
     p = urllib.parse.urlsplit(url)
@@ -358,7 +414,7 @@ def validate_provenance(record):
     elif sid == "openzeppelin":
         valid = (p.hostname, p.path) == FEED_ENDPOINTS[sid] and not params
     else:
-        valid = url == SERPER_SOURCES[sid]["endpoint"]
+        valid = url == SEARCH_SOURCES[sid]["endpoint"]
         validate_serper_request(sid, record["request"])
     if not valid:
         raise ValueError("invalid_cached_source_url")
@@ -520,17 +576,21 @@ def collect(sources, args, now=None, fetcher=None):
         state = {"source_id": source["id"], "observed_at": stamp(now), "status": "failed"}
         try:
             api_key, payload = None, None
-            if source["id"] in SERPER_SOURCES:
-                api_key = os.environ.get("SERPER_API_KEY")
+            if source["id"] in SEARCH_SOURCES:
+                provider = "serpapi" if source["id"] in SERPAPI_SOURCES else "serper"
+                api_key = os.environ.get(provider.upper() + "_API_KEY")
                 if not api_key:
-                    raise CollectionError("missing_serper_api_key")
+                    raise CollectionError("missing_" + provider + "_api_key")
                 if not 1 <= len(api_key) <= 512 or any(c.isspace() for c in api_key):
-                    raise CollectionError("invalid_serper_api_key")
+                    raise CollectionError("invalid_" + provider + "_api_key")
                 payload = source_payload(source, args.days, now, args.max_items)
             url = source_url(source, args.days, now, args.max_items)
             body = fetcher(url, api_key=api_key, payload=payload, timeout=args.timeout, max_bytes=args.max_bytes)
             body_hash = hashlib.sha256(body).hexdigest()
-            items, limits = serper_items(body, source) if source["id"] in SERPER_SOURCES else feed_items(body)
+            if source["id"] in SERPAPI_SOURCES:
+                items, limits = serpapi_items(body, source)
+            else:
+                items, limits = serper_items(body, source) if source["id"] in SERPER_SOURCES else feed_items(body)
             leads, counts = make_leads(items, source, url, body_hash, now, args.days, args.max_items, payload)
             incoming.extend(leads)
             state.update(status="ok", request_url=url, response_sha256=body_hash, lead_count=len(leads), **counts, **limits)
@@ -588,7 +648,7 @@ def main(argv=None):
         if any(sid not in by_id for sid in selected):
             parser.error("unknown source ID")
         if not args.execute:
-            print(json.dumps({"mode": "offline-dry-run", "sources": selected, "max_items_per_source": args.max_items, "days": args.days, "max_requests_per_source": 1, "writes": False, "network": False, "serper_requires_selected_source_and_environment_key": True}, sort_keys=True))
+            print(json.dumps({"mode": "offline-dry-run", "sources": selected, "max_items_per_source": args.max_items, "days": args.days, "max_requests_per_source": 1, "writes": False, "network": False, "search_requires_selected_source_and_environment_key": True}, sort_keys=True))
             return 0
         if not args.source:
             parser.error("--execute requires explicit --source IDs")
