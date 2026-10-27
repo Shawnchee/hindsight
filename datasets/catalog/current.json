@@ -31,7 +31,7 @@
   "last_refresh": {
     "added": 0,
     "metadata_files_checked": 8,
-    "pending": 21,
+    "pending": 22,
     "source": "DeFiHackLabs"
   },
   "pending": [
@@ -46,6 +46,11 @@
       "reason": "chain_missing_or_conflicting"
     },
     {
+      "date": "2026-10-19",
+      "name": "Argent",
+      "reason": "missing_attack_transaction_or_victim"
+    },
+    {
       "date": "2026-10-18",
       "name": "AlpsCon",
       "reason": "chain_missing_or_conflicting"
@@ -53,7 +58,7 @@
     {
       "date": "2026-10-17",
       "name": "TIPMine",
-      "reason": "chain_missing_or_conflicting"
+      "reason": "daily_fetch_cap"
     },
     {
       "date": "2026-10-09",
@@ -78,17 +83,17 @@
     {
       "date": "2026-10-03",
       "name": "MALT",
-      "reason": "chain_missing_or_conflicting"
+      "reason": "daily_fetch_cap"
     },
     {
       "date": "2026-10-02",
       "name": "GoldPesa",
-      "reason": "chain_missing_or_conflicting"
+      "reason": "daily_fetch_cap"
     },
     {
       "date": "2026-09-30",
       "name": "SKYDAO",
-      "reason": "chain_missing_or_conflicting"
+      "reason": "daily_fetch_cap"
     },
     {
       "date": "2026-09-30",
@@ -98,17 +103,17 @@
     {
       "date": "2026-09-29",
       "name": "LPBonus",
-      "reason": "daily_fetch_cap"
+      "reason": "chain_missing_or_conflicting"
     },
     {
       "date": "2026-09-23",
       "name": "PancakeV3SwapHelper",
-      "reason": "daily_fetch_cap"
+      "reason": "chain_missing_or_conflicting"
     },
     {
       "date": "2026-09-21",
       "name": "TheRedVillage",
-      "reason": "daily_fetch_cap"
+      "reason": "chain_missing_or_conflicting"
     },
     {
       "date": "2026-09-21",
@@ -142,8 +147,8 @@
     }
   ],
   "related_reports": {},
-  "scan_offset": 8,
+  "scan_offset": 12,
   "schema_version": "hindsight.catalog.v1",
-  "updated_at": "2026-10-26T14:42:35Z",
-  "upstream_commit": "56adc62f45a4774c4d584014b3e5284b0f4d5742"
+  "updated_at": "2026-10-27T03:02:37Z",
+  "upstream_commit": "708f450b16c858cfeb8230a6902331ede4867216"
 }
