@@ -98,42 +98,42 @@
     {
       "date": "2026-09-30",
       "name": "PositionManager",
-      "reason": "chain_missing_or_conflicting"
+      "reason": "daily_fetch_cap"
     },
     {
       "date": "2026-09-29",
       "name": "LPBonus",
-      "reason": "chain_missing_or_conflicting"
+      "reason": "daily_fetch_cap"
     },
     {
       "date": "2026-09-23",
       "name": "PancakeV3SwapHelper",
-      "reason": "chain_missing_or_conflicting"
+      "reason": "daily_fetch_cap"
     },
     {
       "date": "2026-09-21",
       "name": "TheRedVillage",
-      "reason": "chain_missing_or_conflicting"
+      "reason": "daily_fetch_cap"
     },
     {
       "date": "2026-09-21",
       "name": "InternetToken",
-      "reason": "daily_fetch_cap"
+      "reason": "chain_missing_or_conflicting"
     },
     {
       "date": "2026-09-21",
       "name": "GaslessReservoirEnabler",
-      "reason": "daily_fetch_cap"
+      "reason": "chain_missing_or_conflicting"
     },
     {
       "date": "2026-09-21",
       "name": "DoinGud",
-      "reason": "daily_fetch_cap"
+      "reason": "chain_missing_or_conflicting"
     },
     {
       "date": "2026-09-18",
       "name": "Likwid",
-      "reason": "daily_fetch_cap"
+      "reason": "chain_missing_or_conflicting"
     },
     {
       "date": "2026-09-16",
@@ -147,8 +147,8 @@
     }
   ],
   "related_reports": {},
-  "scan_offset": 12,
+  "scan_offset": 16,
   "schema_version": "hindsight.catalog.v1",
-  "updated_at": "2026-10-27T03:02:37Z",
+  "updated_at": "2026-10-27T03:14:34Z",
   "upstream_commit": "708f450b16c858cfeb8230a6902331ede4867216"
 }
