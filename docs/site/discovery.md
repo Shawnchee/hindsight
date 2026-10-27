@@ -33,21 +33,33 @@ dates stay null; observation time is not earliest disclosure.
 
 ## GitHub schedule
 
-The workflow runs daily at **09:17 Malaysia time (01:17 UTC)** and commits
+The workflow targets **09:17 Malaysia time (01:17 UTC)**, with catch-up triggers
+at **12:17 and 18:17 Malaysia time**. Before scheduled collection, it checks this
+workflow's completed runs on the default branch. A successful refresh started
+since today's 09:17 skips later collection, making no search or model requests.
+Failed, skipped and previous-day runs do not suppress catch-ups. Manual runs
+always refresh; unavailable run history also defaults to collection.
+
+Collection commits
 validated discovery metadata directly to the default branch. **No PR review is
 needed.** Existing leads are preserved and URLs are deduplicated.
 
 Free RSS collection needs no API key. Optional SerpAPI uses repository secret
 `SERPAPI_API_KEY` and variable `ENABLE_SERPAPI_DISCOVERY=true`. The workflow needs
 contents-write permission, but no pull-request permission. Branch protection
-still applies. Schedules can be delayed or disabled by GitHub; health allows
-36 hours between successful attempts.
+still applies. GitHub can delay, drop or disable scheduled triggers; the catch-ups
+reduce missed days but cannot guarantee delivery or an exact start time. Health
+allows 36 hours between successful attempts. Check **Actions → Incident discovery**
+for the collection or skip explanation; use **Run workflow** for an immediate retry.
 
 Automatic collection adds unverified reports, not confirmed vulnerabilities.
 Frozen research exports remain unchanged. A separate DeFiHackLabs refresh adds
 qualifying reported metadata; ambiguous matches stay pending. With
 `GEMINI_API_KEY`, one batch of up to ten changed upstream claims receives
 separately labeled AI summaries. AI does not decide catalog membership.
+If all three daily attempts are needed, the maximum is six SerpAPI searches and
+three Gemini requests; unchanged inputs still use zero Gemini requests. A Gemini
+warning preserves earlier summaries and does not make incident counts AI-approved.
 
 Counts and charts rebuild automatically. Cloudflare publishing stays off until
 `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` are configured. Agents can read

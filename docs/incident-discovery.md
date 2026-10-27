@@ -48,7 +48,16 @@ desired filter, while `scope_status` remains unresolved until independently chec
 
 ## Automatic daily ingestion
 
-The workflow runs daily at **09:17 Malaysia time (01:17 UTC)**. It collects free
+The workflow targets **09:17 Malaysia time (01:17 UTC)**, with catch-up triggers
+at **12:17 and 18:17 Malaysia time (04:17 and 10:17 UTC)**. A read-only freshness
+job checks this workflow's last 100 runs. A completed successful scheduled or
+manual run on the default branch, started since today's 01:17 UTC, suppresses
+later scheduled collection. Failed, skipped, running, other-branch and previous-day
+runs do not suppress it. Manual dispatch always collects. Unavailable or invalid
+run history defaults to collection, so a status API outage cannot silently skip
+the refresh. Each run's summary explains the decision.
+
+Collection fetches free
 RSS feeds plus optional SerpAPI news/indexed X links, validates the metadata, and
 commits only the allowlisted discovery files directly to the default branch.
 **No review PR is required.** Existing leads are preserved and matching URLs are
@@ -60,7 +69,8 @@ deduplicated. New records stay proposed, unresolved and ineligible for benchmark
 4. For SerpAPI, add `SERPAPI_API_KEY` as a repository Actions secret and set
    `ENABLE_SERPAPI_DISCOVERY=true` as a repository variable.
 
-The workflow needs `contents: write`; it does not request pull-request permission.
+The freshness job needs only `contents: read` and `actions: read`. Collection
+needs `contents: write`; neither job requests pull-request permission.
 Branch protection can block automatic commits. It never bypasses protection or
 force-pushes. A concurrent maintainer push makes publication fail visibly; the
 next run recollects the rolling time window.
@@ -132,7 +142,11 @@ The [read-only MCP server](site/mcp.md) can read the live public GitHub catalog,
 independently of Cloudflare. Local copies require `git pull`. Connecting MCP does
 not force an agent to use it or demonstrate detection accuracy.
 
-GitHub schedules can be delayed or disabled after public-repository inactivity.
+GitHub schedules can be delayed, dropped or disabled after public-repository
+inactivity. Catch-ups reduce missed days but use the same scheduler and cannot
+guarantee delivery. If no run appears, there is no collector log to inspect: check
+that Actions and the default-branch workflow are enabled, then dispatch a manual
+run. A passing manual run verifies execution, not future schedule delivery.
 See [GitHub scheduling limits](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#schedule).
 
 ## Optional SerpAPI search
@@ -141,6 +155,9 @@ SerpAPI is the active search provider. It searches Google News and indexed publi
 X/Twitter links; no direct X requests or browser scraping occurs. Each scheduled
 run makes at most two searches (one page per source), retaining at most ten leads
 per source. News result groups are flattened with a 100-item scan cap.
+Successful daily collection makes later catch-ups free of search/model requests.
+If all three scheduled attempts are needed, the bound is six searches and three
+Gemini requests per day; unchanged claims still require no Gemini request.
 
 Add repository Actions secret **`SERPAPI_API_KEY`** and repository variable
 **`ENABLE_SERPAPI_DISCOVERY=true`**. Do not use the old Serper variable/key names.

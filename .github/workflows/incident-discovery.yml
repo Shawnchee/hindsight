@@ -2,8 +2,8 @@ name: Incident discovery
 
 on:
   schedule:
-    # Daily at 09:17 Malaysia time (01:17 UTC).
-    - cron: '17 1 * * *'
+    # 09:17 Malaysia, with 12:17 and 18:17 catch-ups if no run succeeded today.
+    - cron: '17 1,4,10 * * *'
   workflow_dispatch:
 
 permissions:
@@ -14,9 +14,49 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  discovery:
-    # Secret-bearing collection only runs trusted code on the default branch.
+  freshness:
     if: github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    permissions:
+      contents: read
+      actions: read
+    outputs:
+      collect: ${{ steps.daily.outputs.collect }}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - name: Check for a successful daily refresh
+        id: daily
+        env:
+          GH_TOKEN: ${{ github.token }}
+          EVENT_NAME: ${{ github.event_name }}
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ "$EVENT_NAME" != schedule ]; then
+            echo 'collect=true' >> "$GITHUB_OUTPUT"
+            echo 'Manual refresh requested; daily deduplication bypassed.' >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          # A history outage must not suppress collection. This fixed endpoint
+          # contains run metadata only; no source content or secrets are read.
+          if ! gh api "repos/$GITHUB_REPOSITORY/actions/workflows/incident-discovery.yml/runs?per_page=100" > "$RUNNER_TEMP/hindsight-runs.json"; then
+            echo '::warning::Run history unavailable; attempting collection.'
+            echo 'collect=true' >> "$GITHUB_OUTPUT"
+            echo 'Run history unavailable; attempting collection.' >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          python3 -I scripts/incidents/schedule.py \
+            --runs "$RUNNER_TEMP/hindsight-runs.json" --run-id "$GITHUB_RUN_ID" \
+            --branch "$DEFAULT_BRANCH" >> "$GITHUB_OUTPUT"
+
+  discovery:
+    needs: freshness
+    # Secret-bearing collection only runs trusted code on the default branch.
+    if: needs.freshness.outputs.collect == 'true' && github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
