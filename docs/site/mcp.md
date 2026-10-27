@@ -4,6 +4,10 @@ The optional read-only Hindsight MCP server lets compatible agents search the
 incident catalog and retrieve evidence links. It needs Python 3.11+, with no
 extra packages, model key or database.
 
+For the easiest setup, <a href="../#mcp">copy the setup prompt from the landing page</a>
+into your agent. It can obtain the toolkit separately, configure your client and
+verify a live catalog query. The steps below are the optional manual route.
+
 ## Configure your client
 
 Obtain Hindsight in a separate tools folder. Add this to your client's MCP

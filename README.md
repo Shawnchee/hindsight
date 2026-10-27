@@ -47,6 +47,28 @@ Want the agent to make changes afterward? Use the
 [review-and-fix workflow](skills/hindsight-triage/references/remediation.md).
 Compilation and runtime checks are separate; see [runtime testing](docs/runtime-checks.md).
 
+## Connect your agent to the live catalog with MCP
+
+**One-time setup. Python 3.11+; no API key or extra packages.** Use an MCP-capable
+AI coding client with local file access. Paste this into your agent:
+
+```text
+Set up Hindsight's read-only MCP server for the AI client I am using.
+Obtain https://github.com/Shawnchee/hindsight in a separate tools folder; keep my current project as the review target. Read docs/site/mcp.md.
+Configure one hindsight MCP entry using python3 -I with the absolute path to scripts/mcp/server.py and --live. Preserve existing client settings; ask which client if it is unclear.
+Verify get_dataset_status, then search_incidents for reentrancy. Report the catalog's refresh date and any live-fetch fallback.
+Do not edit my contracts, read secrets, install packages, download models or upload project code.
+```
+
+Then ask: **“Search Hindsight for relevant incidents and explain which patterns
+apply to my code.”** `--live` checks the public catalog at most every five minutes;
+your project code stays out of that request. Records remain unverified, and a
+similar incident is not proof of a defect. This is a local stdio MCP server, not
+a hosted URL you can paste into a remote-server field.
+
+See [manual setup and tools](docs/site/mcp.md). Your agent handles the absolute
+path and client-specific configuration; you do not need to edit a placeholder.
+
 ## Add a reported hack through a pull request
 
 **New and historical incidents are welcome. You do not need a working exploit.**

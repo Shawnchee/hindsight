@@ -62,7 +62,7 @@ python3 -I tests/test_skill.py</code></pre>
       </details>
       <p class="copy-status" id="copy-status" role="status" aria-live="polite"></p>
       <p class="review-note">Your agent reviews the code. Hindsight checks source references and report structure.<br>A valid report is not proof that a contract is safe.</p>
-      <a class="dataset-link" href="docs/mcp.html">Connect your agent to the live catalog via MCP <span aria-hidden="true">↗</span></a>
+      <a class="dataset-link" href="#mcp">Want live incident research? Connect MCP <span aria-hidden="true">↓</span></a>
       <details class="dataset-details finding-example">
         <summary>What does a finding look like?</summary>
         <p class="dataset-note">Illustrative example only — not a scan result.</p>
@@ -84,6 +84,25 @@ python3 -I tests/test_skill.py</code></pre>
         <a href="docs/contributing.html"><h3>Add evidence <span aria-hidden="true">↗</span></h3><p>Submit a public report or improve an incident record through a GitHub PR.</p></a>
       </div>
       <p class="dataset-note">Reviews inspect your code; the agent does not automatically search the incident catalog.</p>
+    </section>
+
+    <section class="start" id="mcp" aria-labelledby="mcp-title">
+      <div class="section-heading">
+        <h2 id="mcp-title">Connect once. Search the live catalog.</h2>
+        <p>Paste this into your agent. It handles MCP setup. Python 3.11+; no API key or extra packages.</p>
+      </div>
+      <article class="setup-step terminal-panel">
+        <div class="panel-top terminal-bar"><span class="terminal-lights" aria-hidden="true"><i></i><i></i><i></i></span><h3><label for="mcp-prompt">agent / MCP setup</label></h3><button class="copy-button" data-copy="mcp-prompt" data-copy-status="mcp-copy-status" type="button" aria-label="Copy MCP setup prompt">Copy setup prompt</button></div>
+        <div class="terminal-body"><span class="terminal-gutter" aria-hidden="true">›</span><textarea id="mcp-prompt" rows="6" readonly spellcheck="false" aria-describedby="mcp-help">Set up Hindsight's read-only MCP server for the AI client I am using.
+Obtain https://github.com/Shawnchee/hindsight in a separate tools folder; keep my current project as the review target. Read docs/site/mcp.md.
+Configure one hindsight MCP entry using python3 -I with the absolute path to scripts/mcp/server.py and --live. Preserve existing client settings; ask which client if it is unclear.
+Verify get_dataset_status, then search_incidents for reentrancy. Report the catalog's refresh date and any live-fetch fallback.
+Do not edit my contracts, read secrets, install packages, download models or upload project code.</textarea></div>
+        <p class="step-note" id="mcp-help">Use an agent with local file access and an MCP-capable client. This is a setup prompt, not a shell command.</p>
+      </article>
+      <p class="copy-status" id="mcp-copy-status" role="status" aria-live="polite"></p>
+      <p class="review-note">Then ask: “Search Hindsight for relevant incidents and explain which patterns apply to my code.”<br>Read-only research. Source claims stay unverified; matching a past hack does not prove a bug.</p>
+      <a class="dataset-link" href="docs/mcp.html">Manual setup &amp; supported tools <span aria-hidden="true">↗</span></a>
     </section>
 
     <!-- dataset-preview:start -->
