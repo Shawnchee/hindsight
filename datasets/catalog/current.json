@@ -36,6 +36,11 @@
   },
   "pending": [
     {
+      "date": "2026-10-25",
+      "name": "Yapeswap",
+      "reason": "missing_attack_transaction_or_victim"
+    },
+    {
       "date": "2026-10-24",
       "name": "X100Senate",
       "reason": "missing_attack_transaction_or_victim"
@@ -58,7 +63,7 @@
     {
       "date": "2026-10-17",
       "name": "TIPMine",
-      "reason": "daily_fetch_cap"
+      "reason": "chain_missing_or_conflicting"
     },
     {
       "date": "2026-10-09",
@@ -118,17 +123,17 @@
     {
       "date": "2026-09-21",
       "name": "InternetToken",
-      "reason": "chain_missing_or_conflicting"
+      "reason": "daily_fetch_cap"
     },
     {
       "date": "2026-09-21",
       "name": "GaslessReservoirEnabler",
-      "reason": "chain_missing_or_conflicting"
+      "reason": "daily_fetch_cap"
     },
     {
       "date": "2026-09-21",
       "name": "DoinGud",
-      "reason": "chain_missing_or_conflicting"
+      "reason": "daily_fetch_cap"
     },
     {
       "date": "2026-09-18",
@@ -138,17 +143,12 @@
     {
       "date": "2026-09-16",
       "name": "PrimeFinance",
-      "reason": "daily_fetch_cap"
-    },
-    {
-      "date": "2026-09-16",
-      "name": "Nimiq",
-      "reason": "daily_fetch_cap"
+      "reason": "chain_missing_or_conflicting"
     }
   ],
   "related_reports": {},
-  "scan_offset": 16,
+  "scan_offset": 2,
   "schema_version": "hindsight.catalog.v1",
-  "updated_at": "2026-10-27T03:14:34Z",
-  "upstream_commit": "708f450b16c858cfeb8230a6902331ede4867216"
+  "updated_at": "2026-10-28T06:52:17Z",
+  "upstream_commit": "78b5b666fc002a61ea33bf5177f91b3e961f1047"
 }
