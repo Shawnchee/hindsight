@@ -36,6 +36,11 @@
   },
   "pending": [
     {
+      "date": "2026-10-26",
+      "name": "SafeApprovalSquat",
+      "reason": "chain_missing_or_conflicting"
+    },
+    {
       "date": "2026-10-25",
       "name": "Yapeswap",
       "reason": "missing_attack_transaction_or_victim"
@@ -53,12 +58,12 @@
     {
       "date": "2026-10-19",
       "name": "Argent",
-      "reason": "missing_attack_transaction_or_victim"
+      "reason": "daily_fetch_cap"
     },
     {
       "date": "2026-10-18",
       "name": "AlpsCon",
-      "reason": "chain_missing_or_conflicting"
+      "reason": "daily_fetch_cap"
     },
     {
       "date": "2026-10-17",
@@ -68,17 +73,17 @@
     {
       "date": "2026-10-09",
       "name": "BitBay",
-      "reason": "daily_fetch_cap"
+      "reason": "chain_missing_or_conflicting"
     },
     {
       "date": "2026-10-06",
       "name": "SetProtocol",
-      "reason": "daily_fetch_cap"
+      "reason": "chain_missing_or_conflicting"
     },
     {
       "date": "2026-10-06",
       "name": "SetProtocol",
-      "reason": "daily_fetch_cap"
+      "reason": "chain_missing_or_conflicting"
     },
     {
       "date": "2026-10-06",
@@ -138,17 +143,12 @@
     {
       "date": "2026-09-18",
       "name": "Likwid",
-      "reason": "chain_missing_or_conflicting"
-    },
-    {
-      "date": "2026-09-16",
-      "name": "PrimeFinance",
-      "reason": "chain_missing_or_conflicting"
+      "reason": "daily_fetch_cap"
     }
   ],
   "related_reports": {},
-  "scan_offset": 2,
+  "scan_offset": 6,
   "schema_version": "hindsight.catalog.v1",
-  "updated_at": "2026-10-28T06:52:17Z",
-  "upstream_commit": "78b5b666fc002a61ea33bf5177f91b3e961f1047"
+  "updated_at": "2026-10-29T07:05:56Z",
+  "upstream_commit": "0a9b9fd81c50767ff49f81089fbf8934f2f45b02"
 }

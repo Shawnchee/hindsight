@@ -1,46 +1,33 @@
 {
   "coverage": "bounded discovery only; no guarantee of complete or current incident coverage",
-  "failed_sources": 0,
-  "lead_count": 28,
-  "observed_at": "2026-10-28T06:52:13Z",
+  "failed_sources": 1,
+  "lead_count": 31,
+  "observed_at": "2026-10-29T07:05:40Z",
   "sources": [
     {
       "capped": false,
       "date_window_is_search_filter_only": true,
-      "examined": 50,
-      "excluded": 45,
-      "lead_count": 5,
-      "observed_at": "2026-10-28T06:52:13Z",
+      "examined": 43,
+      "excluded": 37,
+      "lead_count": 6,
+      "observed_at": "2026-10-29T07:05:40Z",
       "request": {
         "num": 10,
-        "q": "(Ethereum OR Solidity) (hack OR exploit OR drained) after:2026-10-21 before:2026-10-29"
+        "q": "(Ethereum OR Solidity) (hack OR exploit OR drained) after:2026-10-22 before:2026-10-30"
       },
       "request_url": "https://serpapi.com/search.json",
-      "response_sha256": "72c75a892ff36262ec4180e464de3ea783b45c9c41cd21ab2a709d410b3f827b",
+      "response_sha256": "3c4cefd177626ceab4041b9c5bec145dd6bb80c88380f48a5482561d274afaac",
       "scan_capped": false,
       "single_page": true,
       "source_id": "serpapi-news",
       "status": "ok",
-      "undated": 50
+      "undated": 43
     },
     {
-      "capped": false,
-      "date_window_is_search_filter_only": true,
-      "examined": 0,
-      "excluded": 0,
-      "lead_count": 0,
-      "observed_at": "2026-10-28T06:52:13Z",
-      "request": {
-        "num": 10,
-        "q": "(site:x.com OR site:twitter.com) (Ethereum OR Solidity) (hack OR exploit OR drained) after:2026-10-21 before:2026-10-29"
-      },
-      "request_url": "https://serpapi.com/search.json",
-      "response_sha256": "e4da4f5d366d9e1f09c72d660731cb9dabb7cfe7b0aefd403b44df024318d106",
-      "scan_capped": false,
-      "single_page": true,
+      "error": "network_error",
+      "observed_at": "2026-10-29T07:05:40Z",
       "source_id": "serpapi-x-links",
-      "status": "ok",
-      "undated": 0
+      "status": "failed"
     }
   ],
   "version": 1
