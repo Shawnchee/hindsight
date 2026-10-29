@@ -1,33 +1,46 @@
 {
   "coverage": "bounded discovery only; no guarantee of complete or current incident coverage",
-  "failed_sources": 1,
-  "lead_count": 31,
-  "observed_at": "2026-10-29T07:05:40Z",
+  "failed_sources": 0,
+  "lead_count": 32,
+  "observed_at": "2026-10-29T16:56:15Z",
   "sources": [
     {
       "capped": false,
       "date_window_is_search_filter_only": true,
-      "examined": 43,
-      "excluded": 37,
-      "lead_count": 6,
-      "observed_at": "2026-10-29T07:05:40Z",
+      "examined": 46,
+      "excluded": 39,
+      "lead_count": 7,
+      "observed_at": "2026-10-29T16:56:15Z",
       "request": {
         "num": 10,
         "q": "(Ethereum OR Solidity) (hack OR exploit OR drained) after:2026-10-22 before:2026-10-30"
       },
       "request_url": "https://serpapi.com/search.json",
-      "response_sha256": "3c4cefd177626ceab4041b9c5bec145dd6bb80c88380f48a5482561d274afaac",
+      "response_sha256": "2367ffc3147e46ac2a5cec0b93a76e0aa763e8fd88326f61bcf40306e4cee973",
       "scan_capped": false,
       "single_page": true,
       "source_id": "serpapi-news",
       "status": "ok",
-      "undated": 43
+      "undated": 46
     },
     {
-      "error": "network_error",
-      "observed_at": "2026-10-29T07:05:40Z",
+      "capped": false,
+      "date_window_is_search_filter_only": true,
+      "examined": 0,
+      "excluded": 0,
+      "lead_count": 0,
+      "observed_at": "2026-10-29T16:56:15Z",
+      "request": {
+        "num": 10,
+        "q": "(site:x.com OR site:twitter.com) (Ethereum OR Solidity) (hack OR exploit OR drained) after:2026-10-22 before:2026-10-30"
+      },
+      "request_url": "https://serpapi.com/search.json",
+      "response_sha256": "2c769ec1d09a2d95b36a730306704a6889960762b256813fc1a17ed47cf8f3ae",
+      "scan_capped": false,
+      "single_page": true,
       "source_id": "serpapi-x-links",
-      "status": "failed"
+      "status": "ok",
+      "undated": 0
     }
   ],
   "version": 1

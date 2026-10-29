@@ -68,42 +68,42 @@
     {
       "date": "2026-10-17",
       "name": "TIPMine",
-      "reason": "chain_missing_or_conflicting"
+      "reason": "daily_fetch_cap"
     },
     {
       "date": "2026-10-09",
       "name": "BitBay",
-      "reason": "chain_missing_or_conflicting"
+      "reason": "daily_fetch_cap"
     },
     {
       "date": "2026-10-06",
       "name": "SetProtocol",
-      "reason": "chain_missing_or_conflicting"
+      "reason": "daily_fetch_cap"
     },
     {
       "date": "2026-10-06",
       "name": "SetProtocol",
-      "reason": "chain_missing_or_conflicting"
+      "reason": "daily_fetch_cap"
     },
     {
       "date": "2026-10-06",
       "name": "MakerDAOFlipKeeper",
-      "reason": "daily_fetch_cap"
+      "reason": "chain_missing_or_conflicting"
     },
     {
       "date": "2026-10-03",
       "name": "MALT",
-      "reason": "daily_fetch_cap"
+      "reason": "chain_missing_or_conflicting"
     },
     {
       "date": "2026-10-02",
       "name": "GoldPesa",
-      "reason": "daily_fetch_cap"
+      "reason": "chain_missing_or_conflicting"
     },
     {
       "date": "2026-09-30",
       "name": "SKYDAO",
-      "reason": "daily_fetch_cap"
+      "reason": "chain_missing_or_conflicting"
     },
     {
       "date": "2026-09-30",
@@ -147,8 +147,8 @@
     }
   ],
   "related_reports": {},
-  "scan_offset": 6,
+  "scan_offset": 10,
   "schema_version": "hindsight.catalog.v1",
-  "updated_at": "2026-10-29T07:05:56Z",
+  "updated_at": "2026-10-29T16:56:16Z",
   "upstream_commit": "0a9b9fd81c50767ff49f81089fbf8934f2f45b02"
 }
