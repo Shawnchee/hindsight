@@ -31,10 +31,20 @@
   "last_refresh": {
     "added": 0,
     "metadata_files_checked": 8,
-    "pending": 22,
+    "pending": 23,
     "source": "DeFiHackLabs"
   },
   "pending": [
+    {
+      "date": "2026-10-28",
+      "name": "ZkLinkNova",
+      "reason": "missing_attack_transaction_or_victim"
+    },
+    {
+      "date": "2026-10-27",
+      "name": "FenceTranchePool",
+      "reason": "chain_missing_or_conflicting"
+    },
     {
       "date": "2026-10-26",
       "name": "SafeApprovalSquat",
@@ -48,12 +58,12 @@
     {
       "date": "2026-10-24",
       "name": "X100Senate",
-      "reason": "missing_attack_transaction_or_victim"
+      "reason": "daily_fetch_cap"
     },
     {
       "date": "2026-10-20",
       "name": "SliceFundsModule",
-      "reason": "chain_missing_or_conflicting"
+      "reason": "daily_fetch_cap"
     },
     {
       "date": "2026-10-19",
@@ -88,12 +98,12 @@
     {
       "date": "2026-10-06",
       "name": "MakerDAOFlipKeeper",
-      "reason": "chain_missing_or_conflicting"
+      "reason": "daily_fetch_cap"
     },
     {
       "date": "2026-10-03",
       "name": "MALT",
-      "reason": "chain_missing_or_conflicting"
+      "reason": "daily_fetch_cap"
     },
     {
       "date": "2026-10-02",
@@ -108,12 +118,12 @@
     {
       "date": "2026-09-30",
       "name": "PositionManager",
-      "reason": "daily_fetch_cap"
+      "reason": "chain_missing_or_conflicting"
     },
     {
       "date": "2026-09-29",
       "name": "LPBonus",
-      "reason": "daily_fetch_cap"
+      "reason": "chain_missing_or_conflicting"
     },
     {
       "date": "2026-09-23",
@@ -139,16 +149,11 @@
       "date": "2026-09-21",
       "name": "DoinGud",
       "reason": "daily_fetch_cap"
-    },
-    {
-      "date": "2026-09-18",
-      "name": "Likwid",
-      "reason": "daily_fetch_cap"
     }
   ],
   "related_reports": {},
-  "scan_offset": 10,
+  "scan_offset": 14,
   "schema_version": "hindsight.catalog.v1",
-  "updated_at": "2026-10-29T16:56:16Z",
-  "upstream_commit": "0a9b9fd81c50767ff49f81089fbf8934f2f45b02"
+  "updated_at": "2026-10-30T07:06:39Z",
+  "upstream_commit": "d4bd931e758a375ed7fcecf52322dfeab54f8c0d"
 }

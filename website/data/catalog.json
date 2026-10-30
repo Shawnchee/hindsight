@@ -144,7 +144,7 @@
   "baseline_as_of": "2026-10-21",
   "entry_count": 358,
   "limitations": "Reported metadata, not verified vulnerabilities. AI summaries are proposals. Possible news matches do not increase counts.",
-  "pending_count": 22,
+  "pending_count": 23,
   "records": [
     {
       "chain_id": 1,
@@ -8725,8 +8725,8 @@
     }
   ],
   "schema_version": "hindsight.catalog.v1",
-  "updated_at": "2026-10-29T16:56:16Z",
-  "upstream_commit": "0a9b9fd81c50767ff49f81089fbf8934f2f45b02",
+  "updated_at": "2026-10-30T07:06:39Z",
+  "upstream_commit": "d4bd931e758a375ed7fcecf52322dfeab54f8c0d",
   "year_counts": {
     "2017": 2,
     "2018": 3,

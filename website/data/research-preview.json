@@ -1,6 +1,6 @@
 {
   "catalog": {
-    "as_of": "2026-10-29",
+    "as_of": "2026-10-30",
     "baseline_commit": "23c7bd83ccb4524972a9493617fcc8764ab6269b",
     "entry_count": 358,
     "examples": [
@@ -85,7 +85,7 @@
     ],
     "selection": "Three most recent dated entries for each displayed year; no root-cause labels, PoCs or private source included.",
     "source_csv_sha256": "68f928dc48258302d6cd44a41efd962dddefa6bb1840e1cf3034d268a4b74dd1",
-    "upstream_commit": "0a9b9fd81c50767ff49f81089fbf8934f2f45b02",
+    "upstream_commit": "d4bd931e758a375ed7fcecf52322dfeab54f8c0d",
     "year_counts": {
       "2017": 2,
       "2018": 3,
