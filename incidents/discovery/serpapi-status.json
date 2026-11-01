@@ -1,27 +1,27 @@
 {
   "coverage": "bounded discovery only; no guarantee of complete or current incident coverage",
   "failed_sources": 0,
-  "lead_count": 47,
-  "observed_at": "2026-10-31T06:59:45Z",
+  "lead_count": 56,
+  "observed_at": "2026-11-01T07:32:07Z",
   "sources": [
     {
       "capped": true,
       "date_window_is_search_filter_only": true,
-      "examined": 40,
-      "excluded": 9,
+      "examined": 63,
+      "excluded": 5,
       "lead_count": 10,
-      "observed_at": "2026-10-31T06:59:45Z",
+      "observed_at": "2026-11-01T07:32:07Z",
       "request": {
         "num": 10,
-        "q": "(Ethereum OR Solidity) (hack OR exploit OR drained) after:2026-10-24 before:2026-11-01"
+        "q": "(Ethereum OR Solidity) (hack OR exploit OR drained) after:2026-10-25 before:2026-11-02"
       },
       "request_url": "https://serpapi.com/search.json",
-      "response_sha256": "17a6e53f5c41e90272b9686a97c7912446692c558f1eb885e8975df8c2f006cb",
+      "response_sha256": "a5cc86ec0a4d9f367544f60c1b3494f5ceb3e747fbe5f88f3a8c229b8f2ff9e4",
       "scan_capped": false,
       "single_page": true,
       "source_id": "serpapi-news",
       "status": "ok",
-      "undated": 20
+      "undated": 16
     },
     {
       "capped": false,
@@ -29,13 +29,13 @@
       "examined": 0,
       "excluded": 0,
       "lead_count": 0,
-      "observed_at": "2026-10-31T06:59:45Z",
+      "observed_at": "2026-11-01T07:32:07Z",
       "request": {
         "num": 10,
-        "q": "(site:x.com OR site:twitter.com) (Ethereum OR Solidity) (hack OR exploit OR drained) after:2026-10-24 before:2026-11-01"
+        "q": "(site:x.com OR site:twitter.com) (Ethereum OR Solidity) (hack OR exploit OR drained) after:2026-10-25 before:2026-11-02"
       },
       "request_url": "https://serpapi.com/search.json",
-      "response_sha256": "79c246f892da242e55869f79f4a67c99b431db30b91859adccbf659758b7d6c1",
+      "response_sha256": "d1d590bb9a6266c46214fbf08f1f63488ec5ed4abb3d4edc860a2df28a536445",
       "scan_capped": false,
       "single_page": true,
       "source_id": "serpapi-x-links",
