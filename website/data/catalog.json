@@ -8725,7 +8725,7 @@
     }
   ],
   "schema_version": "hindsight.catalog.v1",
-  "updated_at": "2026-11-01T07:32:09Z",
+  "updated_at": "2026-11-02T07:41:04Z",
   "upstream_commit": "d4bd931e758a375ed7fcecf52322dfeab54f8c0d",
   "year_counts": {
     "2017": 2,
