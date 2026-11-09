@@ -2,21 +2,21 @@
   "coverage": "bounded discovery only; no guarantee of complete or current incident coverage",
   "failed_sources": 0,
   "lead_count": 78,
-  "observed_at": "2026-11-08T07:19:27Z",
+  "observed_at": "2026-11-09T07:58:31Z",
   "sources": [
     {
       "capped": false,
       "date_window_is_search_filter_only": true,
       "examined": 28,
-      "excluded": 20,
-      "lead_count": 8,
-      "observed_at": "2026-11-08T07:19:27Z",
+      "excluded": 21,
+      "lead_count": 7,
+      "observed_at": "2026-11-09T07:58:31Z",
       "request": {
         "num": 10,
-        "q": "(Ethereum OR Solidity) (hack OR exploit OR drained) after:2026-11-01 before:2026-11-09"
+        "q": "(Ethereum OR Solidity) (hack OR exploit OR drained) after:2026-11-02 before:2026-11-10"
       },
       "request_url": "https://serpapi.com/search.json",
-      "response_sha256": "35c4f4e83b4d5eb4e6010abc97c512d98f6522c91d3b8db516fd5d403232a207",
+      "response_sha256": "ea812c9f9ecc1169762bc059f8162db075d5728c7ffb54764b286429e8915dc5",
       "scan_capped": false,
       "single_page": true,
       "source_id": "serpapi-news",
@@ -29,13 +29,13 @@
       "examined": 0,
       "excluded": 0,
       "lead_count": 0,
-      "observed_at": "2026-11-08T07:19:27Z",
+      "observed_at": "2026-11-09T07:58:31Z",
       "request": {
         "num": 10,
-        "q": "(site:x.com OR site:twitter.com) (Ethereum OR Solidity) (hack OR exploit OR drained) after:2026-11-01 before:2026-11-09"
+        "q": "(site:x.com OR site:twitter.com) (Ethereum OR Solidity) (hack OR exploit OR drained) after:2026-11-02 before:2026-11-10"
       },
       "request_url": "https://serpapi.com/search.json",
-      "response_sha256": "d498b4671a1ce4f685385763d24f01ee1c2e93a4fb2bb0eaa1120019b72ed2ac",
+      "response_sha256": "267129b97560206e9c7af638a6c3305100238ee2940b619c2968ca49a2b2ec80",
       "scan_capped": false,
       "single_page": true,
       "source_id": "serpapi-x-links",
