@@ -58,27 +58,27 @@
     {
       "date": "2026-10-24",
       "name": "X100Senate",
-      "reason": "missing_attack_transaction_or_victim"
+      "reason": "daily_fetch_cap"
     },
     {
       "date": "2026-10-20",
       "name": "SliceFundsModule",
-      "reason": "daily_fetch_cap"
+      "reason": "chain_missing_or_conflicting"
     },
     {
       "date": "2026-10-19",
       "name": "Argent",
-      "reason": "daily_fetch_cap"
+      "reason": "missing_attack_transaction_or_victim"
     },
     {
       "date": "2026-10-18",
       "name": "AlpsCon",
-      "reason": "daily_fetch_cap"
+      "reason": "chain_missing_or_conflicting"
     },
     {
       "date": "2026-10-17",
       "name": "TIPMine",
-      "reason": "daily_fetch_cap"
+      "reason": "chain_missing_or_conflicting"
     },
     {
       "date": "2026-10-09",
@@ -138,22 +138,22 @@
     {
       "date": "2026-09-21",
       "name": "InternetToken",
-      "reason": "chain_missing_or_conflicting"
+      "reason": "daily_fetch_cap"
     },
     {
       "date": "2026-09-21",
       "name": "GaslessReservoirEnabler",
-      "reason": "chain_missing_or_conflicting"
+      "reason": "daily_fetch_cap"
     },
     {
       "date": "2026-09-21",
       "name": "DoinGud",
-      "reason": "chain_missing_or_conflicting"
+      "reason": "daily_fetch_cap"
     }
   ],
   "related_reports": {},
-  "scan_offset": 1,
+  "scan_offset": 5,
   "schema_version": "hindsight.catalog.v1",
-  "updated_at": "2026-11-10T08:25:41Z",
+  "updated_at": "2026-11-11T07:45:14Z",
   "upstream_commit": "6bbb7b7893d3ccd2ef3d6018d991dc309ccdc281"
 }
