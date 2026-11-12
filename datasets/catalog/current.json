@@ -63,42 +63,42 @@
     {
       "date": "2026-10-20",
       "name": "SliceFundsModule",
-      "reason": "chain_missing_or_conflicting"
+      "reason": "daily_fetch_cap"
     },
     {
       "date": "2026-10-19",
       "name": "Argent",
-      "reason": "missing_attack_transaction_or_victim"
+      "reason": "daily_fetch_cap"
     },
     {
       "date": "2026-10-18",
       "name": "AlpsCon",
-      "reason": "chain_missing_or_conflicting"
+      "reason": "daily_fetch_cap"
     },
     {
       "date": "2026-10-17",
       "name": "TIPMine",
-      "reason": "chain_missing_or_conflicting"
+      "reason": "daily_fetch_cap"
     },
     {
       "date": "2026-10-09",
       "name": "BitBay",
-      "reason": "daily_fetch_cap"
+      "reason": "chain_missing_or_conflicting"
     },
     {
       "date": "2026-10-06",
       "name": "SetProtocol",
-      "reason": "daily_fetch_cap"
+      "reason": "chain_missing_or_conflicting"
     },
     {
       "date": "2026-10-06",
       "name": "SetProtocol",
-      "reason": "daily_fetch_cap"
+      "reason": "chain_missing_or_conflicting"
     },
     {
       "date": "2026-10-06",
       "name": "MakerDAOFlipKeeper",
-      "reason": "daily_fetch_cap"
+      "reason": "chain_missing_or_conflicting"
     },
     {
       "date": "2026-10-03",
@@ -152,8 +152,8 @@
     }
   ],
   "related_reports": {},
-  "scan_offset": 5,
+  "scan_offset": 9,
   "schema_version": "hindsight.catalog.v1",
-  "updated_at": "2026-11-11T07:45:14Z",
+  "updated_at": "2026-11-12T08:20:24Z",
   "upstream_commit": "6bbb7b7893d3ccd2ef3d6018d991dc309ccdc281"
 }
