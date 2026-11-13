@@ -36,6 +36,16 @@
   },
   "pending": [
     {
+      "date": "2026-11-10",
+      "name": "Unifund",
+      "reason": "missing_attack_transaction_or_victim"
+    },
+    {
+      "date": "2026-11-04",
+      "name": "TENDRIL",
+      "reason": "chain_missing_or_conflicting"
+    },
+    {
       "date": "2026-10-28",
       "name": "ZkLinkNova",
       "reason": "missing_attack_transaction_or_victim"
@@ -48,12 +58,12 @@
     {
       "date": "2026-10-26",
       "name": "SafeApprovalSquat",
-      "reason": "chain_missing_or_conflicting"
+      "reason": "daily_fetch_cap"
     },
     {
       "date": "2026-10-25",
       "name": "Yapeswap",
-      "reason": "missing_attack_transaction_or_victim"
+      "reason": "daily_fetch_cap"
     },
     {
       "date": "2026-10-24",
@@ -82,8 +92,13 @@
     },
     {
       "date": "2026-10-09",
+      "name": "EtherVista",
+      "reason": "daily_fetch_cap"
+    },
+    {
+      "date": "2026-10-09",
       "name": "BitBay",
-      "reason": "chain_missing_or_conflicting"
+      "reason": "daily_fetch_cap"
     },
     {
       "date": "2026-10-06",
@@ -103,7 +118,7 @@
     {
       "date": "2026-10-03",
       "name": "MALT",
-      "reason": "daily_fetch_cap"
+      "reason": "chain_missing_or_conflicting"
     },
     {
       "date": "2026-10-02",
@@ -134,26 +149,11 @@
       "date": "2026-09-21",
       "name": "TheRedVillage",
       "reason": "daily_fetch_cap"
-    },
-    {
-      "date": "2026-09-21",
-      "name": "InternetToken",
-      "reason": "daily_fetch_cap"
-    },
-    {
-      "date": "2026-09-21",
-      "name": "GaslessReservoirEnabler",
-      "reason": "daily_fetch_cap"
-    },
-    {
-      "date": "2026-09-21",
-      "name": "DoinGud",
-      "reason": "daily_fetch_cap"
     }
   ],
   "related_reports": {},
-  "scan_offset": 9,
+  "scan_offset": 13,
   "schema_version": "hindsight.catalog.v1",
-  "updated_at": "2026-11-12T08:20:24Z",
-  "upstream_commit": "6bbb7b7893d3ccd2ef3d6018d991dc309ccdc281"
+  "updated_at": "2026-11-13T07:57:41Z",
+  "upstream_commit": "e6a9d80a61a88672acb5c2ce979522ed79246ea0"
 }
