@@ -58,32 +58,32 @@
     {
       "date": "2026-10-27",
       "name": "FenceTranchePool",
-      "reason": "chain_missing_or_conflicting"
+      "reason": "daily_fetch_cap"
     },
     {
       "date": "2026-10-26",
       "name": "SafeApprovalSquat",
-      "reason": "chain_missing_or_conflicting"
+      "reason": "daily_fetch_cap"
     },
     {
       "date": "2026-10-25",
       "name": "Yapeswap",
-      "reason": "daily_fetch_cap"
+      "reason": "missing_attack_transaction_or_victim"
     },
     {
       "date": "2026-10-24",
       "name": "X100Senate",
-      "reason": "daily_fetch_cap"
+      "reason": "missing_attack_transaction_or_victim"
     },
     {
       "date": "2026-10-20",
       "name": "SliceFundsModule",
-      "reason": "daily_fetch_cap"
+      "reason": "chain_missing_or_conflicting"
     },
     {
       "date": "2026-10-19",
       "name": "Argent",
-      "reason": "daily_fetch_cap"
+      "reason": "missing_attack_transaction_or_victim"
     },
     {
       "date": "2026-10-18",
@@ -143,17 +143,17 @@
     {
       "date": "2026-09-29",
       "name": "LPBonus",
-      "reason": "chain_missing_or_conflicting"
+      "reason": "daily_fetch_cap"
     },
     {
       "date": "2026-09-23",
       "name": "PancakeV3SwapHelper",
-      "reason": "chain_missing_or_conflicting"
+      "reason": "daily_fetch_cap"
     }
   ],
   "related_reports": {},
-  "scan_offset": 2,
+  "scan_offset": 6,
   "schema_version": "hindsight.catalog.v1",
-  "updated_at": "2026-11-15T07:52:07Z",
+  "updated_at": "2026-11-16T07:58:58Z",
   "upstream_commit": "32a6dc6e70bc205e8a87de45c89a58f6fe007e23"
 }
