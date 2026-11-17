@@ -36,6 +36,11 @@
   },
   "pending": [
     {
+      "date": "2026-11-15",
+      "name": "ChainGames",
+      "reason": "chain_missing_or_conflicting"
+    },
+    {
       "date": "2026-11-10",
       "name": "Unifund",
       "reason": "missing_attack_transaction_or_victim"
@@ -53,7 +58,7 @@
     {
       "date": "2026-10-28",
       "name": "ZkLinkNova",
-      "reason": "missing_attack_transaction_or_victim"
+      "reason": "daily_fetch_cap"
     },
     {
       "date": "2026-10-27",
@@ -68,17 +73,17 @@
     {
       "date": "2026-10-25",
       "name": "Yapeswap",
-      "reason": "missing_attack_transaction_or_victim"
+      "reason": "daily_fetch_cap"
     },
     {
       "date": "2026-10-24",
       "name": "X100Senate",
-      "reason": "missing_attack_transaction_or_victim"
+      "reason": "daily_fetch_cap"
     },
     {
       "date": "2026-10-20",
       "name": "SliceFundsModule",
-      "reason": "chain_missing_or_conflicting"
+      "reason": "daily_fetch_cap"
     },
     {
       "date": "2026-10-19",
@@ -88,17 +93,17 @@
     {
       "date": "2026-10-18",
       "name": "AlpsCon",
-      "reason": "daily_fetch_cap"
+      "reason": "chain_missing_or_conflicting"
     },
     {
       "date": "2026-10-17",
       "name": "TIPMine",
-      "reason": "daily_fetch_cap"
+      "reason": "chain_missing_or_conflicting"
     },
     {
       "date": "2026-10-09",
       "name": "EtherVista",
-      "reason": "daily_fetch_cap"
+      "reason": "missing_attack_transaction_or_victim"
     },
     {
       "date": "2026-10-09",
@@ -144,16 +149,11 @@
       "date": "2026-09-29",
       "name": "LPBonus",
       "reason": "daily_fetch_cap"
-    },
-    {
-      "date": "2026-09-23",
-      "name": "PancakeV3SwapHelper",
-      "reason": "daily_fetch_cap"
     }
   ],
   "related_reports": {},
-  "scan_offset": 6,
+  "scan_offset": 10,
   "schema_version": "hindsight.catalog.v1",
-  "updated_at": "2026-11-16T07:58:58Z",
-  "upstream_commit": "32a6dc6e70bc205e8a87de45c89a58f6fe007e23"
+  "updated_at": "2026-11-17T09:13:06Z",
+  "upstream_commit": "759488f3d6170288cb8d8d5747dff070002dbe56"
 }
