@@ -36,6 +36,11 @@
   },
   "pending": [
     {
+      "date": "2026-11-18",
+      "name": "sBOLD",
+      "reason": "missing_attack_transaction_or_victim"
+    },
+    {
       "date": "2026-11-16",
       "name": "MOREDeFi",
       "reason": "chain_missing_or_conflicting"
@@ -53,12 +58,12 @@
     {
       "date": "2026-11-09",
       "name": "GDC",
-      "reason": "chain_missing_or_conflicting"
+      "reason": "daily_fetch_cap"
     },
     {
       "date": "2026-11-04",
       "name": "TENDRIL",
-      "reason": "chain_missing_or_conflicting"
+      "reason": "daily_fetch_cap"
     },
     {
       "date": "2026-10-28",
@@ -68,17 +73,17 @@
     {
       "date": "2026-10-27",
       "name": "FenceTranchePool",
-      "reason": "daily_fetch_cap"
+      "reason": "chain_missing_or_conflicting"
     },
     {
       "date": "2026-10-26",
       "name": "SafeApprovalSquat",
-      "reason": "daily_fetch_cap"
+      "reason": "chain_missing_or_conflicting"
     },
     {
       "date": "2026-10-25",
       "name": "Yapeswap",
-      "reason": "daily_fetch_cap"
+      "reason": "missing_attack_transaction_or_victim"
     },
     {
       "date": "2026-10-24",
@@ -148,17 +153,12 @@
     {
       "date": "2026-09-30",
       "name": "PositionManager",
-      "reason": "chain_missing_or_conflicting"
-    },
-    {
-      "date": "2026-09-29",
-      "name": "LPBonus",
-      "reason": "chain_missing_or_conflicting"
+      "reason": "daily_fetch_cap"
     }
   ],
   "related_reports": {},
-  "scan_offset": 2,
+  "scan_offset": 6,
   "schema_version": "hindsight.catalog.v1",
-  "updated_at": "2026-11-20T08:32:42Z",
-  "upstream_commit": "fbf1e4b07077600f04651f1efbfdd89c6242fc08"
+  "updated_at": "2026-11-21T08:17:12Z",
+  "upstream_commit": "18c4aaf3549373b3c0f52dd0ed3e298264dbe1a8"
 }
