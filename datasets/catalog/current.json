@@ -31,7 +31,7 @@
   "last_refresh": {
     "added": 0,
     "metadata_files_checked": 8,
-    "pending": 24,
+    "pending": 25,
     "source": "DeFiHackLabs"
   },
   "pending": [
@@ -66,19 +66,24 @@
       "reason": "daily_fetch_cap"
     },
     {
+      "date": "2026-11-01",
+      "name": "Premia",
+      "reason": "daily_fetch_cap"
+    },
+    {
       "date": "2026-10-28",
       "name": "ZkLinkNova",
-      "reason": "missing_attack_transaction_or_victim"
+      "reason": "daily_fetch_cap"
     },
     {
       "date": "2026-10-27",
       "name": "FenceTranchePool",
-      "reason": "chain_missing_or_conflicting"
+      "reason": "daily_fetch_cap"
     },
     {
       "date": "2026-10-26",
       "name": "SafeApprovalSquat",
-      "reason": "chain_missing_or_conflicting"
+      "reason": "daily_fetch_cap"
     },
     {
       "date": "2026-10-25",
@@ -88,17 +93,17 @@
     {
       "date": "2026-10-24",
       "name": "X100Senate",
-      "reason": "daily_fetch_cap"
+      "reason": "missing_attack_transaction_or_victim"
     },
     {
       "date": "2026-10-20",
       "name": "SliceFundsModule",
-      "reason": "daily_fetch_cap"
+      "reason": "chain_missing_or_conflicting"
     },
     {
       "date": "2026-10-19",
       "name": "Argent",
-      "reason": "daily_fetch_cap"
+      "reason": "missing_attack_transaction_or_victim"
     },
     {
       "date": "2026-10-18",
@@ -157,8 +162,8 @@
     }
   ],
   "related_reports": {},
-  "scan_offset": 6,
+  "scan_offset": 10,
   "schema_version": "hindsight.catalog.v1",
-  "updated_at": "2026-11-21T08:17:12Z",
-  "upstream_commit": "18c4aaf3549373b3c0f52dd0ed3e298264dbe1a8"
+  "updated_at": "2026-11-22T07:59:18Z",
+  "upstream_commit": "49c6604ed67b5c41e005f067c8987567d9e8ab22"
 }
