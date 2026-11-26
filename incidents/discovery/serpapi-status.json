@@ -1,46 +1,46 @@
 {
   "coverage": "bounded discovery only; no guarantee of complete or current incident coverage",
   "failed_sources": 0,
-  "lead_count": 154,
-  "observed_at": "2026-11-25T09:51:19Z",
+  "lead_count": 158,
+  "observed_at": "2026-11-26T09:31:06Z",
   "sources": [
     {
-      "capped": true,
+      "capped": false,
       "date_window_is_search_filter_only": true,
-      "examined": 26,
-      "excluded": 11,
-      "lead_count": 10,
-      "observed_at": "2026-11-25T09:51:19Z",
+      "examined": 25,
+      "excluded": 16,
+      "lead_count": 9,
+      "observed_at": "2026-11-26T09:31:06Z",
       "request": {
         "num": 10,
-        "q": "(Ethereum OR Solidity) (hack OR exploit OR drained) after:2026-11-18 before:2026-11-26"
+        "q": "(Ethereum OR Solidity) (hack OR exploit OR drained) after:2026-11-19 before:2026-11-27"
       },
       "request_url": "https://serpapi.com/search.json",
-      "response_sha256": "508d37e01c3acb09bffb046e6f9e406bd14c2cb17d628f42eaeaadc99e576ef2",
+      "response_sha256": "9fffde74b66d5e2edf6834e3eaa319a35f9bb536fd578b63838e0c1870c378d9",
       "scan_capped": false,
       "single_page": true,
       "source_id": "serpapi-news",
       "status": "ok",
-      "undated": 22
+      "undated": 25
     },
     {
       "capped": false,
       "date_window_is_search_filter_only": true,
-      "examined": 9,
-      "excluded": 3,
-      "lead_count": 6,
-      "observed_at": "2026-11-25T09:51:19Z",
+      "examined": 0,
+      "excluded": 0,
+      "lead_count": 0,
+      "observed_at": "2026-11-26T09:31:06Z",
       "request": {
         "num": 10,
-        "q": "(site:x.com OR site:twitter.com) (Ethereum OR Solidity) (hack OR exploit OR drained) after:2026-11-18 before:2026-11-26"
+        "q": "(site:x.com OR site:twitter.com) (Ethereum OR Solidity) (hack OR exploit OR drained) after:2026-11-19 before:2026-11-27"
       },
       "request_url": "https://serpapi.com/search.json",
-      "response_sha256": "7bf344dc03d4a9746a46032ad5bd433dccee940fdc5bb71f309dd4f0f03b3007",
+      "response_sha256": "be42fe370da9efb66c37a7948b449e6911c707e9ce6a895f8d0a28fdffc89021",
       "scan_capped": false,
       "single_page": true,
       "source_id": "serpapi-x-links",
       "status": "ok",
-      "undated": 9
+      "undated": 0
     }
   ],
   "version": 1

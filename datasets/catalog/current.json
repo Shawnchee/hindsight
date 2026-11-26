@@ -58,27 +58,27 @@
     {
       "date": "2026-11-10",
       "name": "Unifund",
-      "reason": "missing_attack_transaction_or_victim"
+      "reason": "daily_fetch_cap"
     },
     {
       "date": "2026-11-09",
       "name": "GDC",
-      "reason": "daily_fetch_cap"
+      "reason": "chain_missing_or_conflicting"
     },
     {
       "date": "2026-11-04",
       "name": "TENDRIL",
-      "reason": "daily_fetch_cap"
+      "reason": "chain_missing_or_conflicting"
     },
     {
       "date": "2026-11-01",
       "name": "Premia",
-      "reason": "daily_fetch_cap"
+      "reason": "chain_missing_or_conflicting"
     },
     {
       "date": "2026-10-28",
       "name": "ZkLinkNova",
-      "reason": "daily_fetch_cap"
+      "reason": "missing_attack_transaction_or_victim"
     },
     {
       "date": "2026-10-27",
@@ -148,22 +148,22 @@
     {
       "date": "2026-10-03",
       "name": "MALT",
-      "reason": "chain_missing_or_conflicting"
+      "reason": "daily_fetch_cap"
     },
     {
       "date": "2026-10-02",
       "name": "GoldPesa",
-      "reason": "chain_missing_or_conflicting"
+      "reason": "daily_fetch_cap"
     },
     {
       "date": "2026-09-30",
       "name": "SKYDAO",
-      "reason": "chain_missing_or_conflicting"
+      "reason": "daily_fetch_cap"
     }
   ],
   "related_reports": {},
-  "scan_offset": 1,
+  "scan_offset": 5,
   "schema_version": "hindsight.catalog.v1",
-  "updated_at": "2026-11-25T09:51:23Z",
+  "updated_at": "2026-11-26T09:31:08Z",
   "upstream_commit": "8a2b37f17377c1c7584cfbe63621dbe01200cfaf"
 }
