@@ -63,42 +63,42 @@
     {
       "date": "2026-11-09",
       "name": "GDC",
-      "reason": "chain_missing_or_conflicting"
+      "reason": "daily_fetch_cap"
     },
     {
       "date": "2026-11-04",
       "name": "TENDRIL",
-      "reason": "chain_missing_or_conflicting"
+      "reason": "daily_fetch_cap"
     },
     {
       "date": "2026-11-01",
       "name": "Premia",
-      "reason": "chain_missing_or_conflicting"
+      "reason": "daily_fetch_cap"
     },
     {
       "date": "2026-10-28",
       "name": "ZkLinkNova",
-      "reason": "missing_attack_transaction_or_victim"
+      "reason": "daily_fetch_cap"
     },
     {
       "date": "2026-10-27",
       "name": "FenceTranchePool",
-      "reason": "daily_fetch_cap"
+      "reason": "chain_missing_or_conflicting"
     },
     {
       "date": "2026-10-26",
       "name": "SafeApprovalSquat",
-      "reason": "daily_fetch_cap"
+      "reason": "chain_missing_or_conflicting"
     },
     {
       "date": "2026-10-25",
       "name": "Yapeswap",
-      "reason": "daily_fetch_cap"
+      "reason": "missing_attack_transaction_or_victim"
     },
     {
       "date": "2026-10-24",
       "name": "X100Senate",
-      "reason": "daily_fetch_cap"
+      "reason": "missing_attack_transaction_or_victim"
     },
     {
       "date": "2026-10-20",
@@ -162,8 +162,8 @@
     }
   ],
   "related_reports": {},
-  "scan_offset": 5,
+  "scan_offset": 9,
   "schema_version": "hindsight.catalog.v1",
-  "updated_at": "2026-11-26T09:31:08Z",
+  "updated_at": "2026-11-27T09:40:31Z",
   "upstream_commit": "8a2b37f17377c1c7584cfbe63621dbe01200cfaf"
 }
